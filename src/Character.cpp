@@ -75,41 +75,41 @@ Character::move(unsigned char direction)
   if (currentLevel->isClear(newX, newY)) {
     //printf("character: moving to: %d, %d\n", newX, newY);
 
-    if (currentLevel->isCenteredY(newY)) {
-      screenPosY = (LEVEL_HEIGHT / 2);
-    }
+    //if (currentLevel->isCenteredY(newY)) {
+    //  screenPosY = (LEVEL_HEIGHT / 2);
+    //}
     // level character is not centered, update screen position
-    else {
-      //printf("is not centered Y (inside the IF)\n");
-
-      if (newY <= LEVEL_HEIGHT / 2) {
-        //printf("newY <= LEVEL+_HEIGHT/2\n");
-        screenPosY = newY;
-        //printf("setting screnPoxY to new Y (in the IF -> if)\n");
-      }
-      else {
-        screenPosY = LEVEL_HEIGHT - (currentLevel->height() % newY);
-      }
-    }
+    //else {
+    //  //printf("is not centered Y (inside the IF)\n");
+    //
+    //  if (newY <= LEVEL_HEIGHT / 2) {
+    //    //printf("newY <= LEVEL+_HEIGHT/2\n");
+    //    screenPosY = newY;
+    //    //printf("setting screnPoxY to new Y (in the IF -> if)\n");
+    //  }
+    //  else {
+    //    screenPosY = LEVEL_HEIGHT - (currentLevel->height() % newY);
+    //  }
+    //}
     //printf("screenPosY is: %d\n", screenPosY);
-    currentLevel->centerOnY(newY);
+    //currentLevel->centerOnY(newY);
 
 
-    if (currentLevel->isCenteredX(newX)) {
-      screenPosX = (LEVEL_WIDTH / 2);
-    }
-    // if the character is not centered, update screen position
-    else {
-      // borrowing same logic from Y
-      if (newX <= LEVEL_WIDTH / 2) {
-        screenPosX = newX;
-      }
-      else {
-        screenPosX = LEVEL_WIDTH - (currentLevel->width() % newX);
-        //screenPosX = currentLevel->width() - newX;
-      }
-    }
-    currentLevel->centerOnX(newX);
+    //if (currentLevel->isCenteredX(newX)) {
+    //  screenPosX = (LEVEL_WIDTH / 2);
+    //}
+    //// if the character is not centered, update screen position
+    //else {
+    //  // borrowing same logic from Y
+    //  if (newX <= LEVEL_WIDTH / 2) {
+    //    screenPosX = newX;
+    //  }
+    //  else {
+    //    screenPosX = LEVEL_WIDTH - (currentLevel->width() % newX);
+    //    //screenPosX = currentLevel->width() - newX;
+    //  }
+    //}
+    //currentLevel->centerOnX(newX);
 
     // update this as we go
     levelPosY = newY;
