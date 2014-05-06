@@ -1,0 +1,27 @@
+# Tab style
+# http://astyle.sourceforge.net/astyle.html#_indent=spaces
+indent=spaces=2
+
+# Bracket style
+# http://astyle.sourceforge.net/astyle.html#_style=1tbs
+style=otbs
+
+# Break else from previous '}'
+# http://astyle.sourceforge.net/astyle.html#_break-closing-brackets
+break-closing-brackets
+
+# Pad operators with spaces
+# http://astyle.sourceforge.net/astyle.html#_pad-oper
+pad-oper
+
+# Pad if, for, while with spaces
+# http://astyle.sourceforge.net/astyle.html#_pad-header
+pad-header
+
+# Remove all other padding
+# http://astyle.sourceforge.net/astyle.html#_unpad-paren
+unpad-paren
+
+# Place bracket on same line as class declaration
+# http://astyle.sourceforge.net/astyle.html#_attach_classes
+attach-classes
