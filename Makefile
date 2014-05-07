@@ -20,8 +20,8 @@ COMPILER_FLAGS = -g -Wall -Wextra $(OPTFLAGS)
 #LINKER_FLAGS specifies the libraries we're linking against
 #LINKER_FLAGS = -lGL -lGLU -lglut
 #SDL_STUFF = `/usr/local/bin/sdl2-config --libs --cflags`
-SDL_STUFF = `pkg-config --libs --cflags sdl2`
-LINKER_FLAGS = -framework OpenGL $(SDL_STUFF)
+#SDL_STUFF = `pkg-config --libs --cflags sdl2`
+LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = engine

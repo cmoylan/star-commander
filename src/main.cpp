@@ -1,5 +1,8 @@
-#include <SDL.h>
-#include <SDL_opengl.h>
+#define GLEW_STATIC
+#include <GL/glew.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 
 //void runMainLoop(int val);
@@ -14,15 +17,25 @@ main(int argc, char *args[])
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-  SDL_Window *window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
+  SDL_Window *window = SDL_CreateWindow("DO IT OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
 
   SDL_GLContext context = SDL_GL_CreateContext(window);
+
+  glewExperimental = GL_TRUE;
+  glewInit();
+
+  GLuint vertexBuffer;
+  glGenBuffers(1, &vertexBuffer);
+  printf("%u\n", vertexBuffer);
 
   // main loop
   SDL_Event windowEvent;
   while(true) {
     if (SDL_PollEvent(&windowEvent)) {
       if (windowEvent.type == SDL_QUIT) break;
+
+      if (windowEvent.type = SDL_KEYUP &&
+	  windowEvent.key.keysym.sym == SDLK_ESCAPE) break;
     }
 
     SDL_GL_SwapWindow(window);
