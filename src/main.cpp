@@ -51,11 +51,27 @@ main(int argc, char *args[])
   GLuint vbo; // vertex buffer object
   glGenBuffers(1, &vbo); // generate 1 buffer
 
+  // Element buffer object
+  GLuint ebo;
+  glGenBuffers(1, &ebo);
+
+  GLuint elements[] = {
+    0, 1, 2,
+    2, 3, 0
+  };
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+	       sizeof(elements),
+	       elements,
+	       GL_STATIC_DRAW);
+
   // vertex: pos.x, pos.y, r, g, b
   GLfloat vertices[] = {
-    0.0f, 0.5f, 1.0f, 0.0f, 0.0f,  // vertex 1 red
-    0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // vertex 2 green
-    -0.5f, -0.5f, 0.0f, 0.0f, 1.0f  // vertex 3 blue
+    -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,  // top left
+    0.5f, 0.5f, 0.0f, 1.0f, 0.0f, // top right
+    0.5f, -0.5f, 0.0f, 0.0f, 1.0f,  // bottom right
+    -0.5f, -0.5f, 1.0f, 1.0f, 1.0f // bottom left
   };
 
   // make vbo the active buffer and send the vertices to it
@@ -117,7 +133,9 @@ main(int argc, char *args[])
 	  windowEvent.key.keysym.sym == SDLK_ESCAPE) break;
     }
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    //glDrawArrays(GL_TRIANGLES, 0, 3);
+
     SDL_GL_SwapWindow(window);
   }
 
