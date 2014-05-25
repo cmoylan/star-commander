@@ -12,9 +12,11 @@ Character::Character()
 
   // --- set up the vao and vbo --- //
   glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
   // call bindVertexArray in render
 
   glGenBuffers(1, &vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
   // call glBindBuffer in the render
   // --- END set up the vao and vbo --- //
 
@@ -63,6 +65,10 @@ Character::Character()
 
   // describe how vertex buffer object maps to
   // link vertex array to position attribute
+  GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(posAttrib);
+
 
   // delete shaders here?
   // --- END setup shader programs --- //
@@ -116,16 +122,14 @@ Character::render()
     -0.5f, -0.5f
   };
 
-  glBindVertexArray(vao);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  // TODO: not sure which of these calls i need. Will find out when
+  // i start rendering more things
+
+  //glBindVertexArray(vao);
+  //glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  //glUseProgram(shaderProgram);
 
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-  glUseProgram(shaderProgram);
-
-  GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
-  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
-  glEnableVertexAttribArray(posAttrib);
 
   glDrawArrays(GL_TRIANGLES, 0, 3);
 }

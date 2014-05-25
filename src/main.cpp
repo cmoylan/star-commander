@@ -1,27 +1,6 @@
 #include "OpenGL.h"
 #include "Character.h"
 
-//void runMainLoop(int val);
-
-// shader programs...probably do these in their own files
-//const GLchar* vertexSource =
-//  "#version 150 core\n"
-//  "in vec2 position;"
-//  "in vec3 color;"
-//  "out vec3 Color;"
-//  "void main() {"
-//  "  Color = color;"
-//  "  gl_Position = vec4(position.x, position.y, 0.0, 1.0);"
-//  "}";
-//
-//const GLchar* fragmentSource =
-//  "#version 150 core\n"
-//  "in vec3 Color;"
-//  "out vec4 outColor;"
-//  "void main() {"
-//  "  outColor = vec4(Color, 1.0);"
-//  "}";
-
 
 int
 main(int argc, char *args[])
@@ -109,7 +88,9 @@ main(int argc, char *args[])
   // main loop
   SDL_Event windowEvent;
 
+  // TODO: how to change the framerate?
   while(true) {
+    // TODO: move to key handler function
     if (SDL_PollEvent(&windowEvent)) {
       if (windowEvent.type == SDL_QUIT) break;
 
@@ -117,12 +98,12 @@ main(int argc, char *args[])
 	  windowEvent.key.keysym.sym == SDLK_ESCAPE) break;
     }
 
+    // TODO: move to render function
     // Clear the screen to black
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    //glDrawArrays(GL_TRIANGLES, 0, 3);
 
-    // call to render
+    // Render each component on the screen
     character->render();
 
     SDL_GL_SwapWindow(window);
