@@ -1,12 +1,12 @@
-# Engine #
+# Star Commander #
 
-An implementation of a 2D game engine from scratch. Inspired partly by the
-[LazyFoo Tutorials](http://lazyfoo.net/SDL_tutorials/lesson07/index.php).
+A game.
 
 ## Requirements ##
 
+* sdl2
 * opengl (2+)
-* freeglut
+* glew
 * cimg
 
 ### optional requirements ###

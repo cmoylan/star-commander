@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project
 #OBJS = src/Character.cpp src/Level.cpp src/main.cpp
-OBJS = src/main.cpp
+OBJS = src/Character.cpp src/main.cpp
 
 #CC specifies which compiler we're using
 CC = g++

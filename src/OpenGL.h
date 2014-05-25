@@ -1,15 +1,11 @@
 #ifndef OPENGL_H
 #define OPENGL_H
 
-#include <GL/freeglut.h>
+#define GLEW_STATIC
+#include <GL/glew.h>
 
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#include <OpenGL/glu.h>
-#else
-#include <GL/gl.h>
-#include <GL/glu.h>
-#endif
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
 
 #include <stdio.h>
 

@@ -1,46 +1,92 @@
 #include "Character.h"
 
 
-Character::Character(Level *level)
+Character::Character()
 {
-  currentLevel = level;
-
   // initialize attributes
   height = 1;
   width = 1;
 
-  levelPosX = 1;
-  levelPosY = 1;
+  screenPos.x = 1;
+  screenPos.y = 1;
 
-  screenPosX = 1;
-  screenPosY = 1;
+  // --- set up the vao and vbo --- //
+  glGenVertexArrays(1, &vao);
+  // call bindVertexArray in render
+
+  glGenBuffers(1, &vbo);
+  // call glBindBuffer in the render
+  // --- END set up the vao and vbo --- //
+
+  // --- set up the shader programs --- //
+  GLint status;
+
+  const GLchar* characterVertexSrc =
+    "#version 150 core\n"
+    "in vec2 position;"
+    "void main() {"
+    "  gl_Position = vec4(position.x, position.y, 0.0, 1.0);"
+    "}";
+
+  const GLchar* characterFragmentSrc =
+    "#version 150 core\n"
+    "out vec4 outColor;"
+    "void main() {"
+    "  outColor = vec4(1.0, 0.0, 1.0, 1.0);"
+    "}";
+
+  // load and compile the vertex shader code
+  GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+  glShaderSource(vertexShader, 1, &characterVertexSrc, NULL);
+  glCompileShader(vertexShader);
+
+  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
+  if (status != GL_TRUE) printf("vertex shader did not compile!\n");
+
+  // load and compile the fragment shader code
+  GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+  glShaderSource(fragmentShader, 1, &characterFragmentSrc, NULL);
+  glCompileShader(fragmentShader);
+
+  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
+  if (status != GL_TRUE) printf("fragment shader did not compile!\n");
+
+  // combine vertex and fragment shaders into a program
+  shaderProgram = glCreateProgram();
+  glAttachShader(shaderProgram, vertexShader);
+  glAttachShader(shaderProgram, fragmentShader);
+
+  glLinkProgram(shaderProgram);
+  // i think programs are compiled nd then you 'use' one and any
+  // vertex data you send goes to whichever program you're 'using'.
+  glUseProgram(shaderProgram);
+
+  // describe how vertex buffer object maps to
+  // link vertex array to position attribute
+
+  // delete shaders here?
+  // --- END setup shader programs --- //
+
 }
 
 
 Character::~Character()
 {
+//  glDeleteProgram(shaderProgram);
+//  glDeleteShader(fragmentShader);
+//  glDeleteShader(vertexShader);
+//
+//  glDeleteBuffers(1 &vbo);
+//  glDeleteVertexArrays(1 &vao);
 }
 
 
 void
 Character::move(unsigned char direction)
 {
-  // get direction from util.cpp
-  // have current position in x,y
-  // depending on string, add or subtract from x or y
-  // ask level if we can move to that position
-  //
-  // rather than keep x,y on character...since character is mostly going to be
-  // in the middle of the screen, have level remember x and y. After all,
-  // level is going to have to render itself. Character is pretty much
-  // always the same.
 
-  // no keep the x,y on the character
-  // the character will ask level if it can update it's position
-  // level will respond yes or no
-
-  int newX = levelPosX; // second arg
-  int newY = levelPosY; // first arg
+  int newX = screenPos.x;
+  int newY = screenPos.y;
 
   // calculate new coords
   if (direction == 'u') {
@@ -56,83 +102,31 @@ Character::move(unsigned char direction)
     newX = newX + 1;
   }
 
-  // GRAVITY
-  // check if character is falling
-  // if character is falling move down at the speed of gravity
-  // allow slowed side-to-side motion while falling
-  // if character is not falling move the regular amount
+  // TODO: do some stuff
 
-  // if jumping, accellerate upward logarithmically?
-  // then begin falling logarithmically to make it look natural
-  // allow slowed side-to-side movement while jumping, just like falling
-  // maybe slice the jump into N sections and each for each section calculate
-  // how much to move. character will move more at beginning and end of jump,
-  // and will slow near the middle where they will breifly hover, just like
-  // a real jump.
-
-
-  // first see if there is a collision and do not move
-  if (currentLevel->isClear(newX, newY)) {
-    //printf("character: moving to: %d, %d\n", newX, newY);
-
-    //if (currentLevel->isCenteredY(newY)) {
-    //  screenPosY = (LEVEL_HEIGHT / 2);
-    //}
-    // level character is not centered, update screen position
-    //else {
-    //  //printf("is not centered Y (inside the IF)\n");
-    //
-    //  if (newY <= LEVEL_HEIGHT / 2) {
-    //    //printf("newY <= LEVEL+_HEIGHT/2\n");
-    //    screenPosY = newY;
-    //    //printf("setting screnPoxY to new Y (in the IF -> if)\n");
-    //  }
-    //  else {
-    //    screenPosY = LEVEL_HEIGHT - (currentLevel->height() % newY);
-    //  }
-    //}
-    //printf("screenPosY is: %d\n", screenPosY);
-    //currentLevel->centerOnY(newY);
-
-
-    //if (currentLevel->isCenteredX(newX)) {
-    //  screenPosX = (LEVEL_WIDTH / 2);
-    //}
-    //// if the character is not centered, update screen position
-    //else {
-    //  // borrowing same logic from Y
-    //  if (newX <= LEVEL_WIDTH / 2) {
-    //    screenPosX = newX;
-    //  }
-    //  else {
-    //    screenPosX = LEVEL_WIDTH - (currentLevel->width() % newX);
-    //    //screenPosX = currentLevel->width() - newX;
-    //  }
-    //}
-    //currentLevel->centerOnX(newX);
-
-    // update this as we go
-    levelPosY = newY;
-    levelPosX = newX;
-  }
 }
 
 
 void
 Character::render()
 {
-  glLoadIdentity();
+  GLfloat vertices[] = {
+    0.0f, 0.5f,
+    0.5f, -0.5f,
+    -0.5f, -0.5f
+  };
 
-  glBegin(GL_QUADS);
-  glColor3f(0.f, 1.f, 0.f);
+  glBindVertexArray(vao);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-  //printf("rendering character at: %d, %d\n", screenPosX, screenPosY);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  glVertex2f(screenPosX * BOX_WIDTH, screenPosY * BOX_HEIGHT); // upper left
-  glVertex2f((screenPosX + 1) * BOX_WIDTH, screenPosY * BOX_HEIGHT); // upper left
-  glVertex2f((screenPosX + 1) * BOX_WIDTH, (screenPosY + 1) * BOX_HEIGHT); // upper left
-  glVertex2f(screenPosX * BOX_WIDTH, (screenPosY + 1) * BOX_HEIGHT); // upper left
+  glUseProgram(shaderProgram);
 
-  glEnd();
+  GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(posAttrib);
+
+  glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 

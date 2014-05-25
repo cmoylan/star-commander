@@ -23,4 +23,9 @@ const int LEVEL_HEIGHT = 11;
 const float BOX_WIDTH = SCREEN_WIDTH / LEVEL_WIDTH;
 const float BOX_HEIGHT = SCREEN_HEIGHT / LEVEL_HEIGHT;
 
+struct coordinate_t {
+  int x;
+  int y;
+};
+
 #endif
