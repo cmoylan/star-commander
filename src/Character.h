@@ -23,7 +23,7 @@
 class Character {
 
   // opengl stuff
-  GLuint vao, vbo;
+  GLuint vao, vbo, ebo;
   GLuint shaderProgram;
 
 public:

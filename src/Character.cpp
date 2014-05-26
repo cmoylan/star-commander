@@ -18,6 +18,9 @@ Character::Character()
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   // call glBindBuffer in the render
+
+  glGenBuffers(1, &ebo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
   // --- END set up the vao and vbo --- //
 
   // --- set up the shader programs --- //
@@ -116,8 +119,14 @@ Character::move(unsigned char direction)
 void
 Character::render()
 {
+  GLuint elements[] = {
+    0, 1, 2,
+    2, 3, 0
+  };
+
   GLfloat vertices[] = {
-    0.0f, 0.5f,
+    -0.5f, 0.5f,
+    0.5f, 0.5f,
     0.5f, -0.5f,
     -0.5f, -0.5f
   };
@@ -129,8 +138,11 @@ Character::render()
   //glBindBuffer(GL_ARRAY_BUFFER, vbo);
   //glUseProgram(shaderProgram);
 
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  // --- this may go back in the main loop and only get called once
+  // draw a rectangle from 2 triangles
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
