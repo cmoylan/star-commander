@@ -5,9 +5,9 @@ A game.
 ## Requirements ##
 
 * sdl2
-* opengl (2+)
+* opengl (3+)
 * glew
-* cimg
+* libSOIL
 
 ### optional requirements ###
 

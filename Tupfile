@@ -6,10 +6,10 @@ OBJS = src/Character.cpp src/main.cpp
 BUILD_DIR = build
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -I/usr/local/include -I/opt/X11/include
+INCLUDE_PATHS = -I/usr/local/include -I/opt/X11/include -I/usr/local/include/SOIL
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
-LIBRARY_PATHS = -L/usr/local/lib -I/opt/X11/lib
+LIBRARY_PATHS = -L/usr/local/lib -L/opt/X11/lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # g 	 - compile with debug information
@@ -21,7 +21,7 @@ COMPILER_FLAGS = -g -Wall -Wextra $(OPTFLAGS)
 #LINKER_FLAGS = -lGL -lGLU -lglut
 #SDL_STUFF = `/usr/local/bin/sdl2-config --libs --cflags`
 #SDL_STUFF = `pkg-config --libs --cflags sdl2`
-LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW
+LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW -lSOIL
 
 #assemble the compiler command
 CC = g++ $(INCLUDE_PATHS) $(LIBRARY_PATHS) \

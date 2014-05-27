@@ -1,6 +1,8 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <SOIL.h>
+
 #include "OpenGL.h"
 #include "Constants.h"
 
@@ -23,7 +25,7 @@
 class Character {
 
   // opengl stuff
-  GLuint vao, vbo, ebo;
+  GLuint vao, vbo, ebo, tex;
   GLuint shaderProgram;
 
 public:
