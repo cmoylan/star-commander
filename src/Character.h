@@ -2,6 +2,9 @@
 #define CHARACTER_H
 
 #include <SOIL.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "OpenGL.h"
 #include "Constants.h"

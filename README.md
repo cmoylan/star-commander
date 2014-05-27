@@ -8,6 +8,7 @@ A game.
 * opengl (3+)
 * glew
 * libSOIL
+* glm
 
 ### optional requirements ###
 

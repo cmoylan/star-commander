@@ -29,7 +29,6 @@ Character::Character()
   glBindTexture(GL_TEXTURE_2D, tex);
 
 
-  //cimg_library::CImg<uchar> image("res/sample.png");
   int width, height;
   unsigned char* image =
     SOIL_load_image("res/spaceship2.png", &width, &height, 0, SOIL_LOAD_RGBA);
@@ -46,7 +45,6 @@ Character::Character()
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                   GL_NEAREST_MIPMAP_NEAREST);
 
-
   // --- END texture stuff --- //
 
   // --- set up the shader programs --- //
@@ -57,8 +55,9 @@ Character::Character()
     "in vec2 position;"
     "in vec2 texcoord;"
     "out vec2 Texcoord;"
+    "uniform mat4 trans;"
     "void main() {"
-    "  gl_Position = vec4(position.x, position.y, 0.0, 1.0);"
+    "  gl_Position = trans * vec4(position.x, position.y, 0.0, 1.0);"
     "  Texcoord = texcoord;"
     "}";
 
@@ -112,6 +111,13 @@ Character::Character()
   glEnableVertexAttribArray(texAttrib);
   glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE,
                         (4 * sizeof(float)), (void*)(2 * sizeof(float)));
+
+  // rotate the image
+  glm::mat4 trans;
+  // NOTE: this is where movement happens
+  trans = glm::translate(trans, glm::vec3(1.0f, 0.0f, 1.0f));
+  GLint uniTrans = glGetUniformLocation(shaderProgram, "trans");
+  glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   // delete shaders here?
   glDeleteShader(fragmentShader);
