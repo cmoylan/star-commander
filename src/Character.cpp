@@ -112,11 +112,13 @@ Character::Character()
   glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE,
                         (4 * sizeof(float)), (void*)(2 * sizeof(float)));
 
+  // TODO: class member this
+  GLint uniTrans = glGetUniformLocation(shaderProgram, "trans");
+
+  // TODO: move into render call
   // rotate the image
   glm::mat4 trans;
-  // NOTE: this is where movement happens
   trans = glm::translate(trans, glm::vec3(1.0f, 0.0f, 1.0f));
-  GLint uniTrans = glGetUniformLocation(shaderProgram, "trans");
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   // delete shaders here?
@@ -141,6 +143,7 @@ Character::~Character()
 void
 Character::move(unsigned char direction)
 {
+  printf("moving it! %c\n", direction);
 
   int newX = screenPos.x;
   int newY = screenPos.y;
