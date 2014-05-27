@@ -28,7 +28,8 @@
 class Character {
 
   // opengl stuff
-  GLuint vao, vbo, ebo, tex;
+  // TODO: rename most of these, they are awful
+  GLuint vao, vbo, ebo, tex, uniTrans;
   GLuint shaderProgram;
 
 public:

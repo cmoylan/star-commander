@@ -25,12 +25,14 @@ LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW -lSOIL
 
 #assemble the compiler command
 CC = g++ $(INCLUDE_PATHS) $(LIBRARY_PATHS) \
-     	 $(COMPILER_FLAGS) $(LINKER_FLAGS)
+     	 $(COMPILER_FLAGS)
 
 
 #OBJ_NAME specifies the name of our exectuable
 OBJ_NAME = engine
 
+# compile each .cpp file into a .o
 : foreach $(OBJS) |> $(CC) -c %f -o %o |> $(BUILD_DIR)/%B.o
 
-: $(BUILD_DIR)/*.o |> $(CC) %f -o %o |> $(OBJ_NAME)
+# compile and link all .o into the main executable
+: $(BUILD_DIR)/*.o |> $(CC) $(LINKER_FLAGS) %f -o %o |> $(OBJ_NAME)

@@ -7,8 +7,8 @@ Character::Character()
   height = 1;
   width = 1;
 
-  screenPos.x = 1;
-  screenPos.y = 1;
+  screenPos.x = 0.5f;
+  screenPos.y = 0.5f;
 
   // --- set up the vao and vbo --- //
   glGenVertexArrays(1, &vao);
@@ -112,18 +112,16 @@ Character::Character()
   glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE,
                         (4 * sizeof(float)), (void*)(2 * sizeof(float)));
 
-  // TODO: class member this
-  GLint uniTrans = glGetUniformLocation(shaderProgram, "trans");
-
-  // TODO: move into render call
-  // rotate the image
+  // translation attr from vector shader
+  uniTrans = glGetUniformLocation(shaderProgram, "trans");
   glm::mat4 trans;
-  trans = glm::translate(trans, glm::vec3(1.0f, 0.0f, 1.0f));
+  trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
+
   // delete shaders here?
-  glDeleteShader(fragmentShader);
-  glDeleteShader(vertexShader);
+  //glDeleteShader(fragmentShader);
+  //glDeleteShader(vertexShader);
 
   // --- END setup shader programs --- //
 
@@ -143,27 +141,33 @@ Character::~Character()
 void
 Character::move(unsigned char direction)
 {
-  printf("moving it! %c\n", direction);
-
-  int newX = screenPos.x;
-  int newY = screenPos.y;
+  // TODO: go back to integers?
+  float newX = screenPos.x;
+  float newY = screenPos.y;
+  float movementSize = 0.1f;
 
   // calculate new coords
   if (direction == 'u') {
-    newY = newY - 1;
+    newY += movementSize;
   }
   else if (direction == 'd') {
-    newY = newY + 1;
+    newY -= movementSize;
   }
   else if (direction == 'l') {
-    newX = newX - 1;
+    newX -= movementSize;
   }
   else if (direction == 'r') {
-    newX = newX + 1;
+    newX += movementSize;
   }
 
-  // TODO: do some stuff
+  // transform
+  // TODO: move into render call
+  glm::mat4 trans;
+  trans = glm::translate(trans, glm::vec3(newX, newY, 1.0f));
+  glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
+  screenPos.x = newX;
+  screenPos.y = newY;
 }
 
 
