@@ -1,33 +1,48 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <SOIL.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "OpenGL.h"
 #include "Constants.h"
-#include "Level.h"
 
 
-// NOTE: should this be a singleton? Can there ever be > 1?
+//const GLchar* characterVertexSrc =
+//  "#version 150 core"
+//  "in vec2 position;"
+//  "void main() {"
+//  "  gl_Position = vec4(position.x, position.y, 0.0, 1.0);"
+//  "}";
+//
+//const GLchar* characterFragmentSrc =
+//  "#version 150 core"
+//  "out vec4 outColor;"
+//  "void main() {"
+//  "  outColor = vec4(1.0, 1.0, 1.0, 1.0);"
+//  "}";
+
+
 class Character {
 
-public:
-  // the location of the character in the level
-  int levelPosX;
-  int levelPosY;
+  // opengl stuff
+  // TODO: rename most of these, they are awful
+  GLuint vao, vbo, ebo, tex, uniTrans;
+  GLuint shaderProgram;
 
+public:
   // the location of the character on the screen
-  int screenPosX;
-  int screenPosY;
+  coordinate_t screenPos;
 
   // size of the actual character
   int width;
   int height;
 
-  // reference to the current level
-  Level *currentLevel;
 
   // constructor
-  Character(Level *level);
+  Character();
 
   // destructor
   ~Character();
