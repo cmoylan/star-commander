@@ -33,7 +33,7 @@ Character::Character()
   unsigned char* image =
     SOIL_load_image("res/spaceship2.png", &width, &height, 0, SOIL_LOAD_RGBA);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
-	       GL_UNSIGNED_BYTE, image);
+               GL_UNSIGNED_BYTE, image);
 
   SOIL_free_image_data(image);
 
@@ -159,14 +159,14 @@ Character::move(unsigned char direction)
     newX += movementSize;
   }
 
-  // transform
-  // TODO: move into render call
-  glm::mat4 trans;
-  trans = glm::translate(trans, glm::vec3(newX, newY, 1.0f));
-  glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+  //printf("newX and newY are: %f, %f\n", newX, newY);
 
-  screenPos.x = newX;
-  screenPos.y = newY;
+  if ((newX > -1.0f) && (newX < 1.0)) {
+    screenPos.x = newX;
+  }
+  if ((newY > -1.0f) && (newY < 1.0)) {
+    screenPos.y = newY;
+  }
 }
 
 
@@ -220,6 +220,11 @@ Character::render()
   //glBindVertexArray(vao);
   //glBindBuffer(GL_ARRAY_BUFFER, vbo);
   //glUseProgram(shaderProgram);
+
+  // transform coords based on screenPos of character
+  glm::mat4 trans;
+  trans = glm::translate(trans, glm::vec3(screenPos.x, screenPos.y, 1.0f));
+  glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
