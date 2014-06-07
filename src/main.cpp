@@ -1,15 +1,13 @@
 #include "OpenGL.h"
-#include "Character.h"
+#include "Game.h"
 
 
 bool quit = false;
 
-Character *character;
+// main character
+Character *character = new Character();
 
-// TODO: handleKeys and render can be moved into util.cpp
 void handleKeys();
-
-void render();
 
 
 int
@@ -27,9 +25,6 @@ main(int argc, char *args[])
   // Initialize GLEW
   glewExperimental = GL_TRUE;
   glewInit();
-
-  // TODO: this should be moved elsewhere
-  character = new Character();
 
   // main loop
   // TODO: how to change the framerate?
