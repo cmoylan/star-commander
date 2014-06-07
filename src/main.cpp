@@ -1,13 +1,14 @@
 #include "OpenGL.h"
-#include "Game.h"
-
+#include "Character.h"
 
 bool quit = false;
 
 // main character
-Character *character = new Character();
+Character *character;
 
 void handleKeys();
+
+void render();
 
 
 int
@@ -26,6 +27,7 @@ main(int argc, char *args[])
   glewExperimental = GL_TRUE;
   glewInit();
 
+  character = new Character();
   // main loop
   // TODO: how to change the framerate?
   while (!quit) {
