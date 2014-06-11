@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project
 #OBJS = src/Character.cpp src/Level.cpp src/main.cpp
-OBJS = src/Character.cpp src/main.cpp
+OBJS = src/Character.cpp src/BulletRegistry.cpp src/main.cpp
 
 #build dir...
 BUILD_DIR = build

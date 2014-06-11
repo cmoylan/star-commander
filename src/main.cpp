@@ -28,6 +28,7 @@ main(int argc, char *args[])
   glewInit();
 
   character = new Character();
+
   // main loop
   // TODO: how to change the framerate?
   while (!quit) {
