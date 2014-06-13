@@ -37,6 +37,7 @@ all:
 
 clean:
 	rm -f $(OBJ_NAME)
+	rm -f build/*
 
 # http://astyle.sourceforge.net/astyle.html
 style:

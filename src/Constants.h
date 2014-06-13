@@ -11,10 +11,10 @@ const int SCREEN_FPS = 60;
 const int SCALE = 100;
 // TODO: probably use a different scale for y
 
-struct coordinate_t {
+typedef struct {
   // TODO: change this back to int probably
   float x;
   float y;
-};
+} coordinate_t;
 
 #endif

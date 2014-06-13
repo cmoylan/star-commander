@@ -1,12 +1,11 @@
 #include "OpenGL.h"
 #include "Character.h"
 
-
 bool quit = false;
 
+// main character
 Character *character;
 
-// TODO: handleKeys and render can be moved into util.cpp
 void handleKeys();
 
 void render();
@@ -28,7 +27,6 @@ main(int argc, char *args[])
   glewExperimental = GL_TRUE;
   glewInit();
 
-  // TODO: this should be moved elsewhere
   character = new Character();
 
   // main loop
@@ -88,27 +86,27 @@ handleKeys()
     if (windowEvent.type == SDL_KEYUP) {
       // TODO: this won't really work if the user holds the key down
       // TODO: allow keys to be remapped
-      switch(windowEvent.key.keysym.sym) {
+      switch (windowEvent.key.keysym.sym) {
 
       case SDLK_ESCAPE:
-	quit = true;
-	break;
+        quit = true;
+        break;
 
       case SDLK_w:
-	character->move('u');
-	break;
+        character->move('u');
+        break;
 
       case SDLK_a:
-	character->move('l');
-	break;
+        character->move('l');
+        break;
 
       case SDLK_s:
-	character->move('d');
-	break;
+        character->move('d');
+        break;
 
       case SDLK_d:
-	character->move('r');
-	break;
+        character->move('r');
+        break;
       }
     }
   }
