@@ -138,6 +138,13 @@ Character::~Character()
 
 
 void
+Character::fire()
+{
+  BulletRegistry::add(screenPos.x, screenPos.y, 0, 1);
+}
+
+
+void
 Character::move(unsigned char direction)
 {
   // TODO: go back to integers?

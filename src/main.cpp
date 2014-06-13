@@ -1,10 +1,13 @@
 #include "OpenGL.h"
 #include "Character.h"
+#include "BulletRegistry.h"
 
 bool quit = false;
 
 // main character
 Character *character;
+
+void update();
 
 void handleKeys();
 
@@ -29,12 +32,21 @@ main(int argc, char *args[])
 
   character = new Character();
 
+  BulletRegistry::add(1, 1, 1, 1);
+  BulletRegistry::add(2, 2, 2, 2);
+  BulletRegistry::add(3, 3, 3, 3);
+  BulletRegistry::print();
+  std::vector<bullet_t>::iterator bullet = BulletRegistry::bullets.begin();
+  //printf("pointer in main is: %p\n", &bullet);
+  BulletRegistry::remove(bullet);
+  BulletRegistry::print();
+
+  quit = true; // don't run
   // main loop
   // TODO: how to change the framerate?
   while (!quit) {
     handleKeys();
-
-  // Element buffer object
+    update();
   GLuint ebo;
   glGenBuffers(1, &ebo);
 
@@ -74,6 +86,13 @@ main(int argc, char *args[])
 
 
 void
+update()
+{
+  BulletRegistry::tick();
+}
+
+
+void
 handleKeys()
 {
   SDL_Event windowEvent;
@@ -106,6 +125,10 @@ handleKeys()
 
       case SDLK_d:
         character->move('r');
+        break;
+
+      case SDLK_SPACE:
+        character->fire();
         break;
       }
     }

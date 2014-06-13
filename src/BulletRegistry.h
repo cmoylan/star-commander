@@ -31,15 +31,33 @@ typedef struct {
 namespace BulletRegistry
 {
 
-static std::vector<bullet_t> bullets;
+  // TODO: if #erase operations become too expensive, consider switching to
+  //       forward-lists.
+  static std::vector<bullet_t> bullets;
 
-void add(float x, float y, int headingX, int headingY);
+  /**
+   * Add a new bullet to the screen
+   *
+   * @param x - location of the bullet on the X axis
+   * @param y - location of the bullet on the Y axis
+   * @param headingX - heading of the bullet on the X axis (-1, 0, or 1)
+   * @param headingY - heading of the bullet on the Y axis (-1, 0, 1)
+   *
+   * The headings correspond to the OpenGL coordinate system. That is, a bullet heading
+   * up the screen will have a heading of (0, 1) as 1 is the top of the screen. A bullet
+   * heading left will have the heading (-1, 0). A bullet heading diagonally to the top
+   * right corner would have a heading (1, 1). A bullet with a (0, 0) heading would not
+   * be moving.
+   */
+  void add(float x, float y, int headingX, int headingY);
 
-//void remove();
+  void print();
 
-void render();
+  void remove(std::vector<bullet_t>::iterator position);
 
-void tick();
+  void render();
+
+  void tick();
 
 };
 
