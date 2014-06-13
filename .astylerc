@@ -25,3 +25,7 @@ unpad-paren
 # Place bracket on same line as class declaration
 # http://astyle.sourceforge.net/astyle.html#_attach_classes
 attach-classes
+
+# Indent namespaces
+# http://astyle.sourceforge.net/astyle.html#_indent-namespaces
+indent-namespaces

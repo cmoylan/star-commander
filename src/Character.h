@@ -8,6 +8,7 @@
 
 #include "OpenGL.h"
 #include "Constants.h"
+#include "BulletRegistry.h"
 
 
 //const GLchar* characterVertexSrc =
@@ -46,6 +47,8 @@ public:
 
   // destructor
   ~Character();
+
+  void fire();
 
   void move(unsigned char direction);
 
