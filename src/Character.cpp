@@ -140,7 +140,7 @@ Character::~Character()
 void
 Character::fire()
 {
-  //BulletRegistry::add(screenPos.x, screenPos.y, 0, 1);
+  BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, 1);
 }
 
 

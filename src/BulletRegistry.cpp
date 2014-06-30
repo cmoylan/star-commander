@@ -1,16 +1,6 @@
 #include "BulletRegistry.h"
 
 
-BulletRegistry::BulletRegistry()
-{
-}
-
-
-BulletRegistry::~BulletRegistry()
-{
-}
-
-
 void
 BulletRegistry::add(float x, float y, int headingX, int headingY)
 {
@@ -52,7 +42,7 @@ BulletRegistry::remove(std::vector<bullet_t>::iterator position)
 {
   printf("erasing bullet\n");
   //printf("pointer in remove is: %p\n", &position);
-  //bullets.erase(bullets.begin());
+  bullets.erase(position);
 }
 
 
@@ -87,8 +77,8 @@ BulletRegistry::tick()
     printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
   }
 
-  if (bullets.size() > 3) {
-    printf("removing bullet\n");
-    remove(bullets.begin());
-  }
+  //if (bullets.size() > 3) {
+  //  printf("removing bullet\n");
+  //  remove(bullets.begin());
+  //}
 }

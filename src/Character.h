@@ -8,7 +8,7 @@
 
 #include "OpenGL.h"
 #include "Constants.h"
-//#include "BulletRegistry.h"
+#include "BulletRegistry.h"
 
 
 //const GLchar* characterVertexSrc =

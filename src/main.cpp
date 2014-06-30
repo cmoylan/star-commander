@@ -6,7 +6,6 @@ bool quit = false;
 
 // main character
 Character *character;
-BulletRegistry *bulletRegistry;
 
 void update();
 
@@ -32,35 +31,18 @@ main(int argc, char *args[])
   glewInit();
 
   character = new Character();
-  bulletRegistry = new BulletRegistry();
 
-  //std::vector<int> toast;
-  //toast.push_back(1);
-  //toast.push_back(2);
-  //toast.push_back(3);
+  //BulletRegistry::getInstance().add(0, 0, 1, 1);
+  //BulletRegistry::getInstance().add(10, 10, 1, 1);
+  //BulletRegistry::getInstance().add(20, 20, 1, 1);
   //
-  //std::vector<int>::iterator toasty;
-  //int i;
-  //for (toasty = toast.begin(), i=0; toasty != toast.end(); ++toasty, i++) {
-  //  printf("toast #%d \n", i);
-  //}
+  //BulletRegistry::getInstance().print();
   //
-  //toast.erase(toast.begin());
+  //std::vector<bullet_t>::iterator bullet;
+  //bullet = BulletRegistry::getInstance().bullets.begin();
+  //BulletRegistry::getInstance().remove(bullet);
   //
-  //for (toasty = toast.begin(), i=0; toasty != toast.end(); ++toasty, i++) {
-  //  printf("toast #%d \n", i);
-  //}
-
-
-  bulletRegistry->add(1, 1, 1, 1);
-  bulletRegistry->add(2, 2, 2, 2);
-  bulletRegistry->add(3, 3, 3, 3);
-  bulletRegistry->print();
-  std::vector<bullet_t>::iterator bullet = bulletRegistry->bullets.begin();
-  ////printf("pointer in main is: %p\n", &bullet);
-  //BulletRegistry::remove(BulletRegistry::bullets.begin());
-  bulletRegistry->bullets.erase(bullet);
-  bulletRegistry->print();
+  //BulletRegistry::getInstance().print();
 
   quit = true; // don't run
   // main loop

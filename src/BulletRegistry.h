@@ -28,17 +28,21 @@ typedef struct {
 //    static Log* pInstance;
 //};
 
+
+
 class BulletRegistry
 {
+
  public:
+  static BulletRegistry& getInstance()
+  {
+    static BulletRegistry instance;
+    return instance;
+  }
+
   // TODO: if #erase operations become too expensive, consider switching to
   //       forward-lists.
   std::vector<bullet_t> bullets;
-
-
-  BulletRegistry();
-
-  ~BulletRegistry();
 
   /**
    * Add a new bullet to the screen
@@ -63,6 +67,11 @@ class BulletRegistry
   void render();
 
   void tick();
+
+ private:
+  BulletRegistry() {}; // Don't implement
+  BulletRegistry(BulletRegistry const&); // Don't implement
+  void operator=(BulletRegistry const&); // Don't implement
 
 };
 
