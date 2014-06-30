@@ -1,6 +1,16 @@
 #include "BulletRegistry.h"
 
 
+BulletRegistry::BulletRegistry()
+{
+}
+
+
+BulletRegistry::~BulletRegistry()
+{
+}
+
+
 void
 BulletRegistry::add(float x, float y, int headingX, int headingY)
 {

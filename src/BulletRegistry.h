@@ -28,12 +28,17 @@ typedef struct {
 //    static Log* pInstance;
 //};
 
-namespace BulletRegistry
+class BulletRegistry
 {
-
+ public:
   // TODO: if #erase operations become too expensive, consider switching to
   //       forward-lists.
-  static std::vector<bullet_t> bullets;
+  std::vector<bullet_t> bullets;
+
+
+  BulletRegistry();
+
+  ~BulletRegistry();
 
   /**
    * Add a new bullet to the screen
