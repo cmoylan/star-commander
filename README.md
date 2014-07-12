@@ -26,3 +26,10 @@ engine
 |--> src (main code tree)
 |--> test (unit tests)
 ```
+
+## Notes ##
+List all files installed by a package:
+dpkg -L librname
+
+Get into about installed packages
+apt-cache search pkgname

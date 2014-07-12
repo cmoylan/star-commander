@@ -35,6 +35,7 @@ Character::Character()
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                GL_UNSIGNED_BYTE, image);
 
+
   SOIL_free_image_data(image);
 
   glGenerateMipmap(GL_TEXTURE_2D);
@@ -123,7 +124,6 @@ Character::Character()
   //glDeleteShader(vertexShader);
 
   // --- END setup shader programs --- //
-
 }
 
 

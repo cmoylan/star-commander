@@ -1,8 +1,10 @@
 #ifndef BULLET_REGISTRY_H
 #define BULLET_REGISTRY_H
 
+#include <stdio.h>
 #include <vector>
 #include "Constants.h"
+
 
 typedef struct {
   int x;

@@ -6,10 +6,20 @@ OBJS = src/Character.cpp src/BulletRegistry.cpp src/main.cpp
 BUILD_DIR = build
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
-INCLUDE_PATHS = -I/usr/local/include -I/opt/X11/include -I/usr/local/include/SOIL
+# for linux:
+INCLUDE_PATHS = -I/usr/local/include -I/usr/include/SOIL -I/usr/include/GL \
+	         -I/usr/local/include/SDL2
+# for mac:
+#INCLUDE_PATHS = -I/usr/local/include -I/opt/X11/include -I/usr/include/SOIL -I/usr/include/GL -I/usr/local/include/SDL2
+
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
-LIBRARY_PATHS = -L/usr/local/lib -L/opt/X11/lib
+# for linux:
+SDL_LIB = `sdl2-config --libs`
+LIBRARY_PATHS = -L/usr/local/lib $(SDL_LIB)
+# for mac:
+#LIBRARY_PATHS = -L/usr/local/lib -L/opt/X11/lib
+
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # g 	 - compile with debug information
@@ -18,10 +28,12 @@ LIBRARY_PATHS = -L/usr/local/lib -L/opt/X11/lib
 COMPILER_FLAGS = -g -Wall -Wextra $(OPTFLAGS)
 
 #LINKER_FLAGS specifies the libraries we're linking against
-#LINKER_FLAGS = -lGL -lGLU -lglut
-#SDL_STUFF = `/usr/local/bin/sdl2-config --libs --cflags`
+# For linux:
+LINKER_FLAGS = -lGL -lGLEW -lSDL2 -lSOIL
+SDL_STUFF = `/usr/local/bin/sdl2-config --libs --cflags`
 #SDL_STUFF = `pkg-config --libs --cflags sdl2`
-LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW -lSOIL
+# For mac:
+#LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW -lSOIL
 
 #assemble the compiler command
 CC = g++ $(INCLUDE_PATHS) $(LIBRARY_PATHS) \
@@ -35,4 +47,4 @@ OBJ_NAME = engine
 : foreach $(OBJS) |> $(CC) -c %f -o %o |> $(BUILD_DIR)/%B.o
 
 # compile and link all .o into the main executable
-: $(BUILD_DIR)/*.o |> $(CC) $(LINKER_FLAGS) %f -o %o |> $(OBJ_NAME)
+: $(BUILD_DIR)/*.o |> $(CC) %f -o %o $(LINKER_FLAGS) |> $(OBJ_NAME)
