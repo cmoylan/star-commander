@@ -17,6 +17,10 @@ void render();
 int
 main(int argc, char *args[])
 {
+  Uint32 startTime;
+  // TODO: move
+  const int FPS = 2;
+
   // setup
   SDL_Init(SDL_INIT_VIDEO);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -44,10 +48,16 @@ main(int argc, char *args[])
   //
   //BulletRegistry::getInstance().print();
 
-  quit = true; // don't run
   // main loop
   // TODO: how to change the framerate?
   while (!quit) {
+    // TODO: framerate
+    //startTime = SDL_GetTicks();
+    //if (1000/FPS > SDL_GetTicks() - startTime) {
+    //  SDL_Delay(1000/FPS - (SDL_GetTicks() - startTime));
+    //}
+
+
     handleKeys();
     update();
     render();
@@ -56,6 +66,7 @@ main(int argc, char *args[])
   }
 
   // teardown
+  // TODO: probably do this
 //  glDeleteProgram(shaderProgram);
 //  glDeleteShader(fragmentShader);
 //  glDeleteShader(vertexShader);
@@ -74,7 +85,7 @@ main(int argc, char *args[])
 void
 update()
 {
-  //BulletRegistry::tick();
+  BulletRegistry::getInstance().tick();
 }
 
 

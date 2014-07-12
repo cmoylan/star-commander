@@ -1,6 +1,6 @@
 TEST_DIR = tests
-TEST_OBJS = tests/level_test.h tests/character_test.h
-SRC_OBJS = src/Level.cpp src/Character.cpp
+TEST_OBJS = ./tests/bullet_registry_test.h
+SRC_OBJS = build/*.o
 
 CFLAGS = -DTEST_MODE
 

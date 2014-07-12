@@ -40,8 +40,6 @@ class BulletRegistry
     return instance;
   }
 
-  // TODO: if #erase operations become too expensive, consider switching to
-  //       forward-lists.
   std::vector<bullet_t> bullets;
 
   /**
@@ -62,16 +60,19 @@ class BulletRegistry
 
   void print();
 
-  void remove(std::vector<bullet_t>::iterator position);
+  std::vector<bullet_t>::iterator remove(std::vector<bullet_t>::iterator position);
 
   void render();
 
   void tick();
 
  private:
+  // --- Singleton things
   BulletRegistry() {}; // Don't implement
   BulletRegistry(BulletRegistry const&); // Don't implement
   void operator=(BulletRegistry const&); // Don't implement
+
+  // --- OpenGL
 
 };
 
