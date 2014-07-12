@@ -17,6 +17,10 @@ void render();
 int
 main(int argc, char *args[])
 {
+  Uint32 startTime;
+  // TODO: move
+  const int FPS = 2;
+
   // setup
   SDL_Init(SDL_INIT_VIDEO);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -32,19 +36,28 @@ main(int argc, char *args[])
 
   character = new Character();
 
-  BulletRegistry::add(1, 1, 1, 1);
-  BulletRegistry::add(2, 2, 2, 2);
-  BulletRegistry::add(3, 3, 3, 3);
-  BulletRegistry::print();
-  std::vector<bullet_t>::iterator bullet = BulletRegistry::bullets.begin();
-  //printf("pointer in main is: %p\n", &bullet);
-  BulletRegistry::remove(bullet);
-  BulletRegistry::print();
+  //BulletRegistry::getInstance().add(0, 0, 1, 1);
+  //BulletRegistry::getInstance().add(10, 10, 1, 1);
+  //BulletRegistry::getInstance().add(20, 20, 1, 1);
+  //
+  //BulletRegistry::getInstance().print();
+  //
+  //std::vector<bullet_t>::iterator bullet;
+  //bullet = BulletRegistry::getInstance().bullets.begin();
+  //BulletRegistry::getInstance().remove(bullet);
+  //
+  //BulletRegistry::getInstance().print();
 
-  quit = true; // don't run
   // main loop
   // TODO: how to change the framerate?
   while (!quit) {
+    // TODO: framerate
+    //startTime = SDL_GetTicks();
+    //if (1000/FPS > SDL_GetTicks() - startTime) {
+    //  SDL_Delay(1000/FPS - (SDL_GetTicks() - startTime));
+    //}
+
+
     handleKeys();
     update();
   GLuint ebo;
@@ -70,6 +83,7 @@ main(int argc, char *args[])
   }
 
   // teardown
+  // TODO: probably do this
 //  glDeleteProgram(shaderProgram);
 //  glDeleteShader(fragmentShader);
 //  glDeleteShader(vertexShader);
@@ -88,7 +102,7 @@ main(int argc, char *args[])
 void
 update()
 {
-  BulletRegistry::tick();
+  BulletRegistry::getInstance().tick();
 }
 
 

@@ -37,12 +37,11 @@ BulletRegistry::print()
 }
 
 
-void
+std::vector<bullet_t>::iterator
 BulletRegistry::remove(std::vector<bullet_t>::iterator position)
 {
   printf("erasing bullet\n");
-  //printf("pointer in remove is: %p\n", &position);
-  //bullets.erase(bullets.begin());
+  return bullets.erase(position);
 }
 
 
@@ -58,27 +57,24 @@ BulletRegistry::tick()
 {
   std::vector<bullet_t>::iterator bullet;
 
-  for (bullet = bullets.begin(); bullet != bullets.end(); ++bullet) {
+  for (bullet = bullets.begin(); bullet != bullets.end(); ) {
     // move
     bullet->location.x += bullet->heading.x * bullet->speed;
     bullet->location.y += bullet->heading.y * bullet->speed;
 
-    // If the bullet is out of bounds, remove it
-//    if (bullet->location.x > 1.0f) {
-//      remove(bullet);
-//    }
-//    if (bullet->location.y > 1.0f) {
-//      printf("trying to remove \n");
-//      remove(bullet);
-//    }
-    // check for collision
-    // destroy if collision
-    //printf("bullet\n");
     printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
-  }
 
-  if (bullets.size() > 3) {
-    printf("removing bullet\n");
-    remove(bullets.begin());
+    // If the bullet is out of bounds, remove it
+    if ((bullet->location.x > 1.0f) || (bullet->location.y > 1.0f)){
+      bullet = remove(bullet);
+    }
+    // If the bullet has collided with something, handle it
+    // else if (collision(bullet)) {
+    //   handle_collision(bullet);
+    // }
+    // Otherwise, go to the next bullet
+    else {
+      ++bullet;
+    }
   }
 }

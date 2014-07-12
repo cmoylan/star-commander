@@ -49,3 +49,5 @@ lint:
 
 grind: all
 	valgrind ./$(OBJ_NAME)
+
+include tests/test.mk

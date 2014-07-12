@@ -7,6 +7,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "OpenGL.h"
+#include "Util.h"
 #include "Constants.h"
 #include "BulletRegistry.h"
 
