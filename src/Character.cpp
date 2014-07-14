@@ -49,54 +49,25 @@ Character::Character()
   // --- END texture stuff --- //
 
   // --- set up the shader programs --- //
+  std::vector<GLuint> shaderList;
+  shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/characterVertexShader.glsl"));
+  shaderList.push_back(createShader(GL_FRAGMENT_SHADER, "src/characterFragmentShader.glsl"));
+
   GLint status;
+  //GLuint vertexShader, fragmentShader;
 
-  const GLchar* characterVertexSrc =
-    "#version 150 core\n"
-    "in vec2 position;"
-    "in vec2 texcoord;"
-    "out vec2 Texcoord;"
-    "uniform mat4 trans;"
-    "void main() {"
-    "  gl_Position = trans * vec4(position.x, position.y, 0.0, 1.0);"
-    "  Texcoord = texcoord;"
-    "}";
-
-  const GLchar* characterFragmentSrc =
-    "#version 150 core\n"
-    "in vec2 Texcoord;"
-    "out vec4 outColor;"
-    "uniform sampler2D tex;"
-    "void main() {"
-    "  outColor = texture(tex, Texcoord);"
-    "}";
-
-  // load and compile the vertex shader code
-  GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertexShader, 1, &characterVertexSrc, NULL);
-  glCompileShader(vertexShader);
-
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-  if (status != GL_TRUE) {
-    printf("vertex shader did not compile!\n");
-  }
-
-  // load and compile the fragment shader code
-  GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragmentShader, 1, &characterFragmentSrc, NULL);
-  glCompileShader(fragmentShader);
-
-  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
-  if (status != GL_TRUE) {
-    printf("fragment shader did not compile!\n");
-  }
+  //vertexShader = createShader(GL_VERTEX_SHADER, "src/characterVertexShader.glsl");
+  //fragmentShader = createShader(GL_FRAGMENT_SHADER, "src/characterFragmentShader.glsl");
 
   // combine vertex and fragment shaders into a program
-  shaderProgram = glCreateProgram();
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
+  shaderProgram = createProgram(shaderList);
+  std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
+  //shaderProgram = glCreateProgram();
+  //glAttachShader(shaderProgram, vertexShader);
+  //glAttachShader(shaderProgram, fragmentShader);
+  //
+  //glLinkProgram(shaderProgram);
 
-  glLinkProgram(shaderProgram);
   // i think programs are compiled nd then you 'use' one and any
   // vertex data you send goes to whichever program you're 'using'.
   glUseProgram(shaderProgram);
