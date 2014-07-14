@@ -24,54 +24,28 @@ Character::Character()
 
   // --- END set up the vao and vbo --- //
 
+
   // --- BEGIN texture stuff --- //
   glGenTextures(1, &tex);
-  glBindTexture(GL_TEXTURE_2D, tex);
-
-
-  int width, height;
-  unsigned char* image =
-    SOIL_load_image("res/spaceship2.png", &width, &height, 0, SOIL_LOAD_RGBA);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
-               GL_UNSIGNED_BYTE, image);
-
-
-  SOIL_free_image_data(image);
-
-  glGenerateMipmap(GL_TEXTURE_2D);
-
-  // TODO: change to gl_nearest_mipmap_nearest
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                  GL_NEAREST_MIPMAP_NEAREST);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                  GL_NEAREST_MIPMAP_NEAREST);
-
+  loadTexture(tex, "res/spaceship2.png");
   // --- END texture stuff --- //
+
 
   // --- set up the shader programs --- //
   std::vector<GLuint> shaderList;
   shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/characterVertexShader.glsl"));
   shaderList.push_back(createShader(GL_FRAGMENT_SHADER, "src/characterFragmentShader.glsl"));
 
-  GLint status;
-  //GLuint vertexShader, fragmentShader;
-
-  //vertexShader = createShader(GL_VERTEX_SHADER, "src/characterVertexShader.glsl");
-  //fragmentShader = createShader(GL_FRAGMENT_SHADER, "src/characterFragmentShader.glsl");
-
   // combine vertex and fragment shaders into a program
   shaderProgram = createProgram(shaderList);
   std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
-  //shaderProgram = glCreateProgram();
-  //glAttachShader(shaderProgram, vertexShader);
-  //glAttachShader(shaderProgram, fragmentShader);
-  //
-  //glLinkProgram(shaderProgram);
 
   // i think programs are compiled nd then you 'use' one and any
   // vertex data you send goes to whichever program you're 'using'.
   glUseProgram(shaderProgram);
 
+
+  // --- BEGIN Link buffer objects --- //
   // describe how vertex buffer object maps to
   // link vertex array to position attribute
   GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
@@ -88,11 +62,7 @@ Character::Character()
   glm::mat4 trans;
   trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
-
-
-  // delete shaders here?
-  //glDeleteShader(fragmentShader);
-  //glDeleteShader(vertexShader);
+  // --- BEGIN Link buffer objects --- //
 
   // --- END setup shader programs --- //
 }

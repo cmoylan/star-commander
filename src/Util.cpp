@@ -31,7 +31,7 @@ createProgram(const std::vector<GLuint> &shaderList)
 
 
 GLuint
-createShader(GLenum shaderType, const std::string& shaderFile)
+createShader(GLenum shaderType, const std::string &shaderFile)
 {
   GLint status;
   std::string shaderSource;
@@ -66,7 +66,7 @@ createShader(GLenum shaderType, const std::string& shaderFile)
 
 
 std::string
-loadStringFromFile(const std::string& filename)
+loadStringFromFile(const std::string &filename)
 {
   std::stringstream sstr;
   std::ifstream file;
@@ -81,4 +81,34 @@ loadStringFromFile(const std::string& filename)
     printf("ERROR: unable to open file %s\n", filename.c_str());
     return "";
   }
+}
+
+
+void
+//#args: buffer, filename
+loadTexture(GLuint buffer, const std::string &filename)
+{
+  int width, height;
+  unsigned char* image;
+
+  glBindTexture(GL_TEXTURE_2D, buffer);
+
+  image = SOIL_load_image(filename.c_str(),
+			  &width,
+			  &height,
+			  0,
+			  SOIL_LOAD_RGBA);
+
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
+               GL_UNSIGNED_BYTE, image);
+
+  SOIL_free_image_data(image);
+
+  glGenerateMipmap(GL_TEXTURE_2D);
+
+  // TODO: change to gl_nearest_mipmap_nearest
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
+                  GL_NEAREST_MIPMAP_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
+                  GL_NEAREST_MIPMAP_NEAREST);
 }
