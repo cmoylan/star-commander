@@ -3,6 +3,13 @@
 
 #include <stdio.h>
 #include <vector>
+// TODO: move to opengl.h ???
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "OpenGL.h"
+#include "Util.h"
 #include "Constants.h"
 
 
@@ -30,8 +37,8 @@ typedef struct {
 //    static Log* pInstance;
 //};
 
-
-
+// NOTES:
+// Bullets have to be objects now because i have to draw each one
 class BulletRegistry
 {
 
@@ -70,11 +77,15 @@ class BulletRegistry
 
  private:
   // --- Singleton things
-  BulletRegistry() {}; // Don't implement
+  BulletRegistry();//BulletRegistry() {}; // Don't implement
   BulletRegistry(BulletRegistry const&); // Don't implement
   void operator=(BulletRegistry const&); // Don't implement
 
   // --- OpenGL
+  GLuint vao, vbo, ebo, uniTrans;
+  GLuint shaderProgram;
+
+  void initGL();
 
 };
 

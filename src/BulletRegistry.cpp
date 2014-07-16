@@ -1,6 +1,12 @@
 #include "BulletRegistry.h"
 
 
+BulletRegistry::BulletRegistry()
+{
+  initGL();
+}
+
+
 void
 BulletRegistry::add(float x, float y, int headingX, int headingY)
 {
@@ -21,6 +27,40 @@ BulletRegistry::add(float x, float y, int headingX, int headingY)
   bullets.push_back(bullet);
 
   printf("bullet fired\n");
+}
+
+
+void
+BulletRegistry::initGL()
+{
+  glGenVertexArrays(1, &vao);
+  //glBindVertexArray(vao);
+  glGenBuffers(1, &vbo);
+  //glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glGenBuffers(1, &ebo);
+  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+  std::vector<GLuint> shaderList;
+  shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/characterVertexShader.glsl"));
+  shaderList.push_back(createShader(GL_FRAGMENT_SHADER, "src/characterFragmentShader.glsl"));
+
+  shaderProgram = createProgram(shaderList);
+  std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
+
+  glUseProgram(shaderProgram);
+
+  GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+  glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(posAttrib);
+
+  GLint texAttrib = glGetAttribLocation(shaderProgram, "texcoord");
+  glEnableVertexAttribArray(texAttrib);
+  glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 0, (void*)(8 * sizeof(float)));
+
+  // translation attr from vector shader
+  uniTrans = glGetUniformLocation(shaderProgram, "trans");
+  glm::mat4 trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
+  glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 }
 
 
@@ -49,6 +89,35 @@ void
 BulletRegistry::render()
 {
   // iterator
+  GLint elements[] = {
+    0, 1, 2,
+    2, 3, 0
+  };
+
+  GLfloat vertices[] = {
+    // Position
+    -0.1f, 0.1f,
+    0.1f, 0.1f,
+    0.1f, -0.1f,
+    -0.1f, -0.1f
+  };
+
+  std::vector<bullet_t>::iterator bullet = bullets.begin();
+
+  glUseProgram(shaderProgram);
+
+  glm::mat4 trans;
+  //trans = glm::translate(trans,
+  //			 glm::vec3(bullet->location.x,
+  //				   bullet->location.x, 1.0f));
+  //glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+  // --- this may go back in the main loop and only get called once
+  // draw a rectangle from 2 triangles
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 

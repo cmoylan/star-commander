@@ -40,12 +40,13 @@ Character::Character()
   shaderProgram = createProgram(shaderList);
   std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
 
+  // --- BEGIN Link buffer objects --- //
+
   // i think programs are compiled nd then you 'use' one and any
   // vertex data you send goes to whichever program you're 'using'.
+  // need to do this for the lines below
   glUseProgram(shaderProgram);
 
-
-  // --- BEGIN Link buffer objects --- //
   // describe how vertex buffer object maps to
   // link vertex array to position attribute
   GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
@@ -167,11 +168,12 @@ Character::render()
 
   //glBindVertexArray(vao);
   //glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  //glUseProgram(shaderProgram);
+  glUseProgram(shaderProgram);
 
   // transform coords based on screenPos of character
   glm::mat4 trans;
-  trans = glm::translate(trans, glm::vec3(screenPos.x, screenPos.y, 1.0f));
+  trans = glm::translate(trans,
+			 glm::vec3(screenPos.x, screenPos.y, 1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
