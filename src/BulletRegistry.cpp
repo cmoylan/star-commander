@@ -88,6 +88,10 @@ BulletRegistry::remove(std::vector<bullet_t>::iterator position)
 void
 BulletRegistry::render()
 {
+  if (bullets.size() == 0) {
+    return;
+  }
+
   // iterator
   GLint elements[] = {
     0, 1, 2,
@@ -107,10 +111,10 @@ BulletRegistry::render()
   glUseProgram(shaderProgram);
 
   glm::mat4 trans;
-  //trans = glm::translate(trans,
-  //			 glm::vec3(bullet->location.x,
-  //				   bullet->location.x, 1.0f));
-  //glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+  trans = glm::translate(trans,
+  			 glm::vec3(bullet->location.x,
+  				   bullet->location.y, 1.0f));
+  glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);

@@ -130,4 +130,5 @@ render()
   // Render each component on the screen
   character->render();
   BulletRegistry::getInstance().render();
+
 }

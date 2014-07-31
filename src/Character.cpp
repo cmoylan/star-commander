@@ -116,6 +116,7 @@ Character::move(unsigned char direction)
   if ((newY > -1.0f) && (newY < 1.0)) {
     screenPos.y = newY;
   }
+  //printf("moved to %f, %f\n", newX, newY);
 }
 
 
