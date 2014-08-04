@@ -27,7 +27,7 @@ Character::Character()
 
   // --- BEGIN texture stuff --- //
   glGenTextures(1, &tex);
-  loadTexture(tex, "res/spaceship2.png");
+  loadTexture(tex, "res/spaceship.png");
   // --- END texture stuff --- //
 
 
@@ -89,7 +89,6 @@ Character::fire()
 void
 Character::move(unsigned char direction)
 {
-  // TODO: go back to integers?
   float newX = screenPos.x;
   float newY = screenPos.y;
   float movementSize = 0.1f;
@@ -164,11 +163,6 @@ Character::render()
     0.0f, 1.0f
   };
 
-  // TODO: not sure which of these calls i need. Will find out when
-  // i start rendering more things
-
-  //glBindVertexArray(vao);
-  //glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glUseProgram(shaderProgram);
 
   // transform coords based on screenPos of character

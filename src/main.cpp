@@ -19,7 +19,7 @@ main(int argc, char *args[])
 {
   Uint32 startTime;
   // TODO: move
-  const int FPS = 2;
+  const int FPS = 30;
 
   // setup
   SDL_Init(SDL_INIT_VIDEO);
@@ -39,28 +39,18 @@ main(int argc, char *args[])
   // main loop
   // TODO: how to change the framerate?
   while (!quit) {
-    // TODO: framerate
-    //startTime = SDL_GetTicks();
-    //if (1000/FPS > SDL_GetTicks() - startTime) {
-    //  SDL_Delay(1000/FPS - (SDL_GetTicks() - startTime));
-    //}
+    startTime = SDL_GetTicks();
 
     handleKeys();
     update();
     render();
 
     SDL_GL_SwapWindow(window);
+    
+    if (1000/FPS > SDL_GetTicks() - startTime) {
+      SDL_Delay(1000/FPS - (SDL_GetTicks() - startTime));
+    }
   }
-
-  // teardown
-  // TODO: probably do this
-//  glDeleteProgram(shaderProgram);
-//  glDeleteShader(fragmentShader);
-//  glDeleteShader(vertexShader);
-//
-//  glDeleteBuffers(1, &vbo);
-//
-//  glDeleteVertexArrays(1, &vao);
 
   SDL_GL_DeleteContext(context);
   SDL_Quit();

@@ -82,7 +82,7 @@ class BulletRegistry
   void operator=(BulletRegistry const&); // Don't implement
 
   // --- OpenGL
-  GLuint vao, vbo, ebo, uniTrans;
+  GLuint vao, vbo, ebo, uniTrans, uniColor;
   GLuint shaderProgram;
 
   void initGL();
