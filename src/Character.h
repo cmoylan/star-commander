@@ -1,6 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <string>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -28,7 +29,7 @@ public:
 
 
   // constructor
-  Character();
+  Character(std::string texture, coordinate_t startingPos);
 
   // destructor
   ~Character();

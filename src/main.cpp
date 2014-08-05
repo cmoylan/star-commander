@@ -1,11 +1,13 @@
 #include "OpenGL.h"
 #include "Character.h"
+#include "Enemy.h"
 #include "BulletRegistry.h"
 
 bool quit = false;
 
 // main character
 Character *character;
+Character *enemy;
 
 void update();
 
@@ -34,7 +36,11 @@ main(int argc, char *args[])
   glewExperimental = GL_TRUE;
   glewInit();
 
-  character = new Character();
+  coordinate_t position = { 0, 0 };
+  character = new Character("res/spaceship.png", position);
+
+  position.y = 1;
+  enemy = new Character("res/enemy.png", position);
 
   // main loop
   // TODO: how to change the framerate?
@@ -119,6 +125,7 @@ render()
 
   // Render each component on the screen
   character->render();
+  enemy->render();
   BulletRegistry::getInstance().render();
 
 }

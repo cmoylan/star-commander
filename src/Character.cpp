@@ -1,14 +1,15 @@
 #include "Character.h"
 
 
-Character::Character()
+Character::Character(std::string texture, coordinate_t startingPos)
 {
   // initialize attributes
   height = 10;
   width = 10;
 
-  screenPos.x = 0;
-  screenPos.y = 0;
+  //screenPos.x = 0;
+  //screenPos.y = 0;
+  screenPos = startingPos;
 
   // --- set up the vao and vbo --- //
   glGenVertexArrays(1, &vao);
@@ -27,7 +28,7 @@ Character::Character()
 
   // --- BEGIN texture stuff --- //
   glGenTextures(1, &tex);
-  loadTexture(tex, "res/spaceship.png");
+  loadTexture(tex, texture);
   // --- END texture stuff --- //
 
 

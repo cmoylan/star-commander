@@ -4,7 +4,11 @@
 #include "Character.h"
 
 class Enemy : public Character {
-  
+
+
+ public:
+  //Enemy(const string& textureFile, coordinate_t startingPosition);
+
 };
 
 #endif
