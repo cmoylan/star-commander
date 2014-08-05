@@ -86,6 +86,8 @@ BulletRegistry::render()
   if (bullets.size() == 0) {
     return;
   }
+  
+  std::vector<bullet_t>::iterator bullet;
 
   // iterator
   GLint elements[] = {
@@ -101,24 +103,24 @@ BulletRegistry::render()
     -0.1f, -0.1f
   };
 
-  std::vector<bullet_t>::iterator bullet = bullets.begin();
+  for (bullet = bullets.begin(); bullet != bullets.end(); bullet++) {
+    glUseProgram(shaderProgram);
 
-  glUseProgram(shaderProgram);
+    glUniform3f(uniColor, 1.0f, 0.0f, 0.0f);
 
-  glUniform3f(uniColor, 1.0f, 0.0f, 0.0f);
+    glm::mat4 trans;
+    trans = glm::translate(trans,
+			  glm::vec3(bullet->location.x,
+				    bullet->location.y, 0.1f));
+    glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
-  glm::mat4 trans;
-  trans = glm::translate(trans,
-  			 glm::vec3(bullet->location.x,
-  				   bullet->location.y, 0.1f));
-  glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-  // --- this may go back in the main loop and only get called once
-  // draw a rectangle from 2 triangles
-  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    // --- this may go back in the main loop and only get called once
+    // draw a rectangle from 2 triangles
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+  }
 }
 
 
