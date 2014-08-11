@@ -39,8 +39,8 @@ main(int argc, char *args[])
   coordinate_t position = { 0, 0 };
   character = new Character("res/spaceship.png", position);
 
-  position.y = 1;
-  enemy = new Character("res/enemy.png", position);
+  //position.y = 1;
+  //enemy = new Character("res/enemy.png", position);
 
   // main loop
   // TODO: how to change the framerate?
@@ -125,7 +125,7 @@ render()
 
   // Render each component on the screen
   character->render();
-  enemy->render();
+  //enemy->render();
   BulletRegistry::getInstance().render();
 
 }
