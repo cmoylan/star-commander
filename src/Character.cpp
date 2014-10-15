@@ -26,10 +26,6 @@ Character::Character(std::string texture, coordinate_t startingPos)
   // --- END set up the vao and vbo --- //
 
 
-  // --- BEGIN texture stuff --- //
-  glGenTextures(1, &tex);
-  loadTexture(tex, texture);
-  // --- END texture stuff --- //
 
 
   // --- set up the shader programs --- //
@@ -47,6 +43,11 @@ Character::Character(std::string texture, coordinate_t startingPos)
   // vertex data you send goes to whichever program you're 'using'.
   // need to do this for the lines below
   glUseProgram(shaderProgram);
+
+  // --- BEGIN texture stuff --- //
+  glGenTextures(1, &tex);
+  loadTexture(tex, texture);
+  // --- END texture stuff --- //
 
   // describe how vertex buffer object maps to
   // link vertex array to position attribute

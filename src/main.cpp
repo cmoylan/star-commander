@@ -69,6 +69,12 @@ void
 update()
 {
   BulletRegistry::getInstance().tick();
+  //if (enemy->screenPos.x >= -0.9) {
+  //  enemy->move('l');
+  //}
+  //else {
+  //  enemy->move('r');
+  //}
 }
 
 

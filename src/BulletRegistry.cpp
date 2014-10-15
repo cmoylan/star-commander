@@ -26,7 +26,7 @@ BulletRegistry::add(float x, float y, int headingX, int headingY)
 
   bullets.push_back(bullet);
 
-  printf("bullet fired\n");
+  //printf("bullet fired\n");
 }
 
 
@@ -75,7 +75,7 @@ BulletRegistry::print()
 std::vector<bullet_t>::iterator
 BulletRegistry::remove(std::vector<bullet_t>::iterator position)
 {
-  printf("erasing bullet\n");
+  //printf("erasing bullet\n");
   return bullets.erase(position);
 }
 
@@ -134,7 +134,7 @@ BulletRegistry::tick()
     bullet->location.x += bullet->heading.x * bullet->speed;
     bullet->location.y += bullet->heading.y * bullet->speed;
 
-    printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
+    //printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
 
     // If the bullet is out of bounds, remove it
     if ((bullet->location.x > 1.0f) || (bullet->location.y > 1.0f)){
