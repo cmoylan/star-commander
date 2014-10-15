@@ -36,11 +36,12 @@ main(int argc, char *args[])
   glewExperimental = GL_TRUE;
   glewInit();
 
-  coordinate_t position = { 0, 0 };
+  coordinate_t position = { 0, 1 };
+  enemy = new Character("res/enemy.png", position);
+
+  position.y = 0;
   character = new Character("res/spaceship.png", position);
 
-  //position.y = 1;
-  //enemy = new Character("res/enemy.png", position);
 
   // main loop
   // TODO: how to change the framerate?
@@ -69,6 +70,12 @@ void
 update()
 {
   BulletRegistry::getInstance().tick();
+  //if (enemy->screenPos.x >= -0.9) {
+  //  enemy->move('l');
+  //}
+  //else {
+  //  enemy->move('r');
+  //}
 }
 
 
@@ -125,7 +132,7 @@ render()
 
   // Render each component on the screen
   character->render();
-  //enemy->render();
+  enemy->render();
   BulletRegistry::getInstance().render();
 
 }
