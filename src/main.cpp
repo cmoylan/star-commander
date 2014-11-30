@@ -2,17 +2,24 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "BulletRegistry.h"
+#include "EnemyAI.h"
 
 bool quit = false;
 
-// main character
+// global openGL objects
+SDL_Window *window;
+SDL_GLContext context;
+
 Character *character;
 Enemy *enemy;
+EnemyAI *enemyAI; // enemy AI manager
 
-void update();
-
+void initAI();
+void initEntities();
+void initGraphics();
+void update(int);
+void handleEnemy(Character*, int);
 void handleKeys();
-
 void render();
 
 
@@ -20,35 +27,28 @@ int
 main(int argc, char *args[])
 {
   Uint32 startTime;
-  // TODO: move
-  const int FPS = 30;
+  const int FPS = 5;   // TODO: move
+  int ticks = 0;
 
-  // setup
-  SDL_Init(SDL_INIT_VIDEO);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-
+  initGraphics();
+  initEntities();
+  initAI();
   SDL_Window *window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
-  SDL_GLContext context = SDL_GL_CreateContext(window);
-
-  // Initialize GLEW
-  glewExperimental = GL_TRUE;
-  glewInit();
-
   coordinate_t position = { 0, -0.8 };
-  character = new Character("res/spaceship.png", position);
-
   position.y = 0.8;
   enemy = new Enemy(position);
 
   // main loop
   // TODO: how to change the framerate?
   while (!quit) {
+    // count every 10 frames
+    if (ticks > 9) { ticks = 0; }
+
     startTime = SDL_GetTicks();
 
     handleKeys();
-    update();
+    printf("ticks:: %d\n", ticks);
+    update(ticks);
     render();
 
     SDL_GL_SwapWindow(window);
@@ -56,6 +56,8 @@ main(int argc, char *args[])
     if (1000/FPS > SDL_GetTicks() - startTime) {
       SDL_Delay(1000/FPS - (SDL_GetTicks() - startTime));
     }
+
+    ticks += 1;
   }
 
   SDL_GL_DeleteContext(context);
@@ -66,17 +68,66 @@ main(int argc, char *args[])
 
 
 void
-update()
+initAI()
 {
-  BulletRegistry::getInstance().tick();
-  //if (enemy->screenPos.x >= -0.9) {
-  //  enemy->move('l');
-  //}
-  //else {
-  //  enemy->move('r');
-  //}
+  // setup enemy AI
+  enemyAI = new EnemyAI();
+  enemyAI->registerPlayer(character);
+  enemyAI->registerEnemy(enemy);
 }
 
+
+void
+initEntities()
+{
+  coordinate_t position = { 0.5, 0.8 };
+  enemy = new Character("res/enemy.png", position);
+
+  position.y = 0;
+  position.x = 0;
+  character = new Character("res/spaceship.png", position);
+}
+
+
+void
+initGraphics()
+{
+  SDL_Init(SDL_INIT_VIDEO);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+
+  window = SDL_CreateWindow("DO IT OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
+  context = SDL_GL_CreateContext(window);
+
+  // Initialize GLEW
+  glewExperimental = GL_TRUE;
+  glewInit();
+}
+
+
+void
+update(int ticks)
+{
+  //printf("ticking: %d\n", ticks);
+  BulletRegistry::getInstance().tick();
+
+  // enemy logic here
+  enemyAI->tick(ticks);
+}
+
+
+void
+handleEnemy(Character* enemy, int ticks)
+{
+  //enemy->screenPos.x
+  //enemy->screenPos.y
+  if (ticks < 5) {
+    enemy->move('l');
+  } else {
+    enemy->move('r');
+  }
+}
 
 void
 handleKeys()
