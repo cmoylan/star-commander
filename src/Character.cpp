@@ -26,8 +26,6 @@ Character::Character(std::string texture, coordinate_t startingPos)
   // --- END set up the vao and vbo --- //
 
 
-
-
   // --- set up the shader programs --- //
   std::vector<GLuint> shaderList;
   shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/characterVertexShader.glsl"));
