@@ -7,7 +7,7 @@ bool quit = false;
 
 // main character
 Character *character;
-Character *enemy;
+Enemy *enemy;
 
 void update();
 
@@ -29,18 +29,18 @@ main(int argc, char *args[])
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-  SDL_Window *window = SDL_CreateWindow("DO IT OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
+  SDL_Window *window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
   SDL_GLContext context = SDL_GL_CreateContext(window);
 
   // Initialize GLEW
   glewExperimental = GL_TRUE;
   glewInit();
 
-  coordinate_t position = { 0, 0 };
+  coordinate_t position = { 0, -0.8 };
   character = new Character("res/spaceship.png", position);
 
-  //position.y = 1;
-  //enemy = new Character("res/enemy.png", position);
+  position.y = 0.8;
+  enemy = new Enemy(position);
 
   // main loop
   // TODO: how to change the framerate?
@@ -125,7 +125,7 @@ render()
 
   // Render each component on the screen
   character->render();
-  //enemy->render();
+  enemy->render();
   BulletRegistry::getInstance().render();
 
 }

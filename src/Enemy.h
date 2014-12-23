@@ -1,13 +1,48 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
-#include "Character.h"
+#include <string>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-class Enemy : public Character {
+#include "OpenGL.h"
+#include "Util.h"
+#include "Constants.h"
+#include "BulletRegistry.h"
 
 
- public:
-  //Enemy(const string& textureFile, coordinate_t startingPosition);
+class Enemy {
+
+  // buffer objects
+  GLuint vao, vbo, ebo;
+  // uniforms
+  GLuint uniTrans, uniColor;
+  // compiled gl program
+  GLuint shaderProgram;
+
+public:
+  // the location of the character on the screen
+  coordinate_t screenPos;
+
+  // size of the actual character
+  int width;
+  int height;
+
+
+  // constructor
+  Enemy(coordinate_t startingPos);
+
+  // destructor
+  ~Enemy();
+
+  void fire();
+
+  void initGL();
+
+  void move(int x, int y);
+
+  void render();
 
 };
 
