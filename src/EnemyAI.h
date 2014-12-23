@@ -3,11 +3,12 @@
 
 #include <vector>
 #include "Character.h"
+#include "Enemy.h"
 
 
 typedef struct {
   char direction;
-  Character *enemy;
+  Enemy *enemy;
 } enemy_state_machine_t;
 
 
@@ -20,7 +21,7 @@ class EnemyAI {
 
   ~EnemyAI();
 
-  void registerEnemy(Character*);
+  void registerEnemy(Enemy*);
 
   void registerPlayer(Character*);
 

@@ -11,7 +11,7 @@ EnemyAI::~EnemyAI()
 
 
 void
-EnemyAI::registerEnemy(Character* enemy)
+EnemyAI::registerEnemy(Enemy* enemy)
 {
   enemy_state_machine_t enemySm = {
     'l',
@@ -32,8 +32,11 @@ EnemyAI::registerPlayer(Character* character)
 void
 EnemyAI::tick(int ticks)
 {
+  // slow down the enemy
+  if (ticks != 0) { return; }
+
   std::vector<enemy_state_machine_t>::iterator sm;
-  Character *enemy;
+  Enemy *enemy;
   char direction;
 
   for (sm = enemies.begin(); sm != enemies.end(); ++sm) {
@@ -46,13 +49,15 @@ EnemyAI::tick(int ticks)
 
     // move somewhere
     if (direction == 'r' && enemy->screenPos.x < 0.9) {
-      sm->enemy->screenPos.x += 0.1;
+      //sm->enemy->screenPos.x += 0.1;
+      sm->enemy->move(1, 0);
     }
     else if (direction == 'r' && enemy->screenPos.x < 1) {
       sm->direction = 'l';
     }
     else if (direction == 'l' && enemy->screenPos.x > -0.9) {
-      sm->enemy->screenPos.x -= 0.1;
+      //sm->enemy->screenPos.x -= 0.1;
+      sm->enemy->move(-1, 0);
     }
     else if (direction == 'l' && enemy->screenPos.x > -1) {
       sm->direction = 'r';

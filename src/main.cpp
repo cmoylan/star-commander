@@ -27,16 +27,12 @@ int
 main(int argc, char *args[])
 {
   Uint32 startTime;
-  const int FPS = 5;   // TODO: move
+  const int FPS = 30;   // TODO: move
   int ticks = 0;
 
   initGraphics();
   initEntities();
   initAI();
-  SDL_Window *window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
-  coordinate_t position = { 0, -0.8 };
-  position.y = 0.8;
-  enemy = new Enemy(position);
 
   // main loop
   // TODO: how to change the framerate?
@@ -47,7 +43,7 @@ main(int argc, char *args[])
     startTime = SDL_GetTicks();
 
     handleKeys();
-    printf("ticks:: %d\n", ticks);
+    //printf("ticks:: %d\n", ticks);
     update(ticks);
     render();
 
@@ -81,7 +77,7 @@ void
 initEntities()
 {
   coordinate_t position = { 0.5, 0.8 };
-  enemy = new Character("res/enemy.png", position);
+  enemy = new Enemy(position);
 
   position.y = 0;
   position.x = 0;
@@ -97,7 +93,7 @@ initGraphics()
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-  window = SDL_CreateWindow("DO IT OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
+  window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
   context = SDL_GL_CreateContext(window);
 
   // Initialize GLEW
@@ -118,14 +114,14 @@ update(int ticks)
 
 
 void
-handleEnemy(Character* enemy, int ticks)
+handleEnemy(Enemy* enemy, int ticks)
 {
   //enemy->screenPos.x
   //enemy->screenPos.y
   if (ticks < 5) {
-    enemy->move('l');
+    enemy->move(-1, 0);
   } else {
-    enemy->move('r');
+    enemy->move(1, 0);
   }
 }
 

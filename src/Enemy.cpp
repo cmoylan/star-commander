@@ -3,8 +3,8 @@
 
 Enemy::Enemy(coordinate_t startingPos)
 {
-  height = 10;
-  width = 10;
+  height = 20;
+  width = 20;
 
   screenPos = startingPos;
 
@@ -91,11 +91,10 @@ Enemy::render()
 
   // y, x
   GLfloat vertices[] = {
-    // Position
-    -0.2f, 0.2f,
-    0.2f, 0.2f,
-    0.2f, -0.2f,
-    -0.2f, -0.2f
+    0.0f, 0.0f, // top left
+    0.0f, (0.1f * (float) renderWidth),  // top right
+    (0.1f * (float)renderHeight), (0.1f * (float)renderWidth), //bottom right
+    (0.1f * (float)renderHeight), -0.0f // bottom left
   };
 
   glUseProgram(shaderProgram);
