@@ -14,6 +14,7 @@ typedef struct {
 
 class EnemyAI {
   Character* player;
+
   std::vector<enemy_state_machine_t> enemies;
 
  public:

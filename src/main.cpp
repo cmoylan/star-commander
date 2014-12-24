@@ -18,7 +18,6 @@ void initAI();
 void initEntities();
 void initGraphics();
 void update(int);
-void handleEnemy(Character*, int);
 void handleKeys();
 void render();
 
@@ -112,18 +111,6 @@ update(int ticks)
   enemyAI->tick(ticks);
 }
 
-
-void
-handleEnemy(Enemy* enemy, int ticks)
-{
-  //enemy->screenPos.x
-  //enemy->screenPos.y
-  if (ticks < 5) {
-    enemy->move(-1, 0);
-  } else {
-    enemy->move(1, 0);
-  }
-}
 
 void
 handleKeys()

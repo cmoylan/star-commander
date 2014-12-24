@@ -62,6 +62,6 @@ EnemyAI::tick(int ticks)
     else if (direction == 'l' && enemy->screenPos.x > -1) {
       sm->direction = 'r';
     }
-    //printf("screenpos->%f\n", sm->enemy->screenPos.x);
+    //printf("moved to the %c at screenpos: %f\n", sm->direction, sm->enemy->screenPos.x);
   }
 }
