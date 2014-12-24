@@ -33,7 +33,9 @@ void
 EnemyAI::tick(int ticks)
 {
   // slow down the enemy
-  if (ticks != 0) { return; }
+  if (ticks != 0) {
+    return;
+  }
 
   std::vector<enemy_state_machine_t>::iterator sm;
   Enemy *enemy;

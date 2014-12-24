@@ -39,10 +39,9 @@ typedef struct {
 
 // NOTES:
 // Bullets have to be objects now because i have to draw each one
-class BulletRegistry
-{
+class BulletRegistry {
 
- public:
+public:
   static BulletRegistry& getInstance()
   {
     static BulletRegistry instance;
@@ -75,7 +74,7 @@ class BulletRegistry
 
   void tick();
 
- private:
+private:
   // --- Singleton things
   BulletRegistry();//BulletRegistry() {}; // Don't implement
   BulletRegistry(BulletRegistry const&); // Don't implement

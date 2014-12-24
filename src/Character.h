@@ -19,6 +19,8 @@ class Character {
   GLuint vao, vbo, ebo, tex, uniTrans;
   GLuint shaderProgram;
 
+  void initGL(std::string texture);
+
 public:
   // the location of the character on the screen
   coordinate_t screenPos;

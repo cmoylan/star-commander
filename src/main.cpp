@@ -37,7 +37,9 @@ main(int argc, char *args[])
   // TODO: how to change the framerate?
   while (!quit) {
     // count every 10 frames
-    if (ticks > 9) { ticks = 0; }
+    if (ticks > 9) {
+      ticks = 0;
+    }
 
     startTime = SDL_GetTicks();
 
@@ -47,9 +49,9 @@ main(int argc, char *args[])
     render();
 
     SDL_GL_SwapWindow(window);
-    
-    if (1000/FPS > SDL_GetTicks() - startTime) {
-      SDL_Delay(1000/FPS - (SDL_GetTicks() - startTime));
+
+    if (1000 / FPS > SDL_GetTicks() - startTime) {
+      SDL_Delay(1000 / FPS - (SDL_GetTicks() - startTime));
     }
 
     ticks += 1;

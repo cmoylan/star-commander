@@ -53,7 +53,7 @@ BulletRegistry::initGL()
 
   // translation attr from vector shader
   uniTrans = glGetUniformLocation(shaderProgram, "trans");
-  
+
   // color attr from fragment shader
   uniColor = glGetUniformLocation(shaderProgram, "color");
 }
@@ -65,7 +65,7 @@ BulletRegistry::print()
   std::vector<bullet_t>::iterator bullet;
   int i;
 
-  for (bullet = bullets.begin(), i=0; bullet != bullets.end(); ++bullet, i++) {
+  for (bullet = bullets.begin(), i = 0; bullet != bullets.end(); ++bullet, i++) {
     printf("bullet #%d (x, y): %f, %f\n", i, bullet->location.x, bullet->location.y);
   }
 
@@ -86,7 +86,7 @@ BulletRegistry::render()
   if (bullets.size() == 0) {
     return;
   }
-  
+
   std::vector<bullet_t>::iterator bullet;
 
   // iterator
@@ -110,8 +110,8 @@ BulletRegistry::render()
 
     glm::mat4 trans;
     trans = glm::translate(trans,
-			  glm::vec3(bullet->location.x,
-				    bullet->location.y, 0.1f));
+                           glm::vec3(bullet->location.x,
+                                     bullet->location.y, 0.1f));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
@@ -129,7 +129,7 @@ BulletRegistry::tick()
 {
   std::vector<bullet_t>::iterator bullet;
 
-  for (bullet = bullets.begin(); bullet != bullets.end(); ) {
+  for (bullet = bullets.begin(); bullet != bullets.end();) {
     // move
     bullet->location.x += bullet->heading.x * bullet->speed;
     bullet->location.y += bullet->heading.y * bullet->speed;
@@ -137,7 +137,7 @@ BulletRegistry::tick()
     //printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
 
     // If the bullet is out of bounds, remove it
-    if ((bullet->location.x > 1.0f) || (bullet->location.y > 1.0f)){
+    if ((bullet->location.x > 1.0f) || (bullet->location.y > 1.0f)) {
       bullet = remove(bullet);
     }
     // If the bullet has collided with something, handle it

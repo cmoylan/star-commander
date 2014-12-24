@@ -11,14 +11,36 @@ Character::Character(std::string texture, coordinate_t startingPos)
   //screenPos.y = 0;
   screenPos = startingPos;
 
-  // --- set up the vao and vbo --- //
+  initGL(texture);
+}
+
+
+Character::~Character()
+{
+  glDeleteProgram(shaderProgram);
+
+  glDeleteBuffers(1, &ebo);
+  glDeleteBuffers(1, &vbo);
+  glDeleteVertexArrays(1, &vao);
+}
+
+
+void
+Character::fire()
+{
+  BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, 1);
+}
+
+
+void
+Character::initGL(std::string texture)
+{
+  // apparently the bind calls are needed here
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
-  // call bindVertexArray in render
 
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  // call glBindBuffer in the render
 
   glGenBuffers(1, &ebo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
@@ -63,26 +85,8 @@ Character::Character(std::string texture, coordinate_t startingPos)
   glm::mat4 trans;
   trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
-  // --- BEGIN Link buffer objects --- //
-
   // --- END setup shader programs --- //
-}
 
-
-Character::~Character()
-{
-  glDeleteProgram(shaderProgram);
-
-  glDeleteBuffers(1, &ebo);
-  glDeleteBuffers(1, &vbo);
-  glDeleteVertexArrays(1, &vao);
-}
-
-
-void
-Character::fire()
-{
-  BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, 1);
 }
 
 
@@ -164,14 +168,14 @@ Character::render()
   };
 
   glUseProgram(shaderProgram);
-  
+
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   // transform coords based on screenPos of character
   glm::mat4 trans;
   trans = glm::translate(trans,
-			 glm::vec3(screenPos.x, screenPos.y, 1.0f));
+                         glm::vec3(screenPos.x, screenPos.y, 1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);

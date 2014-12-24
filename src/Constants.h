@@ -11,10 +11,21 @@ const int SCREEN_FPS = 60;
 const int SCALE = 100;
 // TODO: probably use a different scale for y
 
+// DEPRECATED - moving to vectors over points
 typedef struct {
   // TODO: change this back to int probably
   float x;
   float y;
 } coordinate_t;
+
+typedef struct {
+  float x;
+  float y;
+} Vector2D;
+
+typedef struct {
+  Vector2D origin;
+  Vector2D size;
+} Rectangle;
 
 #endif

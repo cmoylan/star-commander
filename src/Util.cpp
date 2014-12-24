@@ -11,7 +11,7 @@ createProgram(const std::vector<GLuint> &shaderList)
   program = glCreateProgram();
 
   // TODO: rewrite to use vector iterator?
-  for(i = 0; i < shaderList.size(); i++) {
+  for (i = 0; i < shaderList.size(); i++) {
     glAttachShader(program, shaderList.at(i));
   }
 
@@ -22,7 +22,7 @@ createProgram(const std::vector<GLuint> &shaderList)
     printf("ERROR: error linking shader program\n");
   }
 
-  for(i = 0; i < shaderList.size(); i++) {
+  for (i = 0; i < shaderList.size(); i++) {
     glDetachShader(program, shaderList.at(i));
   }
 
@@ -94,10 +94,10 @@ loadTexture(GLuint buffer, const std::string &filename)
   glBindTexture(GL_TEXTURE_2D, buffer);
 
   image = SOIL_load_image(filename.c_str(),
-			  &width,
-			  &height,
-			  0,
-			  SOIL_LOAD_RGBA);
+                          &width,
+                          &height,
+                          0,
+                          SOIL_LOAD_RGBA);
 
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                GL_UNSIGNED_BYTE, image);

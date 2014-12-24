@@ -100,13 +100,13 @@ Enemy::render()
   glUseProgram(shaderProgram);
 
   glUniform3f(uniColor, 1.0f, 1.0f, 0.0f);
-  
+
   // transform coords based on screenPos of enemy
   glm::mat4 trans;
   trans = glm::translate(trans,
-			 glm::vec3(screenPos.x,
-				   screenPos.y,
-				   1.0f));
+                         glm::vec3(screenPos.x,
+                                   screenPos.y,
+                                   1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);

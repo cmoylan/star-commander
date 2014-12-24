@@ -17,7 +17,7 @@ class EnemyAI {
 
   std::vector<enemy_state_machine_t> enemies;
 
- public:
+public:
   EnemyAI();
 
   ~EnemyAI();
