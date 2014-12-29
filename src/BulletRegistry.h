@@ -12,17 +12,19 @@
 #include "Util.h"
 #include "Constants.h"
 
+#define BULLET_WIDTH 0.2f
+#define BULLET_HEIGHT 0.2f
 
 typedef struct {
   int x;
   int y;
-} heading_t;
+} Heading;
 
 typedef struct {
-  coordinate_t location;
+  Rectangle element;
   float speed;
-  heading_t heading;
-} bullet_t;
+  Heading heading;
+} Bullet;
 
 // --- Singleton example --- //
 //class Log {
@@ -37,8 +39,6 @@ typedef struct {
 //    static Log* pInstance;
 //};
 
-// NOTES:
-// Bullets have to be objects now because i have to draw each one
 class BulletRegistry {
 
 public:
@@ -48,15 +48,13 @@ public:
     return instance;
   }
 
-  std::vector<bullet_t> bullets;
+  std::vector<Bullet> bullets;
 
   /**
    * Add a new bullet to the screen
    *
-   * @param x - location of the bullet on the X axis
-   * @param y - location of the bullet on the Y axis
-   * @param headingX - heading of the bullet on the X axis (-1, 0, or 1)
-   * @param headingY - heading of the bullet on the Y axis (-1, 0, 1)
+   * @param element - a Rectangle representing the element that is firing
+   * @param heading - heading of the bullet
    *
    * The headings correspond to the OpenGL coordinate system. That is, a bullet heading
    * up the screen will have a heading of (0, 1) as 1 is the top of the screen. A bullet
@@ -64,11 +62,11 @@ public:
    * right corner would have a heading (1, 1). A bullet with a (0, 0) heading would not
    * be moving.
    */
-  void add(float x, float y, int headingX, int headingY);
+  void add(Rectangle firingElement, Heading heading);
 
   void print();
 
-  std::vector<bullet_t>::iterator remove(std::vector<bullet_t>::iterator position);
+  std::vector<Bullet>::iterator remove(std::vector<Bullet>::iterator position);
 
   void render();
 

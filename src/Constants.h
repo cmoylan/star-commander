@@ -21,6 +21,11 @@ typedef struct {
 typedef struct {
   float x;
   float y;
+} Coordinate;
+
+typedef struct {
+  float x;
+  float y;
 } Vector2D;
 
 typedef struct {

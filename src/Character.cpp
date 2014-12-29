@@ -1,16 +1,21 @@
 #include "Character.h"
 
 
-Character::Character(std::string texture, coordinate_t startingPos)
+Character::Character(std::string texture, Coordinate startingPos)
 {
   // initialize attributes
   height = 10;
   width = 10;
 
-  //screenPos.x = 0;
-  //screenPos.y = 0;
-  screenPos = startingPos;
+  size = { 0.2, 0.2 };
 
+  // convert starting pos to vector
+  origin = {
+    startingPos.x - size.x,
+    startingPos.y - size.y
+  };
+
+  //printf("origin is: %f, %f\n", origin.x, origin.y);
   initGL(texture);
 }
 
@@ -26,9 +31,20 @@ Character::~Character()
 
 
 void
+Character::center()
+{
+  origin.x = -(size.x / 2.0f);
+  origin.y = -(size.y / 2.0f);
+}
+
+
+void
 Character::fire()
 {
-  BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, 1);
+  Heading heading = { 0, 1 };
+  Rectangle element = { origin, size };
+
+  BulletRegistry::getInstance().add(element, heading);
 }
 
 
@@ -44,9 +60,6 @@ Character::initGL(std::string texture)
 
   glGenBuffers(1, &ebo);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-
-  // --- END set up the vao and vbo --- //
-
 
   // --- set up the shader programs --- //
   std::vector<GLuint> shaderList;
@@ -93,8 +106,8 @@ Character::initGL(std::string texture)
 void
 Character::move(unsigned char direction)
 {
-  float newX = screenPos.x;
-  float newY = screenPos.y;
+  float newX = origin.x;
+  float newY = origin.y;
   float movementSize = 0.1f;
 
   // calculate new coords
@@ -111,54 +124,35 @@ Character::move(unsigned char direction)
     newX += movementSize;
   }
 
-  //printf("newX and newY are: %f, %f\n", newX, newY);
-
-  if ((newX > -1.0f) && (newX < 1.0)) {
-    screenPos.x = newX;
+  //printf("tring to move to: [%f, %f]\n", newX, newY);
+  // TODO: wat?
+  if ((newX > -1.1f) && (newX <= (1.1f - size.x))) {
+    origin.x = newX;
   }
-  if ((newY > -1.0f) && (newY < 1.0)) {
-    screenPos.y = newY;
+  if ((newY >= -1.1f) && (newY <= (1.1f - size.y))) {
+    origin.y = newY;
   }
-  //printf("moved to %f, %f\n", newX, newY);
-}
-
-
-void
-computeInitialVertices(GLfloat &vertices)
-{
-
+  //printf("moved to: [%f, %f]\n", newX, newY);
 }
 
 
 void
 Character::render()
 {
+  //printf("origin is: [%f, %f]\n", origin.x, origin.y);
+
   GLuint elements[] = {
     0, 1, 2,
     2, 3, 0
   };
 
-  // take starting x,y
-  // get half height and half width
-  int renderHeight = height / 2;
-  int renderWidth = width / 2;
-  // do this with matrix math??
-  // upper right (x, y)
-  // (screePos.x - renderWidth), (screenPos.y - renderHeight)
-  // lower right
-  // (screenPos.x + renderWidth), (screenPos.y + renderHeight)
-  // lower left
-  // (screenPos.x - renderWidth), (screenPos.y + renderHeight)
-  // upper left
-  // (screenPos.x + renderWidth), (screenPos.y - renderHeight)
-
   // y, x
   GLfloat vertices[] = {
     // Position
-    -0.1f, 0.1f,
-    0.1f, 0.1f,
-    0.1f, -0.1f,
-    -0.1f, -0.1f,
+    0, size.y,      // upper left
+    size.x, size.y, // upper right
+    size.x, 0,      // lower right
+    0, 0,           // lower left
 
     // Texcoords
     0.0f, 0.0f,
@@ -175,7 +169,7 @@ Character::render()
   // transform coords based on screenPos of character
   glm::mat4 trans;
   trans = glm::translate(trans,
-                         glm::vec3(screenPos.x, screenPos.y, 1.0f));
+                         glm::vec3(origin.x, origin.y, 1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);

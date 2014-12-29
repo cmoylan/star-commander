@@ -80,9 +80,9 @@ initEntities()
   coordinate_t position = { 0.5, 0.8 };
   enemy = new Enemy(position);
 
-  position.y = 0;
-  position.x = 0;
-  character = new Character("res/spaceship.png", position);
+  Coordinate origin = {0,0}; // TODO: rename
+  character = new Character("res/spaceship.png", origin);
+  character->center();
 }
 
 

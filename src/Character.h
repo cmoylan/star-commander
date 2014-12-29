@@ -19,6 +19,9 @@ class Character {
   GLuint vao, vbo, ebo, tex, uniTrans;
   GLuint shaderProgram;
 
+  Vector2D origin;
+  Vector2D size;
+
   void initGL(std::string texture);
 
 public:
@@ -31,10 +34,12 @@ public:
 
 
   // constructor
-  Character(std::string texture, coordinate_t startingPos);
+  Character(std::string texture, Coordinate startingPos);
 
   // destructor
   ~Character();
+
+  void center();
 
   void fire();
 

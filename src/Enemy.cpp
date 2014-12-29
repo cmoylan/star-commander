@@ -26,7 +26,7 @@ void
 Enemy::fire()
 {
   // Add a bullet moving down
-  BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, -1);
+  //BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, -1);
 }
 
 

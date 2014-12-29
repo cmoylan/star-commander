@@ -8,21 +8,53 @@ BulletRegistry::BulletRegistry()
 
 
 void
-BulletRegistry::add(float x, float y, int headingX, int headingY)
+BulletRegistry::add(Rectangle firingElement, Heading heading)
 {
-  coordinate_t location;
-  heading_t heading;
-  bullet_t bullet;
+  Vector2D bulletOrigin;
+  Rectangle element;
+  Bullet bullet;
+  //Vector2D bulletSize = { BULLET_WIDTH, BULLET_HEIGHT };
 
-  location.x = x;
-  location.y = y;
+  // TODO: this can be refactored
+  // -- X axis movement ---
+  if (heading.x == 1) {
+    // going right
+    bulletOrigin.x = firingElement.origin.x + firingElement.size.x;
+  }
+  else if (heading.x == -1) {
+    // going left
+    bulletOrigin.x = firingElement.origin.x - firingElement.size.x;
+  }
+  else {
+    // not moving
+    bulletOrigin.x =
+      firingElement.origin.x +
+      ((firingElement.size.x / 2.0f) - (BULLET_WIDTH / 2.0f));
+  }
 
-  heading.x = headingX;
-  heading.y = headingY;
+  // --- Y axis movement
+  if (heading.y == 1) {
+    // going up
+    bulletOrigin.y = firingElement.origin.y + firingElement.size.y;
+  }
+  else if (heading.y == -1) {
+    // going down
+    bulletOrigin.y = firingElement.origin.y - firingElement.size.y;
+  }
+  else {
+    // not moving - set to half
+    bulletOrigin.y =
+      firingElement.origin.y +
+      ((firingElement.size.y / 2.0f) - (BULLET_HEIGHT / 2.0f));
+  }
 
-  bullet.location = location;
+  // build element
+  element.origin = bulletOrigin;
+
+  // assemble bullet
+  bullet.element = element;
   bullet.heading = heading;
-  bullet.speed = 0.1;
+  bullet.speed = 0.1f;
 
   bullets.push_back(bullet);
 
@@ -62,18 +94,18 @@ BulletRegistry::initGL()
 void
 BulletRegistry::print()
 {
-  std::vector<bullet_t>::iterator bullet;
+  std::vector<Bullet>::iterator bullet;
   int i;
 
   for (bullet = bullets.begin(), i = 0; bullet != bullets.end(); ++bullet, i++) {
-    printf("bullet #%d (x, y): %f, %f\n", i, bullet->location.x, bullet->location.y);
+    printf("bullet #%d (x, y): %f, %f\n", i, bullet->element.origin.x, bullet->element.origin.y);
   }
 
 }
 
 
-std::vector<bullet_t>::iterator
-BulletRegistry::remove(std::vector<bullet_t>::iterator position)
+std::vector<Bullet>::iterator
+BulletRegistry::remove(std::vector<Bullet>::iterator position)
 {
   //printf("erasing bullet\n");
   return bullets.erase(position);
@@ -83,11 +115,9 @@ BulletRegistry::remove(std::vector<bullet_t>::iterator position)
 void
 BulletRegistry::render()
 {
-  if (bullets.size() == 0) {
-    return;
-  }
+  if (bullets.size() == 0) { return; }
 
-  std::vector<bullet_t>::iterator bullet;
+  std::vector<Bullet>::iterator bullet;
 
   // iterator
   GLint elements[] = {
@@ -97,10 +127,10 @@ BulletRegistry::render()
 
   GLfloat vertices[] = {
     // Position
-    -0.1f, 0.1f,
-    0.1f, 0.1f,
-    0.1f, -0.1f,
-    -0.1f, -0.1f
+    0, BULLET_WIDTH,
+    BULLET_HEIGHT, BULLET_WIDTH,
+    BULLET_HEIGHT, 0,
+    0, 0
   };
 
   for (bullet = bullets.begin(); bullet != bullets.end(); bullet++) {
@@ -110,8 +140,8 @@ BulletRegistry::render()
 
     glm::mat4 trans;
     trans = glm::translate(trans,
-                           glm::vec3(bullet->location.x,
-                                     bullet->location.y, 0.1f));
+                           glm::vec3(bullet->element.origin.x,
+                                     bullet->element.origin.y, 0.1f));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
@@ -127,17 +157,18 @@ BulletRegistry::render()
 void
 BulletRegistry::tick()
 {
-  std::vector<bullet_t>::iterator bullet;
+  std::vector<Bullet>::iterator bullet;
 
   for (bullet = bullets.begin(); bullet != bullets.end();) {
     // move
-    bullet->location.x += bullet->heading.x * bullet->speed;
-    bullet->location.y += bullet->heading.y * bullet->speed;
+    bullet->element.origin.x += bullet->heading.x * bullet->speed;
+    bullet->element.origin.y += bullet->heading.y * bullet->speed;
 
     //printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
 
     // If the bullet is out of bounds, remove it
-    if ((bullet->location.x > 1.0f) || (bullet->location.y > 1.0f)) {
+    if ((bullet->element.origin.x > 1.0f)
+	|| (bullet->element.origin.y > 1.0f)) {
       bullet = remove(bullet);
     }
     // If the bullet has collided with something, handle it
