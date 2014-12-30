@@ -1,12 +1,15 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(coordinate_t startingPos)
+Enemy::Enemy(Coordinate position)
 {
-  height = 20;
-  width = 20;
+  // TODO: default to center if no position specified
 
-  screenPos = startingPos;
+  size.x = 10;
+  size.y = 10;
+
+  origin.x = position.x - (size.x / 2);
+  origin.y = position.y - (size.y / 2);
 
   initGL();
 }
@@ -22,6 +25,34 @@ Enemy::~Enemy()
 }
 
 
+int
+Enemy::edgeBottom()
+{
+  return origin.y;
+}
+
+
+int
+Enemy::edgeLeft()
+{
+  return origin.x;
+}
+
+
+int
+Enemy::edgeRight()
+{
+  return origin.x + size.x;
+}
+
+
+int
+Enemy::edgeTop()
+{
+  return origin.y + size.y;
+}
+
+
 void
 Enemy::fire()
 {
@@ -34,8 +65,13 @@ void
 Enemy::initGL()
 {
   glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
+
   glGenBuffers(1, &vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
   glGenBuffers(1, &ebo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
   std::vector<GLuint> shaderList;
   shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/bulletVertexShader.glsl"));
@@ -59,18 +95,18 @@ Enemy::initGL()
 void
 Enemy::move(int x, int y)
 {
-  float newX = screenPos.x;
-  float newY = screenPos.y;
-  float movementSize = 0.1f;
+  int newX = origin.x;
+  int newY = origin.y;
+  int movementSize = 5; // TODO: move?
 
   newX += (x * movementSize);
   newY += (y * movementSize);
 
-  if ((newX > -1.0f) && (newX < 1.0)) {
-    screenPos.x = newX;
+  if ((newX >= -SCREEN_X) && ((newX + size.x) <= SCREEN_X)) {
+    origin.x = newX;
   }
-  if ((newY > -1.0f) && (newY < 1.0)) {
-    screenPos.y = newY;
+  if ((newY >= -SCREEN_Y) && ((newY + size.y) <= SCREEN_Y)) {
+    origin.y = newY;
   }
   //printf("moved to %f, %f\n", newX, newY);
 }
@@ -84,29 +120,30 @@ Enemy::render()
     2, 3, 0
   };
 
-  // take starting x,y
-  // get half height and half width
-  int renderHeight = height / 2;
-  int renderWidth = width / 2;
-
-  // y, x
   GLfloat vertices[] = {
     0.0f, 0.0f, // top left
-    0.0f, (0.1f * (float) renderWidth),  // top right
-    (0.1f * (float)renderHeight), (0.1f * (float)renderWidth), //bottom right
-    (0.1f * (float)renderHeight), -0.0f // bottom left
+    (SCALE_X * (float) size.x), 0.0f, // top right
+    (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
+    0.0f, -(SCALE_Y * (float) size.y) // bottom left
   };
 
   glUseProgram(shaderProgram);
 
   glUniform3f(uniColor, 1.0f, 1.0f, 0.0f);
+  //printf("vertex array: ");
+  //for (GLfloat vertex : vertices) {
+  //  printf("[%f]->", vertex);
+  //}
+  //printf("\n");
 
-  // transform coords based on screenPos of enemy
+  // transform coords based on origin of enemy
   glm::mat4 trans;
   trans = glm::translate(trans,
-                         glm::vec3(screenPos.x,
-                                   screenPos.y,
+                         glm::vec3((SCALE_X * (float) origin.x),
+                                   (SCALE_Y * (float) origin.y),
                                    1.0f));
+  //printf("transform x: [%f]\n", (0.01f * (float) origin.x));
+  //printf("transform y: [%f]\n", (0.01f * (float) origin.y));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);

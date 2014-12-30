@@ -17,7 +17,7 @@ EnemyAI *enemyAI; // enemy AI manager
 void initAI();
 void initEntities();
 void initGraphics();
-void update(int);
+void update(int ticks);
 void handleKeys();
 void render();
 
@@ -26,7 +26,6 @@ int
 main(int argc, char *args[])
 {
   Uint32 startTime;
-  const int FPS = 30;   // TODO: move
   int ticks = 0;
 
   initGraphics();
@@ -37,9 +36,7 @@ main(int argc, char *args[])
   // TODO: how to change the framerate?
   while (!quit) {
     // count every 10 frames
-    if (ticks > 9) {
-      ticks = 0;
-    }
+    if (ticks > 9) { ticks = 0; }
 
     startTime = SDL_GetTicks();
 
@@ -77,11 +74,11 @@ initAI()
 void
 initEntities()
 {
-  coordinate_t position = { 0.5, 0.8 };
+  //coordinate_t position = { 0.5, 0.8 };
+  Coordinate position = { 0, 0 };
   enemy = new Enemy(position);
 
-  Coordinate origin = {0,0}; // TODO: rename
-  character = new Character("res/spaceship.png", origin);
+  character = new Character("res/spaceship.png", position);
   character->center();
 }
 
@@ -94,7 +91,7 @@ initGraphics()
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-  window = SDL_CreateWindow("OpenGL", 100, 100, 800, 600, SDL_WINDOW_OPENGL);
+  window = SDL_CreateWindow("OpenGL", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
   context = SDL_GL_CreateContext(window);
 
   // Initialize GLEW

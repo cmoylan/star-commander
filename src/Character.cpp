@@ -1,21 +1,14 @@
 #include "Character.h"
 
 
-Character::Character(std::string texture, Coordinate startingPos)
+Character::Character(std::string texture, Coordinate position)
 {
-  // initialize attributes
-  height = 10;
-  width = 10;
+  size.x = 10;
+  size.y = 10;
 
-  size = { 0.2, 0.2 };
+  origin.x = position.x - (size.x / 2);
+  origin.y = position.y - (size.y / 2);
 
-  // convert starting pos to vector
-  origin = {
-    startingPos.x - size.x,
-    startingPos.y - size.y
-  };
-
-  //printf("origin is: %f, %f\n", origin.x, origin.y);
   initGL(texture);
 }
 
@@ -33,8 +26,8 @@ Character::~Character()
 void
 Character::center()
 {
-  origin.x = -(size.x / 2.0f);
-  origin.y = -(size.y / 2.0f);
+  origin.x = -(size.x / 2);
+  origin.y = -(size.y / 2);
 }
 
 
@@ -63,8 +56,8 @@ Character::initGL(std::string texture)
 
   // --- set up the shader programs --- //
   std::vector<GLuint> shaderList;
-  shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/characterVertexShader.glsl"));
-  shaderList.push_back(createShader(GL_FRAGMENT_SHADER, "src/characterFragmentShader.glsl"));
+  shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/bulletVertexShader.glsl"));
+  shaderList.push_back(createShader(GL_FRAGMENT_SHADER, "src/bulletFragmentShader.glsl"));
 
   // combine vertex and fragment shaders into a program
   shaderProgram = createProgram(shaderList);
@@ -78,8 +71,8 @@ Character::initGL(std::string texture)
   glUseProgram(shaderProgram);
 
   // --- BEGIN texture stuff --- //
-  glGenTextures(1, &tex);
-  loadTexture(tex, texture);
+  //glGenTextures(1, &tex);
+  //loadTexture(tex, texture);
   // --- END texture stuff --- //
 
   // describe how vertex buffer object maps to
@@ -88,10 +81,11 @@ Character::initGL(std::string texture)
   glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(posAttrib);
 
-  GLint texAttrib = glGetAttribLocation(shaderProgram, "texcoord");
-  glEnableVertexAttribArray(texAttrib);
+  // --- temporarily removed
+  //GLint texAttrib = glGetAttribLocation(shaderProgram, "texcoord");
+  //glEnableVertexAttribArray(texAttrib);
   // the texcoords are tightly packed after the verticies in the array
-  glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 0, (void*)(8 * sizeof(float)));
+  //glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 0, (void*)(8 * sizeof(float)));
 
   // translation attr from vector shader
   uniTrans = glGetUniformLocation(shaderProgram, "trans");
@@ -100,15 +94,18 @@ Character::initGL(std::string texture)
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
   // --- END setup shader programs --- //
 
+  // --- temporarily added
+  // color attr from fragment shader
+  uniColor = glGetUniformLocation(shaderProgram, "color");
 }
 
 
 void
 Character::move(unsigned char direction)
 {
-  float newX = origin.x;
-  float newY = origin.y;
-  float movementSize = 0.1f;
+  int newX = origin.x;
+  int newY = origin.y;
+  int movementSize = 1;
 
   // calculate new coords
   if (direction == 'u') {
@@ -124,41 +121,40 @@ Character::move(unsigned char direction)
     newX += movementSize;
   }
 
-  //printf("tring to move to: [%f, %f]\n", newX, newY);
-  // TODO: wat?
-  if ((newX > -1.1f) && (newX <= (1.1f - size.x))) {
+  if ((newX >= -SCREEN_X) && ((newX + size.x) <= SCREEN_X)) {
     origin.x = newX;
   }
-  if ((newY >= -1.1f) && (newY <= (1.1f - size.y))) {
+  if ((newY >= -SCREEN_Y) && ((newY + size.y) <= SCREEN_Y)) {
     origin.y = newY;
   }
-  //printf("moved to: [%f, %f]\n", newX, newY);
 }
 
 
 void
 Character::render()
 {
-  //printf("origin is: [%f, %f]\n", origin.x, origin.y);
-
   GLuint elements[] = {
     0, 1, 2,
     2, 3, 0
   };
 
-  // y, x
   GLfloat vertices[] = {
     // Position
-    0, size.y,      // upper left
-    size.x, size.y, // upper right
-    size.x, 0,      // lower right
-    0, 0,           // lower left
+    0.0f, 0.0f, // top left
+    (SCALE_X * (float) size.x), 0.0f, // top right
+    (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
+    0.0f, -(SCALE_Y * (float) size.y) // bottom left
+
+    //0, size.y,      // upper left
+    //size.x, size.y, // upper right
+    //size.x, 0,      // lower right
+    //0, 0//,           // lower left
 
     // Texcoords
-    0.0f, 0.0f,
-    1.0f, 0.0f,
-    1.0f, 1.0f,
-    0.0f, 1.0f
+    //0.0f, 0.0f,
+    //1.0f, 0.0f,
+    //1.0f, 1.0f,
+    //0.0f, 1.0f
   };
 
   glUseProgram(shaderProgram);
@@ -166,10 +162,16 @@ Character::render()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+  // --- temporary
+  glUniform3f(uniColor, 0.0f, 1.0f, 0.0f);
+  // --- end temporary
+
   // transform coords based on screenPos of character
   glm::mat4 trans;
   trans = glm::translate(trans,
-                         glm::vec3(origin.x, origin.y, 1.0f));
+                         glm::vec3((SCALE_X * (float) origin.x),
+                                   (SCALE_Y * (float) origin.y),
+                                   1.0f));
   glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);

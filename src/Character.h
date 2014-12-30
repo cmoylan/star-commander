@@ -17,24 +17,18 @@ class Character {
   // opengl stuff
   // TODO: rename most of these, they are awful
   GLuint vao, vbo, ebo, tex, uniTrans;
+  GLuint uniColor; // temp
   GLuint shaderProgram;
-
-  Vector2D origin;
-  Vector2D size;
 
   void initGL(std::string texture);
 
 public:
-  // the location of the character on the screen
-  coordinate_t screenPos;
 
-  // size of the actual character
-  int width;
-  int height;
-
+  Vector2D origin;
+  Vector2D size;
 
   // constructor
-  Character(std::string texture, Coordinate startingPos);
+  Character(std::string texture, Coordinate potision);
 
   // destructor
   ~Character();
@@ -43,6 +37,7 @@ public:
 
   void fire();
 
+  // TODO: probably should take a heading or something...
   void move(unsigned char direction);
 
   void render();

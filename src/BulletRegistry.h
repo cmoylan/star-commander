@@ -12,9 +12,10 @@
 #include "Util.h"
 #include "Constants.h"
 
-#define BULLET_WIDTH 0.2f
-#define BULLET_HEIGHT 0.2f
+#define BULLET_WIDTH 10
+#define BULLET_HEIGHT 10
 
+// TODO: just use a vector?
 typedef struct {
   int x;
   int y;
@@ -22,7 +23,7 @@ typedef struct {
 
 typedef struct {
   Rectangle element;
-  float speed;
+  int speed;
   Heading heading;
 } Bullet;
 

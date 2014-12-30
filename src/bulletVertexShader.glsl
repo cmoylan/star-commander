@@ -6,6 +6,6 @@ out vec2 Texcoord;
 uniform mat4 trans;
 
 void main() {
-  gl_Position = trans * vec4(position.x, position.y, 0.0, 8.0);
+  gl_Position = trans * vec4(position.x, position.y, 0.0, 1.0);
   Texcoord = texcoord;
 }

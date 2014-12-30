@@ -9,15 +9,17 @@
 typedef struct {
   char direction;
   Enemy *enemy;
-} enemy_state_machine_t;
+} EnemyStateMachine;
 
 
 class EnemyAI {
+
   Character* player;
 
-  std::vector<enemy_state_machine_t> enemies;
+  std::vector<EnemyStateMachine> enemies;
 
 public:
+
   EnemyAI();
 
   ~EnemyAI();

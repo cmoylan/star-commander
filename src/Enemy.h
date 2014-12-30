@@ -21,24 +21,26 @@ class Enemy {
   // compiled gl program
   GLuint shaderProgram;
 
+  void initGL();
+
 public:
-  // the location of the character on the screen
-  coordinate_t screenPos;
 
-  // size of the actual character
-  int width;
-  int height;
-
+  // allow direct access to these...why not
+  Vector2D origin;
+  Vector2D size;
 
   // constructor
-  Enemy(coordinate_t startingPos);
+  Enemy(Coordinate position);
 
   // destructor
   ~Enemy();
 
-  void fire();
+  int edgeBottom();
+  int edgeLeft();
+  int edgeRight();
+  int edgeTop();
 
-  void initGL();
+  void fire();
 
   void move(int x, int y);
 

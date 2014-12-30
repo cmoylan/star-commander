@@ -19,33 +19,39 @@ BulletRegistry::add(Rectangle firingElement, Heading heading)
   // -- X axis movement ---
   if (heading.x == 1) {
     // going right
+    printf("going right\n");
     bulletOrigin.x = firingElement.origin.x + firingElement.size.x;
   }
   else if (heading.x == -1) {
     // going left
+    printf("giong left\n");
     bulletOrigin.x = firingElement.origin.x - firingElement.size.x;
   }
   else {
     // not moving
+    printf("not moving x\n");
     bulletOrigin.x =
       firingElement.origin.x +
-      ((firingElement.size.x / 2.0f) - (BULLET_WIDTH / 2.0f));
+      ((firingElement.size.x / 2) - (BULLET_WIDTH / 2));
   }
 
   // --- Y axis movement
   if (heading.y == 1) {
     // going up
+    printf("going up\n");
     bulletOrigin.y = firingElement.origin.y + firingElement.size.y;
   }
   else if (heading.y == -1) {
     // going down
+    printf("going down\n");
     bulletOrigin.y = firingElement.origin.y - firingElement.size.y;
   }
   else {
+    printf("not moving y\n");
     // not moving - set to half
     bulletOrigin.y =
       firingElement.origin.y +
-      ((firingElement.size.y / 2.0f) - (BULLET_HEIGHT / 2.0f));
+      ((firingElement.size.y / 2) - (BULLET_HEIGHT / 2));
   }
 
   // build element
@@ -54,7 +60,7 @@ BulletRegistry::add(Rectangle firingElement, Heading heading)
   // assemble bullet
   bullet.element = element;
   bullet.heading = heading;
-  bullet.speed = 0.1f;
+  bullet.speed = 1;
 
   bullets.push_back(bullet);
 
@@ -66,11 +72,13 @@ void
 BulletRegistry::initGL()
 {
   glGenVertexArrays(1, &vao);
-  //glBindVertexArray(vao);
+  glBindVertexArray(vao);
+
   glGenBuffers(1, &vbo);
-  //glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+
   glGenBuffers(1, &ebo);
-  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
   std::vector<GLuint> shaderList;
   shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/bulletVertexShader.glsl"));
@@ -98,7 +106,7 @@ BulletRegistry::print()
   int i;
 
   for (bullet = bullets.begin(), i = 0; bullet != bullets.end(); ++bullet, i++) {
-    printf("bullet #%d (x, y): %f, %f\n", i, bullet->element.origin.x, bullet->element.origin.y);
+    printf("bullet #%d (x, y): %d, %d\n", i, bullet->element.origin.x, bullet->element.origin.y);
   }
 
 }
@@ -125,13 +133,21 @@ BulletRegistry::render()
     2, 3, 0
   };
 
+  //GLfloat vertices[] = {
+  //  // Position
+  //  0, BULLET_WIDTH,
+  //  BULLET_HEIGHT, BULLET_WIDTH,
+  //  BULLET_HEIGHT, 0,
+  //  0, 0
+  //};
+
   GLfloat vertices[] = {
-    // Position
-    0, BULLET_WIDTH,
-    BULLET_HEIGHT, BULLET_WIDTH,
-    BULLET_HEIGHT, 0,
-    0, 0
+    0.0f, 0.0f, // top left
+    (SCALE_X * (float) BULLET_WIDTH), 0.0f, // top right
+    (SCALE_X * (float) BULLET_WIDTH), -(SCALE_Y * (float) BULLET_HEIGHT),  //bottom right
+    0.0f, -(SCALE_Y * (float) BULLET_HEIGHT) // bottom left
   };
+
 
   for (bullet = bullets.begin(); bullet != bullets.end(); bullet++) {
     glUseProgram(shaderProgram);
@@ -140,8 +156,9 @@ BulletRegistry::render()
 
     glm::mat4 trans;
     trans = glm::translate(trans,
-                           glm::vec3(bullet->element.origin.x,
-                                     bullet->element.origin.y, 0.1f));
+                           glm::vec3((SCALE_X * (float) bullet->element.origin.x),
+                                     (SCALE_Y * (float) bullet->element.origin.y),
+				     0.1f));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
@@ -167,8 +184,8 @@ BulletRegistry::tick()
     //printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
 
     // If the bullet is out of bounds, remove it
-    if ((bullet->element.origin.x > 1.0f)
-	|| (bullet->element.origin.y > 1.0f)) {
+    if ((bullet->element.origin.x > SCREEN_X)
+  	|| (bullet->element.origin.y > SCREEN_Y)) {
       bullet = remove(bullet);
     }
     // If the bullet has collided with something, handle it

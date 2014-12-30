@@ -13,11 +13,7 @@ EnemyAI::~EnemyAI()
 void
 EnemyAI::registerEnemy(Enemy* enemy)
 {
-  enemy_state_machine_t enemySm = {
-    'l',
-    enemy
-  };
-
+  EnemyStateMachine enemySm = { 'l', enemy };
   enemies.push_back(enemySm);
 }
 
@@ -25,7 +21,7 @@ EnemyAI::registerEnemy(Enemy* enemy)
 void
 EnemyAI::registerPlayer(Character* character)
 {
-  player = character;
+  //player = character;
 }
 
 
@@ -33,37 +29,27 @@ void
 EnemyAI::tick(int ticks)
 {
   // slow down the enemy
-  if (ticks != 0) {
-    return;
-  }
+  //if (ticks != 0) { return; }
 
-  std::vector<enemy_state_machine_t>::iterator sm;
+  std::vector<EnemyStateMachine>::iterator sm;
   Enemy *enemy;
   char direction;
 
   for (sm = enemies.begin(); sm != enemies.end(); ++sm) {
     enemy = sm->enemy;
     direction = sm->direction;
-    // if we are moving right, and we are under 0.9, continue moving right
-    // if we are moving right and we are at 1, move left
-    // if we are moving left and we are over -0.9, continue moving left
-    // if we are moving left and we are at 1, move right
 
-    // move somewhere
-    if (direction == 'r' && enemy->screenPos.x < 0.9) {
-      //sm->enemy->screenPos.x += 0.1;
+    if (direction == 'r' && enemy->edgeRight() < SCREEN_X) {
       sm->enemy->move(1, 0);
     }
-    else if (direction == 'r' && enemy->screenPos.x < 1) {
+    else if (direction == 'r' && enemy->edgeRight() >= SCREEN_X) {
       sm->direction = 'l';
     }
-    else if (direction == 'l' && enemy->screenPos.x > -0.9) {
-      //sm->enemy->screenPos.x -= 0.1;
+    else if (direction == 'l' && enemy->edgeLeft() > -SCREEN_X) {
       sm->enemy->move(-1, 0);
     }
-    else if (direction == 'l' && enemy->screenPos.x > -1) {
+    else if (direction == 'l' && enemy->edgeLeft() <= -SCREEN_X) {
       sm->direction = 'r';
     }
-    //printf("moved to the %c at screenpos: %f\n", sm->direction, sm->enemy->screenPos.x);
   }
 }
