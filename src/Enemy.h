@@ -9,10 +9,11 @@
 #include "OpenGL.h"
 #include "Util.h"
 #include "Constants.h"
+#include "Entity.h"
 #include "BulletRegistry.h"
 
 
-class Enemy {
+class Enemy : public Entity {
 
   // buffer objects
   GLuint vao, vbo, ebo;
@@ -24,10 +25,6 @@ class Enemy {
   void initGL();
 
 public:
-
-  // allow direct access to these...why not
-  Vector2D origin;
-  Vector2D size;
 
   // constructor
   Enemy(Coordinate position);
@@ -46,6 +43,7 @@ public:
 
   void render();
 
+  virtual void hit();
 };
 
 #endif

@@ -42,6 +42,13 @@ Character::fire()
 
 
 void
+Character::hit()
+{
+  printf("character was hit at: [%d, %d]\n", origin);
+}
+
+
+void
 Character::initGL(std::string texture)
 {
   // apparently the bind calls are needed here
@@ -105,7 +112,7 @@ Character::move(unsigned char direction)
 {
   int newX = origin.x;
   int newY = origin.y;
-  int movementSize = 1;
+  int movementSize = 5;
 
   // calculate new coords
   if (direction == 'u') {

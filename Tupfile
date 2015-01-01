@@ -1,7 +1,8 @@
 #OBJS specifies which files to compile as part of the project
 #OBJS = src/Character.cpp src/Level.cpp src/main.cpp
-OBJS = src/Util.cpp src/Character.cpp src/Enemy.cpp \
-       src/BulletRegistry.cpp src/EnemyAI.cpp src/main.cpp
+OBJS = src/Util.cpp src/Entity.cpp src/Character.cpp src/Enemy.cpp \
+       src/BulletRegistry.cpp src/EnemyAI.cpp src/CollisionManager.cpp \
+       src/main.cpp
 
 #build dir...
 BUILD_DIR = build
@@ -26,7 +27,8 @@ LIBRARY_PATHS = -L/usr/local/lib $(SDL_LIB)
 # g 	 - compile with debug information
 # Wall 	 - show all compiler warnings
 # Wextra - show extra compiler warninres
-COMPILER_FLAGS = -g -Wall -Wextra $(OPTFLAGS)
+# std=c++0x - use newer c++ features
+COMPILER_FLAGS = -g -Wall -Wextra -std=c++0x $(OPTFLAGS)
 
 #LINKER_FLAGS specifies the libraries we're linking against
 # For linux:

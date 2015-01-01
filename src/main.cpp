@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "Enemy.h"
 #include "BulletRegistry.h"
+#include "CollisionManager.h"
 #include "EnemyAI.h"
 
 bool quit = false;
@@ -12,7 +13,9 @@ SDL_GLContext context;
 
 Character *character;
 Enemy *enemy;
+CollisionManager *collisionManager;
 EnemyAI *enemyAI; // enemy AI manager
+
 
 void initAI();
 void initEntities();
@@ -36,13 +39,15 @@ main(int argc, char *args[])
   // TODO: how to change the framerate?
   while (!quit) {
     // count every 10 frames
-    if (ticks > 9) { ticks = 0; }
+    if (ticks > 9) {
+      ticks = 0;
+    }
 
     startTime = SDL_GetTicks();
 
-    handleKeys();
     //printf("ticks:: %d\n", ticks);
     update(ticks);
+    handleKeys();
     render();
 
     SDL_GL_SwapWindow(window);
@@ -68,6 +73,10 @@ initAI()
   enemyAI = new EnemyAI();
   enemyAI->registerPlayer(character);
   enemyAI->registerEnemy(enemy);
+
+  collisionManager = new CollisionManager();
+  collisionManager->registerEntity(character);
+  collisionManager->registerEntity(enemy);
 }
 
 
@@ -108,6 +117,7 @@ update(int ticks)
 
   // enemy logic here
   enemyAI->tick(ticks);
+  collisionManager->tick();
 }
 
 

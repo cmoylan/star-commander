@@ -9,10 +9,11 @@
 #include "OpenGL.h"
 #include "Util.h"
 #include "Constants.h"
+#include "Entity.h"
 #include "BulletRegistry.h"
 
 
-class Character {
+class Character : public Entity {
 
   // opengl stuff
   // TODO: rename most of these, they are awful
@@ -23,9 +24,6 @@ class Character {
   void initGL(std::string texture);
 
 public:
-
-  Vector2D origin;
-  Vector2D size;
 
   // constructor
   Character(std::string texture, Coordinate potision);
@@ -41,6 +39,8 @@ public:
   void move(unsigned char direction);
 
   void render();
+
+  virtual void hit();
 
 };
 

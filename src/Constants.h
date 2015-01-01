@@ -12,7 +12,7 @@
 #define SCALE_X 0.01f
 #define SCALE_Y 0.01f
 
-#define FPS 10
+#define FPS 30
 
 
 typedef struct {

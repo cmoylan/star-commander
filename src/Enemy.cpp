@@ -62,6 +62,13 @@ Enemy::fire()
 
 
 void
+Enemy::hit()
+{
+  printf("enemy was hit at: [%d, %d]\n", origin);
+}
+
+
+void
 Enemy::initGL()
 {
   glGenVertexArrays(1, &vao);
