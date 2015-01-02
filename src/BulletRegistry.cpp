@@ -61,9 +61,28 @@ BulletRegistry::add(Rectangle firingElement, Heading heading)
   bullet.heading = heading;
   bullet.speed = 5;
 
+  bullet.removed = false;
+
   bullets.push_back(bullet);
 
   //printf("bullet fired\n");
+}
+
+
+void
+BulletRegistry::flush()
+{
+  std::vector<Bullet>::iterator bullet;
+
+  for (bullet = bullets.begin(); bullet != bullets.end();) {
+    if (bullet->removed) {
+      remove(bullet);
+    }
+    else {
+      ++bullet;
+    }
+
+  }
 }
 
 
@@ -122,7 +141,9 @@ BulletRegistry::remove(std::vector<Bullet>::iterator position)
 void
 BulletRegistry::render()
 {
-  if (bullets.size() == 0) { return; }
+  if (bullets.size() == 0) {
+    return;
+  }
 
   std::vector<Bullet>::iterator bullet;
 
@@ -179,11 +200,6 @@ BulletRegistry::tick()
         || (bullet->element.origin.y > SCREEN_Y)) {
       bullet = remove(bullet);
     }
-    // If the bullet has collided with something, handle it
-    // else if (collision(bullet)) {
-    //   handle_collision(bullet);
-    // }
-    // Otherwise, go to the next bullet
     else {
       ++bullet;
     }

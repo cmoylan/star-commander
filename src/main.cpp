@@ -83,8 +83,7 @@ initAI()
 void
 initEntities()
 {
-  //coordinate_t position = { 0.5, 0.8 };
-  Coordinate position = { 0, 0 };
+  Coordinate position = { 0, 70 };
   enemy = new Enemy(position);
 
   character = new Character("res/spaceship.png", position);

@@ -12,8 +12,8 @@
 #include "Util.h"
 #include "Constants.h"
 
-#define BULLET_WIDTH 10
-#define BULLET_HEIGHT 10
+#define BULLET_WIDTH 2
+#define BULLET_HEIGHT 5
 
 // TODO: just use a vector?
 typedef struct {
@@ -25,6 +25,7 @@ typedef struct {
   Rectangle element;
   int speed;
   Heading heading;
+  bool removed;
 } Bullet;
 
 // --- Singleton example --- //
@@ -64,6 +65,11 @@ public:
    * be moving.
    */
   void add(Rectangle firingElement, Heading heading);
+
+  /**
+   * Flush bullets flagged for removal
+   */
+  void flush();
 
   void print();
 
