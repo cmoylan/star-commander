@@ -4,6 +4,7 @@
 #include "BulletRegistry.h"
 #include "CollisionManager.h"
 #include "EnemyAI.h"
+#include "Game.h"
 
 bool quit = false;
 
@@ -34,6 +35,8 @@ main(int argc, char *args[])
   initGraphics();
   initEntities();
   initAI();
+
+  Game::getInstance().resetScore();
 
   // main loop
   // TODO: how to change the framerate?
@@ -86,8 +89,9 @@ initEntities()
   Coordinate position = { 0, 70 };
   enemy = new Enemy(position);
 
+  position.y = -70;
   character = new Character("res/spaceship.png", position);
-  character->center();
+  //character->center();
 }
 
 

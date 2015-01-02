@@ -45,6 +45,7 @@ void
 Character::hit()
 {
   printf("character was hit at: [%d, %d]\n", origin);
+  Game::getInstance().removePoints();
 }
 
 
@@ -112,7 +113,7 @@ Character::move(unsigned char direction)
 {
   int newX = origin.x;
   int newY = origin.y;
-  int movementSize = 5;
+  int movementSize = CHARACTER_MOVE_SIZE;
 
   // calculate new coords
   if (direction == 'u') {

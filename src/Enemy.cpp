@@ -58,6 +58,10 @@ Enemy::fire()
 {
   // Add a bullet moving down
   //BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, -1);
+  Heading heading = { 0, -1 };
+  Rectangle element = { origin, size };
+
+  BulletRegistry::getInstance().add(element, heading);
 }
 
 
@@ -65,6 +69,8 @@ void
 Enemy::hit()
 {
   printf("enemy was hit at: [%d, %d]\n", origin);
+  // add 1 to score
+  Game::getInstance().addPoints();
 }
 
 

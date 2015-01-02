@@ -2,7 +2,7 @@
 #OBJS = src/Character.cpp src/Level.cpp src/main.cpp
 OBJS = src/Util.cpp src/Entity.cpp src/Character.cpp src/Enemy.cpp \
        src/BulletRegistry.cpp src/EnemyAI.cpp src/CollisionManager.cpp \
-       src/main.cpp
+       src/Game.cpp src/main.cpp
 
 #build dir...
 BUILD_DIR = build

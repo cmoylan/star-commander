@@ -11,6 +11,7 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "BulletRegistry.h"
+#include "Game.h"
 
 
 class Enemy : public Entity {

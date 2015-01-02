@@ -14,6 +14,9 @@
 
 #define FPS 30
 
+// character attributes
+#define CHARACTER_MOVE_SIZE 10
+
 
 typedef struct {
   int x;

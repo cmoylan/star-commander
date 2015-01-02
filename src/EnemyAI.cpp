@@ -21,7 +21,7 @@ EnemyAI::registerEnemy(Enemy* enemy)
 void
 EnemyAI::registerPlayer(Character* character)
 {
-  //player = character;
+  player = character;
 }
 
 
@@ -39,6 +39,8 @@ EnemyAI::tick(int ticks)
     enemy = sm->enemy;
     direction = sm->direction;
 
+    // randomly change directions
+
     if (direction == 'r' && enemy->edgeRight() < SCREEN_X) {
       sm->enemy->move(1, 0);
     }
@@ -50,6 +52,11 @@ EnemyAI::tick(int ticks)
     }
     else if (direction == 'l' && enemy->edgeLeft() <= -SCREEN_X) {
       sm->direction = 'r';
+    }
+
+    // occasionally fire
+    if (enemy->origin.x == 0) {
+      enemy->fire();
     }
   }
 }
