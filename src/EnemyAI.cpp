@@ -2,8 +2,9 @@
 
 EnemyAI::EnemyAI()
 {
-  time(&seconds);
-  srand((unsigned int) seconds);
+  time(&secondSeed);
+  srand((unsigned int) secondSeed);
+  //distribution(1, 100);
 }
 
 
@@ -31,30 +32,29 @@ void
 EnemyAI::tick(int ticks)
 {
   // slow down the enemy
-  if (ticks != 0) { return; }
+  //if (ticks != 0) { return; }
 
   std::vector<EnemyStateMachine>::iterator sm;
   Enemy *enemy;
   char direction;
-  // rand() % (HIGH - LOW + 1) + LOW;
-  int random = rand() % (100 - 0 + 1);
+  int random;
 
   //printf("rand is %d\n", random);
 
   for (sm = enemies.begin(); sm != enemies.end(); ++sm) {
     enemy = sm->enemy;
     direction = sm->direction;
+    // rand() % (HIGH - LOW + 1) + LOW;
+    random = rand() % (100 - 0 + 1);
+    //random = distribution(generator);
 
     // --- randomly change directions
-    if (random + 20 > 100) {
-      if (sm->direction == 'r') {
-	sm->direction = 'l';
-      }
-      else {
-	sm->direction = 'r';
-      }
+    // restricting chance of direction change makes the enemy less chaotic
+    if (random > 5 && random < 8) {
+      sm->direction = (sm->direction == 'l') ? 'r' : 'l';
     }
 
+    // if we get to the edge of the screen, go the other way
     if (direction == 'r' && enemy->edgeRight() < SCREEN_X) {
       sm->enemy->move(1, 0);
     }
@@ -69,7 +69,8 @@ EnemyAI::tick(int ticks)
     }
 
     // --- occasionally fire
-    if (random > 30 && random < 40) {
+    // Seems to fire often enough
+    if (random > 30 && random < 35) {
       enemy->fire();
     }
   }

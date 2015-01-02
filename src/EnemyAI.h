@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <time.h>
+//#include <random>
 #include <vector>
 
 #include "Character.h"
@@ -20,7 +21,10 @@ class EnemyAI {
 
   Character* player;
 
-  time_t seconds;
+  // --- <random> stuff
+  time_t secondSeed;
+  //std::default_random_engine generator;
+  //std::uniform_int_distribution<int> distribution;
 
   std::vector<EnemyStateMachine> enemies;
 

@@ -14,6 +14,7 @@ SDL_GLContext context;
 
 Character *character;
 Enemy *enemy;
+//Enemy *enemy2;
 CollisionManager *collisionManager;
 EnemyAI *enemyAI; // enemy AI manager
 
@@ -27,7 +28,8 @@ void render();
 
 
 int
-main(int argc, char *args[])
+//main(int argc, char *args[])
+main()
 {
   Uint32 startTime;
   int ticks = 0;
@@ -76,18 +78,23 @@ initAI()
   enemyAI = new EnemyAI();
   enemyAI->registerPlayer(character);
   enemyAI->registerEnemy(enemy);
+  //enemyAI->registerEnemy(enemy2);
 
   collisionManager = new CollisionManager();
   collisionManager->registerEntity(character);
   collisionManager->registerEntity(enemy);
+  //collisionManager->registerEntity(enemy2);
 }
 
 
 void
 initEntities()
 {
-  Coordinate position = { 0, 70 };
+  Coordinate position = { 30, 80 };
   enemy = new Enemy(position);
+  position.x = 0;
+  position.y = 60;
+  //enemy2 = new Enemy(position);
 
   position.y = -70;
   character = new Character("res/spaceship.png", position);
@@ -178,6 +185,7 @@ render()
   // Render each component on the screen
   character->render();
   enemy->render();
+  //enemy2->render();
   BulletRegistry::getInstance().render();
 
 }
