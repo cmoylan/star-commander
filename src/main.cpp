@@ -1,10 +1,14 @@
 #include "OpenGL.h"
+#include <SDL2/SDL_mixer.h>
+
 #include "Character.h"
 #include "Enemy.h"
 #include "BulletRegistry.h"
 #include "CollisionManager.h"
 #include "EnemyAI.h"
+#include "Sound.h"
 #include "Game.h"
+
 
 bool quit = false;
 
@@ -14,17 +18,18 @@ SDL_GLContext context;
 
 Character *character;
 Enemy *enemy;
-//Enemy *enemy2;
 CollisionManager *collisionManager;
 EnemyAI *enemyAI; // enemy AI manager
 
-
 void initAI();
 void initEntities();
-void initGraphics();
+void initSDL();
+void initAudio();
+void cleanup();
 void update(int ticks);
 void handleKeys();
 void render();
+void debug();
 
 
 int
@@ -34,7 +39,8 @@ main()
     Uint32 startTime;
     int ticks = 0;
 
-    initGraphics();
+    initSDL();
+    initAudio();
     initEntities();
     initAI();
 
@@ -64,8 +70,7 @@ main()
         ticks += 1;
     }
 
-    SDL_GL_DeleteContext(context);
-    SDL_Quit();
+    cleanup();
 
     return 0;
 }
@@ -78,12 +83,10 @@ initAI()
     enemyAI = new EnemyAI();
     enemyAI->registerPlayer(character);
     enemyAI->registerEnemy(enemy);
-    //enemyAI->registerEnemy(enemy2);
 
     collisionManager = new CollisionManager();
     collisionManager->registerEntity(character);
     collisionManager->registerEntity(enemy);
-    //collisionManager->registerEntity(enemy2);
 }
 
 
@@ -92,30 +95,54 @@ initEntities()
 {
     Coordinate position = { 30, 80 };
     enemy = new Enemy(position);
-    position.x = 0;
-    position.y = 60;
-    //enemy2 = new Enemy(position);
 
     position.y = -70;
     character = new Character("res/spaceship.png", position);
-    //character->center();
 }
 
 
 void
-initGraphics()
+initSDL()
 {
-    SDL_Init(SDL_INIT_VIDEO);
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
+    // --- Audio initialization
+    // TODO: remove magic numbers
+    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+    //Mix_Volume(0 - 128);
+
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
+    // TODO: remove magic numbers
     window = SDL_CreateWindow("OpenGL", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
     context = SDL_GL_CreateContext(window);
 
     // Initialize GLEW
     glewExperimental = GL_TRUE;
     glewInit();
+}
+
+
+void
+initAudio()
+{
+    Sound *sound = Sound::getInstance();
+
+    sound->load("laser", "res/laser.wav");
+    sound->load("enemy-laser", "res/enemy-laser.wav");
+    sound->load("hit", "res/hit.wav");
+}
+
+
+void
+cleanup()
+{
+    Sound::getInstance()->freeAll();
+    Mix_CloseAudio();
+    SDL_GL_DeleteContext(context);
+    SDL_Quit();
 }
 
 
@@ -188,4 +215,20 @@ render()
     //enemy2->render();
     BulletRegistry::getInstance().render();
 
+}
+
+
+void debug()
+{
+    SDL_version compile_version;
+    const SDL_version *link_version = Mix_Linked_Version();
+    SDL_MIXER_VERSION(&compile_version);
+    printf("compiled with SDL_mixer version: %d.%d.%d\n",
+           compile_version.major,
+           compile_version.minor,
+           compile_version.patch);
+    printf("running with SDL_mixer version: %d.%d.%d\n",
+           link_version->major,
+           link_version->minor,
+           link_version->patch);
 }

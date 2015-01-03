@@ -1,4 +1,7 @@
 # TODO #
+- [] normalize sounds
+
+# Old TODOs #
 - [] cleanup TODOs
 - [] textures
 - [] wall classes

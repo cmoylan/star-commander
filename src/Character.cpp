@@ -38,6 +38,7 @@ Character::fire()
     Rectangle element = { origin, size };
 
     BulletRegistry::getInstance().add(element, heading);
+    Sound::getInstance()->play("laser");
 }
 
 
@@ -46,6 +47,7 @@ Character::hit()
 {
     printf("character was hit at: [%d, %d]\n", origin);
     Game::getInstance().removePoints();
+    Sound::getInstance()->play("hit");
 }
 
 

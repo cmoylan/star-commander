@@ -11,6 +11,7 @@
 #include "Constants.h"
 #include "Entity.h"
 #include "BulletRegistry.h"
+#include "Sound.h"
 #include "Game.h"
 
 

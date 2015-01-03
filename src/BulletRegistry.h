@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <vector>
-// TODO: move to opengl.h ???
+// TODO: Probably just move to entity
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -13,7 +13,7 @@
 #include "Constants.h"
 
 #define BULLET_WIDTH 2
-#define BULLET_HEIGHT 5
+#define BULLET_HEIGHT 2
 
 // TODO: just use a vector?
 typedef struct {

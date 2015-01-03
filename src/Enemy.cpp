@@ -62,6 +62,7 @@ Enemy::fire()
     Rectangle element = { origin, size };
 
     BulletRegistry::getInstance().add(element, heading);
+    Sound::getInstance()->play("enemy-laser");
 }
 
 
@@ -71,6 +72,7 @@ Enemy::hit()
     printf("enemy was hit at: [%d, %d]\n", origin);
     // add 1 to score
     Game::getInstance().addPoints();
+    Sound::getInstance()->play("hit");
 }
 
 

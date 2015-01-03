@@ -2,7 +2,7 @@
 #OBJS = src/Character.cpp src/Level.cpp src/main.cpp
 OBJS = src/Util.cpp src/Entity.cpp src/Character.cpp src/Enemy.cpp \
        src/BulletRegistry.cpp src/EnemyAI.cpp src/CollisionManager.cpp \
-       src/Game.cpp src/main.cpp
+       src/Game.cpp src/Sound.cpp src/main.cpp
 
 #build dir...
 BUILD_DIR = build
@@ -10,9 +10,10 @@ BUILD_DIR = build
 #INCLUDE_PATHS specifies the additional include paths we'll need
 # for linux:
 INCLUDE_PATHS = -I/usr/local/include -I/usr/include/SOIL -I/usr/include/GL \
-	         -I/usr/local/include/SDL2
+	        -I/usr/local/include/SDL2
 # for mac:
-#INCLUDE_PATHS = -I/usr/local/include -I/opt/X11/include -I/usr/include/SOIL -I/usr/include/GL -I/usr/local/include/SDL2
+#INCLUDE_PATHS = -I/usr/local/include -I/opt/X11/include -I/usr/include/SOIL \
+#	         -I/usr/include/GL -I/usr/local/include/SDL2
 
 
 #LIBRARY_PATHS specifies the additional library paths we'll need
@@ -32,8 +33,8 @@ COMPILER_FLAGS = -g -Wall -Wextra -std=c++0x $(OPTFLAGS)
 
 #LINKER_FLAGS specifies the libraries we're linking against
 # For linux:
-LINKER_FLAGS = -lGL -lGLEW -lSDL2 -lSOIL
-SDL_STUFF = `/usr/local/bin/sdl2-config --libs --cflags`
+LINKER_FLAGS = -lGL -lGLEW -lSDL2 -lSOIL -lSDL2_mixer
+SDL_STUFF = `/usr/local/bin/sdl-config --libs --cflags`
 #SDL_STUFF = `pkg-config --libs --cflags sdl2`
 # For mac:
 #LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW -lSOIL
