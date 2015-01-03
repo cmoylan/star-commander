@@ -12,55 +12,55 @@
 
 class Level {
 
-  // Representation of the level:
-  // - will probably consist of a matrix of pointers
-  // - each pointer will reference an instance of the type of surface
-  // - will have multiple surface classes that share the same interface
-  // - then in render, we'll just call #render for each surface instance
-  // - alike or identical surfaces will point to the same instance,
-  std::vector< std::vector<int> > levelMatrix;
+    // Representation of the level:
+    // - will probably consist of a matrix of pointers
+    // - each pointer will reference an instance of the type of surface
+    // - will have multiple surface classes that share the same interface
+    // - then in render, we'll just call #render for each surface instance
+    // - alike or identical surfaces will point to the same instance,
+    std::vector< std::vector<int> > levelMatrix;
 
-  // current position of the camera in the level
-  int cameraX;
-  int cameraY;
+    // current position of the camera in the level
+    int cameraX;
+    int cameraY;
 
-  static GLuint texid;
+    static GLuint texid;
 
-  // whether or not there is gravity
-  bool gravity;
+    // whether or not there is gravity
+    bool gravity;
 
 public:
-  // constructor
-  Level();
+    // constructor
+    Level();
 
-  // destructor
-  ~Level();
+    // destructor
+    ~Level();
 
-  void centerOn(int x, int y);
+    void centerOn(int x, int y);
 
-  void centerOnX(int x);
+    void centerOnX(int x);
 
-  void centerOnY(int y);
+    void centerOnY(int y);
 
-  int height();
+    int height();
 
-  bool isCentered(int x, int y);
+    bool isCentered(int x, int y);
 
-  bool isCenteredX(int x);
+    bool isCenteredX(int x);
 
-  bool isCenteredY(int y);
+    bool isCenteredY(int y);
 
-  bool isClear(int x, int y);
+    bool isClear(int x, int y);
 
-  bool loadFromFile(std::string path);
+    bool loadFromFile(std::string path);
 
-  void print();
+    void print();
 
-  void render();
+    void render();
 
-  int width();
+    int width();
 
-  void initTexture();
+    void initTexture();
 };
 
 #endif

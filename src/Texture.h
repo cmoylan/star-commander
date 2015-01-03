@@ -9,37 +9,37 @@
 
 class Texture {
 
-  // texture name
-  GLuint mTextureID;
+    // texture name
+    GLuint mTextureID;
 
-  // texture dimensions
-  GLuint mTextureWidth;
-  GLuint mTextureHeight;
+    // texture dimensions
+    GLuint mTextureWidth;
+    GLuint mTextureHeight;
 
 public:
-  // constructor
-  Texture();
+    // constructor
+    Texture();
 
-  // destructor
-  ~Texture();
+    // destructor
+    ~Texture();
 
-  bool loadTextureFromFile(std::string path);
+    bool loadTextureFromFile(std::string path);
 
-  bool loadTextureFromPixels32(GLuint* pixels,
-                               GLuint width,
-                               GLuint height);
+    bool loadTextureFromPixels32(GLuint* pixels,
+                                 GLuint width,
+                                 GLuint height);
 
-  void  freeTexture();
+    void  freeTexture();
 
-  void render(GLfloat x,
-              GLfloat y,
-              LFRect* clip = NULL);
+    void render(GLfloat x,
+                GLfloat y,
+                LFRect* clip = NULL);
 
-  GLuint getTextureID();
+    GLuint getTextureID();
 
-  GLuint textureWidth();
+    GLuint textureWidth();
 
-  GLuint textureHeight();
+    GLuint textureHeight();
 
 };
 

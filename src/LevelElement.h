@@ -7,10 +7,10 @@
 class LevelElement {
 
 public:
-  /*
-   * For now, all we need is render
-   */
-  virtual void render() = 0;
+    /*
+     * For now, all we need is render
+     */
+    virtual void render() = 0;
 
 };
 

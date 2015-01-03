@@ -9,17 +9,17 @@
 
 class CollisionManager {
 
-  std::vector<Entity*> entities;
-  std::vector<BulletRegistry*> bulletRegistries;
-  //BulletRegistry *bulletRegistry;
+    std::vector<Entity*> entities;
+    std::vector<BulletRegistry*> bulletRegistries;
+    //BulletRegistry *bulletRegistry;
 
 public:
 
-  void registerEntity(Entity *entity);
+    void registerEntity(Entity *entity);
 
-  void registerBulletRegistry(BulletRegistry *registry);
+    void registerBulletRegistry(BulletRegistry *registry);
 
-  void tick();
+    void tick();
 
 };
 

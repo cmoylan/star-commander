@@ -3,7 +3,7 @@
 
 Wall::Wall()
 {
-  // probably set up a texture here
+    // probably set up a texture here
 }
 
 

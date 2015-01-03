@@ -6,26 +6,26 @@
 
 class Game {
 
-  int score;
+    int score;
 
- public:
-  static Game& getInstance()
-  {
-    static Game instance;
-    return instance;
-  }
+public:
+    static Game& getInstance()
+    {
+        static Game instance;
+        return instance;
+    }
 
-  void addPoints(int points = 1);
+    void addPoints(int points = 1);
 
-  void removePoints(int points = 1);
+    void removePoints(int points = 1);
 
-  void resetScore();
+    void resetScore();
 
- private:
-  // --- Singleton things
-  Game(); // Don't implement
-  Game(Game const&); // Don't implement
-  void operator=(Game const&); // Don't implement
+private:
+    // --- Singleton things
+    Game(); // Don't implement
+    Game(Game const&); // Don't implement
+    void operator=(Game const&); // Don't implement
 
 };
 

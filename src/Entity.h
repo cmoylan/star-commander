@@ -7,11 +7,11 @@ class Entity {
 
 public:
 
-  // allow direct access to these...why not
-  Vector2D origin;
-  Vector2D size;
+    // allow direct access to these...why not
+    Vector2D origin;
+    Vector2D size;
 
-  virtual void hit() = 0;
+    virtual void hit() = 0;
 
 };
 

@@ -16,32 +16,32 @@
 
 class Character : public Entity {
 
-  // opengl stuff
-  // TODO: rename most of these, they are awful
-  GLuint vao, vbo, ebo, tex, uniTrans;
-  GLuint uniColor; // temp
-  GLuint shaderProgram;
+    // opengl stuff
+    // TODO: rename most of these, they are awful
+    GLuint vao, vbo, ebo, tex, uniTrans;
+    GLuint uniColor; // temp
+    GLuint shaderProgram;
 
-  void initGL(std::string texture);
+    void initGL(std::string texture);
 
 public:
 
-  // constructor
-  Character(std::string texture, Coordinate potision);
+    // constructor
+    Character(std::string texture, Coordinate potision);
 
-  // destructor
-  ~Character();
+    // destructor
+    ~Character();
 
-  void center();
+    void center();
 
-  void fire();
+    void fire();
 
-  // TODO: probably should take a heading or something...
-  void move(unsigned char direction);
+    // TODO: probably should take a heading or something...
+    void move(unsigned char direction);
 
-  void render();
+    void render();
 
-  virtual void hit();
+    virtual void hit();
 
 };
 

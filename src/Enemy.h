@@ -16,35 +16,35 @@
 
 class Enemy : public Entity {
 
-  // buffer objects
-  GLuint vao, vbo, ebo;
-  // uniforms
-  GLuint uniTrans, uniColor;
-  // compiled gl program
-  GLuint shaderProgram;
+    // buffer objects
+    GLuint vao, vbo, ebo;
+    // uniforms
+    GLuint uniTrans, uniColor;
+    // compiled gl program
+    GLuint shaderProgram;
 
-  void initGL();
+    void initGL();
 
 public:
 
-  // constructor
-  Enemy(Coordinate position);
+    // constructor
+    Enemy(Coordinate position);
 
-  // destructor
-  ~Enemy();
+    // destructor
+    ~Enemy();
 
-  int edgeBottom();
-  int edgeLeft();
-  int edgeRight();
-  int edgeTop();
+    int edgeBottom();
+    int edgeLeft();
+    int edgeRight();
+    int edgeTop();
 
-  void fire();
+    void fire();
 
-  void move(int x, int y);
+    void move(int x, int y);
 
-  void render();
+    void render();
 
-  virtual void hit();
+    virtual void hit();
 };
 
 #endif

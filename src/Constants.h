@@ -19,18 +19,18 @@
 
 
 typedef struct {
-  int x;
-  int y;
+    int x;
+    int y;
 } Coordinate;
 
 typedef struct {
-  int x;
-  int y;
+    int x;
+    int y;
 } Vector2D;
 
 typedef struct {
-  Vector2D origin;
-  Vector2D size;
+    Vector2D origin;
+    Vector2D size;
 } Rectangle;
 
 #endif

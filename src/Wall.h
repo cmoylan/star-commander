@@ -5,11 +5,11 @@
 class Wall : public LevelElement {
 
 public:
-  Wall();
+    Wall();
 
-  ~Wall();
+    ~Wall();
 
-  void render();
+    void render();
 
 };
 
