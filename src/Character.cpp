@@ -15,6 +15,7 @@ Character::Character(std::string texture, Coordinate position)
 
 Character::~Character()
 {
+    printf("-- character destructor\n");
     glDeleteProgram(shaderProgram);
 
     glDeleteBuffers(1, &ebo);

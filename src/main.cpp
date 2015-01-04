@@ -141,7 +141,9 @@ cleanup()
 {
     Sound::getInstance()->freeAll();
     Mix_CloseAudio();
+
     SDL_GL_DeleteContext(context);
+    SDL_DestroyWindow(window);
     SDL_Quit();
 }
 

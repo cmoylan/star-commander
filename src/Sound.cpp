@@ -4,6 +4,11 @@
 // no constructor
 Sound::Sound() { }
 
+Sound::~Sound()
+{
+    printf("destroying sound\n");
+}
+
 void
 Sound::free(std::string name)
 {
@@ -25,8 +30,6 @@ Sound::freeAll()
         Mix_FreeChunk(sound->second);
         sounds.erase(sound);
     }
-
-    //it->first it->second
 }
 
 

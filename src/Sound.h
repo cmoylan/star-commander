@@ -31,6 +31,7 @@ public:
 private:
     // --- Singleton things
     Sound(); // Don't implement
+    ~Sound();
     Sound(Sound const&); // Don't implement
     void operator=(Sound const&); // Don't implement
 
