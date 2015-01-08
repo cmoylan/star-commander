@@ -64,14 +64,9 @@ Character::initGL(std::string texture)
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-    // --- set up the shader programs --- //
-    std::vector<GLuint> shaderList;
-    shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/bulletVertexShader.glsl"));
-    shaderList.push_back(createShader(GL_FRAGMENT_SHADER, "src/bulletFragmentShader.glsl"));
-
-    // combine vertex and fragment shaders into a program
-    shaderProgram = createProgram(shaderList);
-    std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
+    // set up the shader program
+    shaderProgram = createProgramFromShaders("src/shaders/square.v.glsl",
+					     "src/shaders/square.f.glsl");
 
     // --- BEGIN Link buffer objects --- //
 

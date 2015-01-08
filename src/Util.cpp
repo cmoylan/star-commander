@@ -31,6 +31,47 @@ createProgram(const std::vector<GLuint> &shaderList)
 
 
 GLuint
+createProgramFromShaders(std::string vertexFile,
+			 std::string fragmentFile)
+{
+  GLuint program = glCreateProgram();
+  GLuint shader;
+  GLint linkOk = GL_FALSE;
+
+  if (!vertexFile.empty()) {
+    shader = createShader(GL_VERTEX_SHADER, vertexFile);
+    if (!shader) {
+      printf("shader didn't compile!\n");
+      return 0;
+    }
+    else {
+      glAttachShader(program, shader);
+    }
+  }
+
+  if (!fragmentFile.empty()) {
+    shader = createShader(GL_FRAGMENT_SHADER, fragmentFile);
+    if (!shader) {
+      printf("shader didn't compile!\n");
+      return 0;
+    }
+    else {
+      glAttachShader(program, shader);
+    }
+  }
+
+  glLinkProgram(program);
+  glGetProgramiv(program, GL_LINK_STATUS, &linkOk);
+  if (!linkOk) {
+    printf("program did not link\n");
+    glDeleteProgram(program);
+  }
+
+  return program;
+}
+
+
+GLuint
 createShader(GLenum shaderType, const std::string &shaderFile)
 {
     GLint status;

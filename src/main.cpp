@@ -214,7 +214,6 @@ render()
     // Render each component on the screen
     character->render();
     enemy->render();
-    //enemy2->render();
     BulletRegistry::getInstance().render();
 
 }

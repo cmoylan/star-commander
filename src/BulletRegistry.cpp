@@ -98,12 +98,8 @@ BulletRegistry::initGL()
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-    std::vector<GLuint> shaderList;
-    shaderList.push_back(createShader(GL_VERTEX_SHADER, "src/bulletVertexShader.glsl"));
-    shaderList.push_back(createShader(GL_FRAGMENT_SHADER, "src/bulletFragmentShader.glsl"));
-
-    shaderProgram = createProgram(shaderList);
-    std::for_each(shaderList.begin(), shaderList.end(), glDeleteShader);
+    shaderProgram = createProgramFromShaders("src/shaders/square.v.glsl",
+					     "src/shaders/square.f.glsl");
 
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
