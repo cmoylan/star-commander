@@ -18,18 +18,18 @@
 class Enemy : public Entity {
 
     // buffer objects
-    GLuint vao, vbo, ebo;
+    GLuint vao, tex;
     // uniforms
-    GLuint uniTrans, uniColor;
+    GLuint uniTrans;
     // compiled gl program
     GLuint shaderProgram;
 
-    void initGL();
+    void initGL(std::string texture);
 
 public:
 
     // constructor
-    Enemy(Coordinate position);
+    Enemy(std::string texture, Coordinate position);
 
     // destructor
     ~Enemy();

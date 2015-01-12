@@ -17,9 +17,6 @@ Character::~Character()
 {
     printf("-- character destructor\n");
     glDeleteProgram(shaderProgram);
-
-    glDeleteBuffers(1, &ebo);
-    glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
 }
 
@@ -55,26 +52,27 @@ Character::hit()
 void
 Character::initGL(std::string texture)
 {
+    // --- set up buffers/program
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+    GLuint vbo;
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
+    GLuint ebo;
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-
-    // set up the shader program
-    shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
-					     "src/shaders/texturedSquare.f.glsl");
-
-    glUseProgram(shaderProgram);
 
     glGenTextures(1, &tex);
     loadTexture(tex, texture);
 
-    // describe how vertex buffer object maps to
-    // link vertex array to position attribute
+    // set up the shader program
+    shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
+					     "src/shaders/texturedSquare.f.glsl");
+    glUseProgram(shaderProgram);
+
+    // --- map glsl attributes to pointers
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(posAttrib);
@@ -83,19 +81,13 @@ Character::initGL(std::string texture)
     GLint texAttrib = glGetAttribLocation(shaderProgram, "texcoord");
     glEnableVertexAttribArray(texAttrib);
     // the texcoords are tightly packed after the verticies in the array
+    // TODO: you can remove this and go a different route
     glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 0, (void*)(8 * sizeof(float)));
 
     // translation attr from vector shader
     uniTrans = glGetUniformLocation(shaderProgram, "trans");
-    glm::mat4 trans;
-    trans = glm::translate(trans, glm::vec3(0.0f, 0.0f, 1.0f));
-    glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
-    // --- END setup shader programs --- //
 
-    // --- temporarily added
-    // color attr from fragment shader
-    uniColor = glGetUniformLocation(shaderProgram, "color");
-
+    // --- send initial data to the shader
     GLuint elements[] = {
         0, 1, 2,
         2, 3, 0
@@ -119,9 +111,7 @@ Character::initGL(std::string texture)
                  elements, GL_STATIC_DRAW);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-
-    glBindVertexArray(0);
-    glUseProgram(0);
+    resetGlState();
 }
 
 
@@ -160,13 +150,13 @@ Character::render()
 {
     glUseProgram(shaderProgram);
     glBindVertexArray(vao);
+    glBindTexture(GL_TEXTURE_2D, tex);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glUniform3f(uniColor, 0.0f, 1.0f, 0.0f);
-
     // transform coords based on screenPos of character
+    // TODO: precalculate?
     glm::mat4 trans;
     trans = glm::translate(trans,
                            glm::vec3((SCALE_X * (float) origin.x),
@@ -174,11 +164,9 @@ Character::render()
                                      1.0f));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
-    // --- this may go back in the main loop and only get called once
     // draw a rectangle from 2 triangles
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    glBindVertexArray(0);
-    glUseProgram(0);
+    resetGlState();
 }
 

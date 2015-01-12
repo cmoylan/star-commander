@@ -1,6 +1,15 @@
 #include "Util.h"
 
 
+void
+resetGlState()
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindVertexArray(0);
+    glUseProgram(0);
+}
+
+
 GLuint
 createProgram(const std::vector<GLuint> &shaderList)
 {
@@ -132,6 +141,7 @@ loadTexture(GLuint buffer, const std::string &filename)
     int width, height;
     unsigned char* image;
 
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, buffer);
 
     image = SOIL_load_image(filename.c_str(),
@@ -143,8 +153,6 @@ loadTexture(GLuint buffer, const std::string &filename)
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, image);
 
-    SOIL_free_image_data(image);
-
     glGenerateMipmap(GL_TEXTURE_2D);
 
     // TODO: change to gl_nearest_mipmap_nearest
@@ -152,4 +160,7 @@ loadTexture(GLuint buffer, const std::string &filename)
                     GL_NEAREST_MIPMAP_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
                     GL_NEAREST_MIPMAP_NEAREST);
+
+    SOIL_free_image_data(image);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }

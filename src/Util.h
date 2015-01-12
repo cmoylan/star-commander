@@ -24,4 +24,11 @@ std::string loadStringFromFile(const std::string& filename);
 
 void loadTexture(GLuint buffer, const std::string &filename);
 
+/**
+ * Reset OpenGL state machine
+ *
+ * Sets texture buffer, vertex array, and shader program to 0.
+ */
+void resetGlState();
+
 #endif

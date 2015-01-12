@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 
-Enemy::Enemy(Coordinate position)
+Enemy::Enemy(std::string texture, Coordinate position)
 {
     // TODO: default to center if no position specified
 
@@ -11,16 +11,13 @@ Enemy::Enemy(Coordinate position)
     origin.x = position.x - (size.x / 2);
     origin.y = position.y - (size.y / 2);
 
-    initGL();
+    initGL(texture);
 }
 
 
 Enemy::~Enemy()
 {
     glDeleteProgram(shaderProgram);
-
-    glDeleteBuffers(1, &ebo);
-    glDeleteBuffers(1, &vbo);
     glDeleteVertexArrays(1, &vao);
 }
 
@@ -77,19 +74,40 @@ Enemy::hit()
 
 
 void
-Enemy::initGL()
+Enemy::initGL(std::string texture)
 {
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
+    GLuint vbo;
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
+    GLuint ebo;
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-    shaderProgram = createProgramFromShaders("src/shaders/square.v.glsl",
-					     "src/shaders/square.f.glsl");
+    // texture
+    glGenTextures(1, &tex);
+    loadTexture(tex, texture);
+
+    shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
+					     "src/shaders/texturedSquare.f.glsl");
+    glUseProgram(shaderProgram);
+
+
+    GLint texAttrib = glGetAttribLocation(shaderProgram, "texcoord");
+    glEnableVertexAttribArray(texAttrib);
+    glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 0, (void*)(8 * sizeof(float)));
+
+    // position offset
+    GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(posAttrib);
+
+    // translation attr from vector shader
+    uniTrans = glGetUniformLocation(shaderProgram, "trans");
+
 
     GLuint elements[] = {
         0, 1, 2,
@@ -100,24 +118,19 @@ Enemy::initGL()
         0.0f, 0.0f, // top left
         (SCALE_X * (float) size.x), 0.0f, // top right
         (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
-        0.0f, -(SCALE_Y * (float) size.y) // bottom left
+        0.0f, -(SCALE_Y * (float) size.y), // bottom left
+
+	// Texcoords
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
     };
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
-    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(posAttrib);
-
-    // translation attr from vector shader
-    uniTrans = glGetUniformLocation(shaderProgram, "trans");
-
-    // color attr from fragment shader
-    uniColor = glGetUniformLocation(shaderProgram, "color");
-
-    glBindVertexArray(0);
-    glUseProgram(0);
+    resetGlState();
 }
 
 
@@ -146,8 +159,7 @@ Enemy::render()
 {
     glUseProgram(shaderProgram);
     glBindVertexArray(vao);
-
-    glUniform3f(uniColor, 1.0f, 1.0f, 0.0f);
+    glBindTexture(GL_TEXTURE_2D, tex);
 
     // transform coords based on origin of enemy
     glm::mat4 trans;
@@ -155,13 +167,10 @@ Enemy::render()
                            glm::vec3((SCALE_X * (float) origin.x),
                                      (SCALE_Y * (float) origin.y),
                                      1.0f));
-    //printf("transform x: [%f]\n", (0.01f * (float) origin.x));
-    //printf("transform y: [%f]\n", (0.01f * (float) origin.y));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    glBindVertexArray(0);
-    glUseProgram(0);
+    resetGlState();
 }
 

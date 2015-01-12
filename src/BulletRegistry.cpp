@@ -105,9 +105,6 @@ BulletRegistry::initGL()
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(posAttrib);
 
-    // translation attr from vector shader
-    //uniTrans = glGetUniformLocation(shaderProgram, "trans");
-
     // color attr from fragment shader
     uniColor = glGetUniformLocation(shaderProgram, "color");
 

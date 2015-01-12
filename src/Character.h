@@ -19,8 +19,7 @@ class Character : public Entity {
 
     // opengl stuff
     // TODO: rename most of these, they are awful
-    GLuint vao, vbo, ebo, tex, uniTrans;
-    GLuint uniColor; // temp
+    GLuint vao, tex, uniTrans;
     GLuint shaderProgram;
 
     void initGL(std::string texture);
