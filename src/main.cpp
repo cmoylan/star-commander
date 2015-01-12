@@ -21,6 +21,9 @@ Enemy *enemy;
 CollisionManager *collisionManager;
 EnemyAI *enemyAI; // enemy AI manager
 
+int playerInputX;
+int playerInputY;
+
 void initAI();
 void initEntities();
 void initSDL();
@@ -163,6 +166,7 @@ update(int ticks)
 void
 handleKeys()
 {
+    // TODO: still a little weird, fix framerate
     SDL_Event windowEvent;
 
     if (SDL_PollEvent(&windowEvent)) {
@@ -170,36 +174,44 @@ handleKeys()
             quit = true;
         }
 
-        if (windowEvent.type == SDL_KEYUP) {
-            // TODO: this won't really work if the user holds the key down
+        if (windowEvent.type == SDL_KEYDOWN) {
             // TODO: allow keys to be remapped
             switch (windowEvent.key.keysym.sym) {
-
             case SDLK_ESCAPE:
                 quit = true;
                 break;
-
             case SDLK_w:
-                character->move('u');
+		playerInputY = 1;
                 break;
-
             case SDLK_a:
-                character->move('l');
-                break;
-
+		playerInputX = -1;
+		break;
             case SDLK_s:
-                character->move('d');
+		playerInputY = -1;
                 break;
-
             case SDLK_d:
-                character->move('r');
+		playerInputX = 1;
                 break;
-
             case SDLK_SPACE:
                 character->fire();
                 break;
             }
         }
+
+	if (windowEvent.type == SDL_KEYUP) {
+	    switch(windowEvent.key.keysym.sym) {
+	    case SDLK_w:
+	    case SDLK_s:
+		playerInputY = 0;
+		break;
+	    case SDLK_a:
+	    case SDLK_d:
+		playerInputX = 0;
+		break;
+	    }
+	}
+
+	character->move(playerInputX, playerInputY);
     }
 }
 

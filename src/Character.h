@@ -36,8 +36,7 @@ public:
 
     void fire();
 
-    // TODO: probably should take a heading or something...
-    void move(unsigned char direction);
+    void move(int x, int y);
 
     void render();
 

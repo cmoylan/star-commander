@@ -1,5 +1,6 @@
 # TODO #
 - [] normalize sounds
 - [] scoreboard
-- [] holding down controls
+- [] fix framerate
+- [x] holding down controls
 - [x] textures

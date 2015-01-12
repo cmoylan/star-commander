@@ -116,25 +116,14 @@ Character::initGL(std::string texture)
 
 
 void
-Character::move(unsigned char direction)
+Character::move(int x, int y)
 {
     int newX = origin.x;
     int newY = origin.y;
     int movementSize = CHARACTER_MOVE_SIZE;
 
-    // calculate new coords
-    if (direction == 'u') {
-        newY += movementSize;
-    }
-    else if (direction == 'd') {
-        newY -= movementSize;
-    }
-    else if (direction == 'l') {
-        newX -= movementSize;
-    }
-    else if (direction == 'r') {
-        newX += movementSize;
-    }
+    newX += (x * movementSize);
+    newY += (y * movementSize);
 
     if ((newX >= -SCREEN_X) && ((newX + size.x) <= SCREEN_X)) {
         origin.x = newX;
