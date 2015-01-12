@@ -33,7 +33,7 @@ COMPILER_FLAGS = -g -Wall -Wextra -std=c++0x $(OPTFLAGS)
 
 #LINKER_FLAGS specifies the libraries we're linking against
 # For linux:
-LINKER_FLAGS = -lGL -lGLEW -lSDL2 -lSOIL -lSDL2_mixer
+LINKER_FLAGS = -lGL -lGLEW -lSDL2 -lSOIL -lSDL2_mixer -lSDL2_ttf
 SDL_STUFF = `/usr/local/bin/sdl-config --libs --cflags`
 #SDL_STUFF = `pkg-config --libs --cflags sdl2`
 # For mac:

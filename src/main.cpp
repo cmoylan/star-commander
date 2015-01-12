@@ -1,5 +1,6 @@
 #include "OpenGL.h"
 #include <SDL2/SDL_mixer.h>
+#include <SDL2/SDL_ttf.h>
 
 #include "Character.h"
 #include "Enemy.h"
@@ -10,19 +11,20 @@
 #include "Game.h"
 
 
-bool quit = false;
-
-// global openGL objects
+// window/display 
 SDL_Window *window;
 SDL_GLContext context;
+TTF_Font *font;
 
 Character *character;
 Enemy *enemy;
 CollisionManager *collisionManager;
 EnemyAI *enemyAI; // enemy AI manager
 
-int playerInputX;
-int playerInputY;
+bool quit = false;
+int playerInputX = 0;
+int playerInputY = 0;
+
 
 void initAI();
 void initEntities();
@@ -99,7 +101,7 @@ initEntities()
     Coordinate position = { 30, 80 };
     enemy = new Enemy("res/enemy.png", position);
 
-    position.y = -70;
+    position.y = -65;
     character = new Character("res/spaceship.png", position);
 }
 
@@ -125,6 +127,12 @@ initSDL()
     // Initialize GLEW
     glewExperimental = GL_TRUE;
     glewInit();
+
+    // Font initialization
+    if (TTF_Init() == -1) {
+	printf("Unable to initialize SDL_ttf: %s\n", TTF_GetError());
+    }
+    font = TTF_OpenFont("res/FreeMonoBold.ttf", 16);
 }
 
 
@@ -145,6 +153,7 @@ cleanup()
     Sound::getInstance()->freeAll();
     Mix_CloseAudio();
 
+    TTF_CloseFont(font);
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -154,10 +163,7 @@ cleanup()
 void
 update(int ticks)
 {
-    //printf("ticking: %d\n", ticks);
     BulletRegistry::getInstance().tick();
-
-    // enemy logic here
     enemyAI->tick(ticks);
     collisionManager->tick();
 }
@@ -224,9 +230,9 @@ render()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Render each component on the screen
+    BulletRegistry::getInstance().render();
     character->render();
     enemy->render();
-    BulletRegistry::getInstance().render();
 }
 
 
