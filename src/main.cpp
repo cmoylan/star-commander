@@ -215,7 +215,6 @@ render()
     character->render();
     enemy->render();
     BulletRegistry::getInstance().render();
-
 }
 
 

@@ -102,6 +102,35 @@ Character::initGL(std::string texture)
     // --- temporarily added
     // color attr from fragment shader
     uniColor = glGetUniformLocation(shaderProgram, "color");
+
+
+    GLuint elements[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    GLfloat vertices[] = {
+        // Position
+        0.0f, 0.0f, // top left
+        (SCALE_X * (float) size.x), 0.0f, // top right
+        (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
+        0.0f, -(SCALE_Y * (float) size.y) // bottom left
+
+        // Texcoords
+        //0.0f, 0.0f,
+        //1.0f, 0.0f,
+        //1.0f, 1.0f,
+        //0.0f, 1.0f
+    };
+
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements),
+                 elements, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 
 
@@ -138,33 +167,13 @@ Character::move(unsigned char direction)
 void
 Character::render()
 {
-    GLuint elements[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
-
-    GLfloat vertices[] = {
-        // Position
-        0.0f, 0.0f, // top left
-        (SCALE_X * (float) size.x), 0.0f, // top right
-        (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
-        0.0f, -(SCALE_Y * (float) size.y) // bottom left
-
-        // Texcoords
-        //0.0f, 0.0f,
-        //1.0f, 0.0f,
-        //1.0f, 1.0f,
-        //0.0f, 1.0f
-    };
-
     glUseProgram(shaderProgram);
+    glBindVertexArray(vao);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // --- temporary
     glUniform3f(uniColor, 0.0f, 1.0f, 0.0f);
-    // --- end temporary
 
     // transform coords based on screenPos of character
     glm::mat4 trans;
@@ -174,12 +183,11 @@ Character::render()
                                      1.0f));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements),
-                 elements, GL_STATIC_DRAW);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
     // --- this may go back in the main loop and only get called once
     // draw a rectangle from 2 triangles
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 

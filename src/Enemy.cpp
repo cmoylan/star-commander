@@ -91,6 +91,21 @@ Enemy::initGL()
     shaderProgram = createProgramFromShaders("src/shaders/square.v.glsl",
 					     "src/shaders/square.f.glsl");
 
+    GLuint elements[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
+
+    GLfloat vertices[] = {
+        0.0f, 0.0f, // top left
+        (SCALE_X * (float) size.x), 0.0f, // top right
+        (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
+        0.0f, -(SCALE_Y * (float) size.y) // bottom left
+    };
+
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
     glEnableVertexAttribArray(posAttrib);
@@ -100,6 +115,9 @@ Enemy::initGL()
 
     // color attr from fragment shader
     uniColor = glGetUniformLocation(shaderProgram, "color");
+
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 
 
@@ -126,26 +144,10 @@ Enemy::move(int x, int y)
 void
 Enemy::render()
 {
-    GLuint elements[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
-
-    GLfloat vertices[] = {
-        0.0f, 0.0f, // top left
-        (SCALE_X * (float) size.x), 0.0f, // top right
-        (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
-        0.0f, -(SCALE_Y * (float) size.y) // bottom left
-    };
-
     glUseProgram(shaderProgram);
+    glBindVertexArray(vao);
 
     glUniform3f(uniColor, 1.0f, 1.0f, 0.0f);
-    //printf("vertex array: ");
-    //for (GLfloat vertex : vertices) {
-    //  printf("[%f]->", vertex);
-    //}
-    //printf("\n");
 
     // transform coords based on origin of enemy
     glm::mat4 trans;
@@ -157,9 +159,9 @@ Enemy::render()
     //printf("transform y: [%f]\n", (0.01f * (float) origin.y));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+    glUseProgram(0);
 }
 
