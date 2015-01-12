@@ -11,7 +11,7 @@
 #include "Game.h"
 
 
-// window/display 
+// window/display
 SDL_Window *window;
 SDL_GLContext context;
 TTF_Font *font;
@@ -130,7 +130,7 @@ initSDL()
 
     // Font initialization
     if (TTF_Init() == -1) {
-	printf("Unable to initialize SDL_ttf: %s\n", TTF_GetError());
+        printf("Unable to initialize SDL_ttf: %s\n", TTF_GetError());
     }
     font = TTF_OpenFont("res/FreeMonoBold.ttf", 16);
 }
@@ -187,16 +187,16 @@ handleKeys()
                 quit = true;
                 break;
             case SDLK_w:
-		playerInputY = 1;
+                playerInputY = 1;
                 break;
             case SDLK_a:
-		playerInputX = -1;
-		break;
+                playerInputX = -1;
+                break;
             case SDLK_s:
-		playerInputY = -1;
+                playerInputY = -1;
                 break;
             case SDLK_d:
-		playerInputX = 1;
+                playerInputX = 1;
                 break;
             case SDLK_SPACE:
                 character->fire();
@@ -204,20 +204,20 @@ handleKeys()
             }
         }
 
-	if (windowEvent.type == SDL_KEYUP) {
-	    switch(windowEvent.key.keysym.sym) {
-	    case SDLK_w:
-	    case SDLK_s:
-		playerInputY = 0;
-		break;
-	    case SDLK_a:
-	    case SDLK_d:
-		playerInputX = 0;
-		break;
-	    }
-	}
+        if (windowEvent.type == SDL_KEYUP) {
+            switch (windowEvent.key.keysym.sym) {
+            case SDLK_w:
+            case SDLK_s:
+                playerInputY = 0;
+                break;
+            case SDLK_a:
+            case SDLK_d:
+                playerInputX = 0;
+                break;
+            }
+        }
 
-	character->move(playerInputX, playerInputY);
+        character->move(playerInputX, playerInputY);
     }
 }
 

@@ -43,7 +43,7 @@ Character::fire()
 void
 Character::hit()
 {
-    printf("character was hit at: [%d, %d]\n", origin);
+    printf("character was hit at: [%d, %d]\n", origin.x, origin.y);
     Game::getInstance().removePoints();
     Sound::getInstance()->play("hit");
 }
@@ -69,7 +69,7 @@ Character::initGL(std::string texture)
 
     // set up the shader program
     shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
-					     "src/shaders/texturedSquare.f.glsl");
+                    "src/shaders/texturedSquare.f.glsl");
     glUseProgram(shaderProgram);
 
     // --- map glsl attributes to pointers
