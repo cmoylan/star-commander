@@ -4,9 +4,8 @@
 Enemy::Enemy(std::string texture, Coordinate position)
 {
     // TODO: default to center if no position specified
-
-    size.x = 10;
-    size.y = 10;
+    size.x = 20;
+    size.y = 20;
 
     origin.x = position.x - (size.x / 2);
     origin.y = position.y - (size.y / 2);

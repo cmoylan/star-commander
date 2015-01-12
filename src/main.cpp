@@ -94,7 +94,7 @@ void
 initEntities()
 {
     Coordinate position = { 30, 80 };
-    enemy = new Enemy("res/spaceship2.png", position);
+    enemy = new Enemy("res/enemy.png", position);
 
     position.y = -70;
     character = new Character("res/spaceship.png", position);
