@@ -45,16 +45,16 @@ main()
     Uint32 startTime;
     int ticks = 0;
 
-    score = new ScoreDisplay();
+
     initSDL();
     initAudio();
     initEntities();
     initAI();
 
+    score = new ScoreDisplay();
     Game::getInstance().resetScore();
 
     // main loop
-    // TODO: how to change the framerate?
     while (!quit) {
         // count every 10 frames
         if (ticks > 9) {
@@ -63,13 +63,13 @@ main()
 
         startTime = SDL_GetTicks();
 
-        //printf("ticks:: %d\n", ticks);
         update(ticks);
         handleKeys();
         render();
 
-        SDL_GL_SwapWindow(window);
+	SDL_GL_SwapWindow(window);
 
+	// TODO: fix the framerate
         if (1000 / FPS > SDL_GetTicks() - startTime) {
             SDL_Delay(1000 / FPS - (SDL_GetTicks() - startTime));
         }
@@ -86,7 +86,6 @@ main()
 void
 initAI()
 {
-    // setup enemy AI
     enemyAI = new EnemyAI();
     enemyAI->registerPlayer(character);
     enemyAI->registerEnemy(enemy);
@@ -226,14 +225,16 @@ void
 render()
 {
     // Clear the screen to black
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Render each component on the screen
     BulletRegistry::getInstance().render();
     character->render();
     enemy->render();
-    //score->render();
+
+    score->render();
 }
 
 
