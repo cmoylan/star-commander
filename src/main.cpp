@@ -9,12 +9,13 @@
 #include "EnemyAI.h"
 #include "Sound.h"
 #include "Game.h"
+#include "ScoreDisplay.h"
 
 
 // window/display
 SDL_Window *window;
 SDL_GLContext context;
-TTF_Font *font;
+ScoreDisplay *score;
 
 Character *character;
 Enemy *enemy;
@@ -44,6 +45,7 @@ main()
     Uint32 startTime;
     int ticks = 0;
 
+    score = new ScoreDisplay();
     initSDL();
     initAudio();
     initEntities();
@@ -132,7 +134,6 @@ initSDL()
     if (TTF_Init() == -1) {
         printf("Unable to initialize SDL_ttf: %s\n", TTF_GetError());
     }
-    font = TTF_OpenFont("res/FreeMonoBold.ttf", 16);
 }
 
 
@@ -153,7 +154,6 @@ cleanup()
     Sound::getInstance()->freeAll();
     Mix_CloseAudio();
 
-    TTF_CloseFont(font);
     SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
     SDL_Quit();
@@ -233,6 +233,7 @@ render()
     BulletRegistry::getInstance().render();
     character->render();
     enemy->render();
+    //score->render();
 }
 
 

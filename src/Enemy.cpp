@@ -91,7 +91,7 @@ Enemy::initGL(std::string texture)
     loadTexture(tex, texture);
 
     shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
-                    "src/shaders/texturedSquare.f.glsl");
+                                             "src/shaders/texturedSquare.f.glsl");
     glUseProgram(shaderProgram);
 
 
