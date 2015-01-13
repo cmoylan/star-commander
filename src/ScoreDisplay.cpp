@@ -5,12 +5,8 @@ ScoreDisplay::ScoreDisplay()
     // load font
     font = TTF_OpenFont("res/FreeMonoBold.ttf", 16);
 
-    printf("1\n");
     initGL();
-    printf("2\n");
-
-    glGenTextures(1, &tex);
-    loadTexture(tex, "res/enemy.png");
+    setScore(0);
 }
 
 
@@ -23,8 +19,6 @@ ScoreDisplay::~ScoreDisplay()
 void
 ScoreDisplay::initGL()
 {
-    printf("workee?");
-    // passed in
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
 
@@ -36,13 +30,29 @@ ScoreDisplay::initGL()
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
+    // generated here, set elsewhere
+    glGenTextures(1, &tex);
+
     shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
-                                             "src/shaders/texturedSquare.v.glsl");
+                                             "src/shaders/texturedSquare.f.glsl");
     glUseProgram(shaderProgram);
 
     GLint texAttrib = glGetAttribLocation(shaderProgram, "texcoord");
     glEnableVertexAttribArray(texAttrib);
     glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 0, (void*)(8 * sizeof(float)));
+
+    // position offset
+    GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
+    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(posAttrib);
+
+    // translation attr from vector shader
+    GLint uniTrans = glGetUniformLocation(shaderProgram, "trans");
+    // transform coords based on origin of enemy
+    glm::mat4 trans;
+    trans = glm::translate(trans, glm::vec3(0.f, 0.f, 1.f));
+    glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+
 
     GLuint elements[] = {
         0, 1, 2,
@@ -50,8 +60,8 @@ ScoreDisplay::initGL()
     };
 
     GLfloat vertices[] = {
-        -1.0f, -1.0f, // top left
-        1.0f, -1.0f, // top right
+        -1.0f, 1.0f, // top left
+        1.0f, 1.0f, // top right
         -1.0f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)),  //bottom right
         1.0f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)), // bottom left
 
@@ -79,4 +89,21 @@ ScoreDisplay::render()
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
     resetGlState();
+}
+
+
+void
+ScoreDisplay::setScore(int score)
+{
+    printf("calling set score\n");
+    SDL_Surface* surface;
+    SDL_Color color = {1, 1, 1};
+
+    surface = TTF_RenderUTF8_Blended(font, "Hello World!", color);
+
+    glBindTexture(GL_TEXTURE_2D, tex);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0,
+		 GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
