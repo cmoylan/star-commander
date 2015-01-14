@@ -16,6 +16,8 @@ class ScoreDisplay {
 
     GLuint vao, tex, shaderProgram;
 
+    //SDL_Surface* surface;
+
     void initGL();
 
  public:

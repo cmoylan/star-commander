@@ -48,9 +48,9 @@ ScoreDisplay::initGL()
 
     // translation attr from vector shader
     GLint uniTrans = glGetUniformLocation(shaderProgram, "trans");
-    // transform coords based on origin of enemy
+    //// transform coords based on origin of enemy
     glm::mat4 trans;
-    trans = glm::translate(trans, glm::vec3(0.f, 0.f, 1.f));
+    trans = glm::translate(trans, glm::vec3(-1.f, 1.f, 1.f));
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
 
@@ -59,21 +59,26 @@ ScoreDisplay::initGL()
         2, 3, 0
     };
 
-    GLfloat vertices[] = {
-        -1.0f, 1.0f, // top left
-        1.0f, 1.0f, // top right
-        -1.0f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)),  //bottom right
-        1.0f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)), // bottom left
-
-        // Texcoords
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
-    };
+    //GLfloat vertices[] = {
+    //    //-1.0f, 1.0f, // top left
+    //    //1.0f, 1.0f, // top right
+    //    //-1.0f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)),  //bottom right
+    //    //1.0f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)), // bottom left
+    //
+    //	-1.f, 1.f,
+    //	-0.5f, 1.f,
+    //	-1.0f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)),  //bottom right
+    //	0.5f, (SCALE_Y * (float) (SCREEN_Y - SCORE_HEIGHT)), // bottom left
+    //
+    //    // Texcoords
+    //    0.0f, 0.0f,
+    //    1.f, 0.0f,
+    //    1.f, 1.0f,
+    //    0.0f, 1.0f
+    //};
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     resetGlState();
 }
@@ -85,6 +90,8 @@ ScoreDisplay::render()
     glUseProgram(shaderProgram);
     glBindVertexArray(vao);
     glBindTexture(GL_TEXTURE_2D, tex);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
@@ -95,15 +102,37 @@ ScoreDisplay::render()
 void
 ScoreDisplay::setScore(int score)
 {
-    printf("calling set score\n");
     SDL_Surface* surface;
-    SDL_Color color = {1, 1, 1};
+    SDL_Color color = {255, 0, 0, 0};
 
     surface = TTF_RenderUTF8_Blended(font, "Hello World!", color);
+    //surface = TTF_RenderText_Solid(font, "Hello World!", color);
 
+    glUseProgram(shaderProgram);
+    glBindVertexArray(vao);
+    //
+    GLfloat vertices[] = {
+        0.0f, 0.0f, // top left
+        (SCALE_X * (float) 100), 0.0f, // top right
+        (SCALE_X * (float) 100), -(SCALE_Y * (float) 20),  //bottom right
+        0.0f, -(SCALE_Y * (float) 20), // bottom left
+
+        // Texcoords
+        0.0f, 0.0f,
+        1.f, 0.0f,
+        1.f, 1.0f,
+        0.0f, 1.0f
+    };
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //printf("surface w/h: [%d, %d]\n", surface->w, surface->h);
+    //printf("vertex data: [%f, %f] [%f, %f] [%f, %f] [%f, %f]\n", vertices);
     glBindTexture(GL_TEXTURE_2D, tex);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, surface->w, surface->h, 0,
-		 GL_RGBA, GL_UNSIGNED_BYTE, surface->pixels);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA_EXT, surface->w, surface->h, 0,
+    		 GL_BGRA_EXT, GL_UNSIGNED_BYTE, surface->pixels);
 
-    glBindTexture(GL_TEXTURE_2D, 0);
+    //glBindTexture(GL_TEXTURE_2D, 0);
+    resetGlState();
+    SDL_FreeSurface(surface);
 }
