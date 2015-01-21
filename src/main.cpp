@@ -34,6 +34,11 @@ void handleKeys();
 void render();
 void debug();
 
+void handleInput(SDL_Event* event);
+void keyUp(SDL_Event* event);
+void keyDown(SDL_Event* event);
+
+
 
 int
 //main(int argc, char *args[])
@@ -59,12 +64,19 @@ main()
 
         startTime = SDL_GetTicks();
 
+
         //printf("ticks:: %d\n", ticks);
         update(ticks);
-        handleKeys();
+        //handleKeys();
         render();
 
         SDL_GL_SwapWindow(window);
+
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+	    handleInput(&event);
+	}
+	character->move(playerInputX, playerInputY);
 
         if (1000 / FPS > SDL_GetTicks() - startTime) {
             SDL_Delay(1000 / FPS - (SDL_GetTicks() - startTime));
@@ -76,6 +88,78 @@ main()
     cleanup();
 
     return 0;
+}
+
+
+void
+handleInput(SDL_Event* event)
+{
+    //switch(event->type) {
+    //case SDL_KEYUP:
+    //	keyDown(event);
+    //	break;
+    //case SDL_KEYDOWN:
+    //	keyUp(event);
+    //	break;
+    //}
+
+    if (event->type == SDL_QUIT) {
+	quit = true;
+    }
+
+    if (event->type == SDL_KEYDOWN) {
+	// TODO: allow keys to be remapped
+	switch (event->key.keysym.sym) {
+	case SDLK_ESCAPE:
+	    quit = true;
+	    break;
+	case SDLK_w:
+	    //if (playerInputY < 6)
+		playerInputY = 3;
+	    break;
+	case SDLK_a:
+	    //if (playerInputY > -6)
+		playerInputX = -3;
+	    break;
+	case SDLK_s:
+	    //if (playerInputY > -6)
+		playerInputY = -3;
+	    break;
+	case SDLK_d:
+	    //if (playerInputX < 6)
+		playerInputX = 3;
+	    break;
+	case SDLK_SPACE:
+	    character->fire();
+	    break;
+	}
+    }
+
+    if (event->type == SDL_KEYUP) {
+	switch(event->key.keysym.sym) {
+	case SDLK_w:
+	case SDLK_s:
+	    playerInputY = 0;
+	    break;
+	case SDLK_a:
+	case SDLK_d:
+	    playerInputX = 0;
+	    break;
+	}
+    }
+}
+
+
+void
+keyDown(SDL_Event* event)
+{
+
+}
+
+
+void
+keyUp(SDL_Event* event)
+{
 }
 
 
