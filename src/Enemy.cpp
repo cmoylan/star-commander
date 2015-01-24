@@ -66,8 +66,9 @@ void
 Enemy::hit()
 {
     printf("enemy was hit at: [%d, %d]\n", origin);
+    // TODO: fix
     // add 1 to score
-    Game::getInstance().addPoints();
+    //Game::getInstance().addPoints();
     Sound::getInstance()->play("hit");
 }
 
@@ -91,7 +92,7 @@ Enemy::initGL(std::string texture)
     loadTexture(tex, texture);
 
     shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
-					     "src/shaders/texturedSquare.f.glsl");
+                    "src/shaders/texturedSquare.f.glsl");
     glUseProgram(shaderProgram);
 
 
@@ -119,7 +120,7 @@ Enemy::initGL(std::string texture)
         (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
         0.0f, -(SCALE_Y * (float) size.y), // bottom left
 
-	// Texcoords
+        // Texcoords
         0.0f, 0.0f,
         1.0f, 0.0f,
         1.0f, 1.0f,

@@ -1,5 +1,4 @@
-#ifndef ENEMYAI_H
-#define ENEMYAI_H
+#pragma once
 
 #include <cstdlib>
 #include <time.h>
@@ -9,6 +8,9 @@
 #include "Character.h"
 #include "Enemy.h"
 
+
+class Character;
+class Enemy;
 
 typedef struct {
     // TODO: direction is an enumeration
@@ -40,5 +42,3 @@ public:
 
     void tick(int);
 };
-
-#endif

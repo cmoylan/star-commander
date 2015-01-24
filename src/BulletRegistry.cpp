@@ -99,7 +99,7 @@ BulletRegistry::initGL()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
     shaderProgram = createProgramFromShaders("src/shaders/square.v.glsl",
-					     "src/shaders/square.f.glsl");
+                    "src/shaders/square.f.glsl");
 
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
     glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
@@ -164,11 +164,11 @@ BulletRegistry::render()
 
     for (bullet = bullets.begin(); bullet != bullets.end(); bullet++) {
         //printf("rendering at: [%d, %d]\n", bullet->element.origin);
-	// color
+        // color
         glUniform3f(uniColor, 1.0f, 0.0f, 0.0f);
 
-	// position
-	uniTrans = glGetUniformLocation(shaderProgram, "trans");
+        // position
+        uniTrans = glGetUniformLocation(shaderProgram, "trans");
         glm::mat4 trans;
         trans = glm::translate(trans,
                                glm::vec3((SCALE_X * (float) bullet->element.origin.x),

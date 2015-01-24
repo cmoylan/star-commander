@@ -16,7 +16,7 @@
 GLuint createProgram(const std::vector<GLuint> &shaderList);
 
 GLuint createProgramFromShaders(std::string vertexFile,
-				std::string fragmentFile);
+                                std::string fragmentFile);
 
 GLuint createShader(GLenum shaderType, const std::string& strShaderFile);
 
