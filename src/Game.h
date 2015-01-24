@@ -5,13 +5,13 @@
 #include "OpenGL.h"
 #include <SDL2/SDL_mixer.h>
 
+#include "Background.h"
 #include "BulletRegistry.h"
 #include "Character.h"
 #include "CollisionManager.h"
 #include "Config.h"
 #include "EnemyAI.h"
 #include "Enemy.h"
-//#include "InputHandler.h"
 #include "Sound.h"
 
 
@@ -19,6 +19,7 @@ class Character;
 class Enemy;
 class EnemyAI;
 class CollisionManager;
+class Background;
 
 class Game {
 
@@ -29,8 +30,12 @@ class Game {
     SDL_Window *window;
     SDL_GLContext context;
 
+    // renderables
+    Background* background;
     Character *character;
     Enemy *enemy;
+
+    // logic
     CollisionManager *collisionManager;
     EnemyAI *enemyAI; // enemy AI manager
 

@@ -1,10 +1,9 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#pragma once
 
 #include <string>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+//#include <glm/glm.hpp>
+//#include <glm/gtc/matrix_transform.hpp>
+//#include <glm/gtc/type_ptr.hpp>
 
 #include "OpenGL.h"
 #include "Util.h"
@@ -15,19 +14,17 @@
 #include "Game.h"
 
 
+class Game;
+
+
 class Character : public Entity {
 
-    // opengl stuff
-    // TODO: rename most of these, they are awful
-    GLuint vao, tex, uniTrans;
-    GLuint shaderProgram;
-
-    void initGL(std::string texture);
+    Game* game;
 
 public:
 
     // constructor
-    Character(std::string texture, Coordinate potision);
+    Character(Game* game, std::string texture, Coordinate potision);
 
     // destructor
     ~Character();
@@ -38,10 +35,6 @@ public:
 
     void move(int x, int y);
 
-    void render();
-
     virtual void hit();
 
 };
-
-#endif

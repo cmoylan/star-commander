@@ -11,7 +11,7 @@ resetGlState()
 
 
 GLuint
-createProgram(const std::vector<GLuint> &shaderList)
+createProgram(const std::vector<GLuint>& shaderList)
 {
     size_t i;
     GLuint program;
@@ -81,7 +81,7 @@ createProgramFromShaders(std::string vertexFile,
 
 
 GLuint
-createShader(GLenum shaderType, const std::string &shaderFile)
+createShader(GLenum shaderType, const std::string& shaderFile)
 {
     GLint status;
     std::string shaderSource;
@@ -116,7 +116,7 @@ createShader(GLenum shaderType, const std::string &shaderFile)
 
 
 std::string
-loadStringFromFile(const std::string &filename)
+loadStringFromFile(const std::string& filename)
 {
     std::stringstream sstr;
     std::ifstream file;
@@ -136,7 +136,7 @@ loadStringFromFile(const std::string &filename)
 
 void
 //#args: buffer, filename
-loadTexture(GLuint buffer, const std::string &filename)
+loadTexture(GLuint buffer, const std::string& filename)
 {
     int width, height;
     unsigned char* image;

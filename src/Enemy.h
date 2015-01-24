@@ -15,21 +15,16 @@
 #include "Game.h"
 
 
+class Game;
+
+
 class Enemy : public Entity {
 
-    // buffer objects
-    GLuint vao, tex;
-    // uniforms
-    GLuint uniTrans;
-    // compiled gl program
-    GLuint shaderProgram;
-
-    void initGL(std::string texture);
+    Game* game;
 
 public:
-
     // constructor
-    Enemy(std::string texture, Coordinate position);
+    Enemy(Game* game, std::string texture, Coordinate position);
 
     // destructor
     ~Enemy();
@@ -42,8 +37,6 @@ public:
     void fire();
 
     void move(int x, int y);
-
-    void render();
 
     virtual void hit();
 };

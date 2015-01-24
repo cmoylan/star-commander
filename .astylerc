@@ -29,3 +29,12 @@ attach-classes
 # Indent namespaces
 # http://astyle.sourceforge.net/astyle.html#_indent-namespaces
 indent-namespaces
+
+# Align * and & with type
+# http://astyle.sourceforge.net/astyle.html#_align-reference
+align-reference=type
+
+# 80 character lines
+# http://astyle.sourceforge.net/astyle.html#_max-code-length
+max-code-length=80
+break-after-logical

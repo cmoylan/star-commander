@@ -1,7 +1,13 @@
-#ifndef ENTITY_H
-#define ENTITY_H
+#pragma once
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "OpenGL.h"
 #include "Constants.h"
+#include "Util.h"
+
 
 class Entity {
 
@@ -13,6 +19,10 @@ public:
 
     virtual void hit() = 0;
 
-};
+    GLuint vao, tex, uniTrans;
+    GLuint shaderProgram;
 
-#endif
+    void initGL(std::string texture);
+    void render();
+
+};

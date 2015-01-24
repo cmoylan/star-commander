@@ -14,6 +14,7 @@
 #define FPS 30
 
 // movement
+#define ENEMY_MOVE_SIZE 5
 #define CHARACTER_MOVE_SIZE 5
 #define INPUT_WEIGHT_X 1
 #define INPUT_WEIGHT_Y 1
