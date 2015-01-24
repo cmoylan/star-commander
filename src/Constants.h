@@ -1,9 +1,8 @@
-#ifndef CONSTANTS_H
-#define CONSTANTS_H
+#pragma once
 
-
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 800
+// window
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 800
 
 // screen constants
 #define SCREEN_X 100
@@ -14,8 +13,10 @@
 
 #define FPS 30
 
-// character attributes
-#define CHARACTER_MOVE_SIZE 2
+// movement
+#define CHARACTER_MOVE_SIZE 5
+#define INPUT_WEIGHT_X 1
+#define INPUT_WEIGHT_Y 1
 
 
 typedef struct {
@@ -32,5 +33,3 @@ typedef struct {
     Vector2D origin;
     Vector2D size;
 } Rectangle;
-
-#endif

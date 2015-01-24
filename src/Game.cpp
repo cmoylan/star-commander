@@ -49,15 +49,14 @@ Game::run()
 
         startTime = SDL_GetTicks();
 
-
         update(ticks);
-        //handleKeys();
         render();
 
         SDL_GL_SwapWindow(window);
 
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+            // TODO: return boolean indicating if input was handled
             handleInput(&event);
         }
         character->move(playerInputX, playerInputY);

@@ -9,6 +9,7 @@ Character::Character(std::string texture, Coordinate position)
     origin.x = position.x - (size.x / 2);
     origin.y = position.y - (size.y / 2);
 
+    printf("origin is: [%d %d] \n", origin);
     initGL(texture);
 }
 
@@ -94,12 +95,21 @@ Character::initGL(std::string texture)
         2, 3, 0
     };
 
+    //float x = (float) size.x / 2;
+    //float y = (float) size.y / 2.f;
+    //printf("half of x(20) is %f\n", x);
+
     GLfloat vertices[] = {
         // Position
-        0.0f, 0.0f, // top left
-        (SCALE_X * (float) size.x), 0.0f, // top right
-        (SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
-        0.0f, -(SCALE_Y * (float) size.y), // bottom left
+        //0.0f, 0.0f, // top left
+        //(SCALE_X * (float) size.x), 0.0f, // top right
+        //(SCALE_X * (float) size.x), -(SCALE_Y * (float) size.y),  //bottom right
+        //0.0f, -(SCALE_Y * (float) size.y), // bottom left
+
+        0.f, (SCALE_Y * (float) size.y),
+        (SCALE_X * (float) size.x), (SCALE_Y * (float) size.y),
+        (SCALE_X * (float) size.x), 0.f,
+        0.f, 0.f,
 
         // Texcoords
         0.0f, 0.0f,
@@ -107,6 +117,8 @@ Character::initGL(std::string texture)
         1.0f, 1.0f,
         0.0f, 1.0f
     };
+    //printf("size is: [%d %d] [%f %f] \n", size, size);
+    printf("vertices [%f %f]\n", vertices[2], vertices[5]);
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements),
                  elements, GL_STATIC_DRAW);
@@ -126,12 +138,14 @@ Character::move(int x, int y)
     newX += (x * movementSize);
     newY += (y * movementSize);
 
+    // TODO: figure out your coordinate system
     if ((newX >= -SCREEN_X) && ((newX + size.x) <= SCREEN_X)) {
         origin.x = newX;
     }
     if ((newY >= -SCREEN_Y) && ((newY + size.y) <= SCREEN_Y)) {
         origin.y = newY;
     }
+    printf("newx and y are: [%dd, %d]\n", newX, newY);
 }
 
 

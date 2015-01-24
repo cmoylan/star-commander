@@ -1,6 +1,11 @@
 # TODO #
-- [] normalize sounds
+- [] better bullet movement
+- [] better AI
+- [] menu
+- [] explosions
 - [] scoreboard
-- [] fix framerate
+- [] background
+- [x] normalize sounds
+- [x] fix framerate
 - [x] holding down controls
 - [x] textures

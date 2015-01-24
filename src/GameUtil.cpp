@@ -53,7 +53,9 @@ Game::initEntities()
     Coordinate position = { 30, 80 };
     this->enemy = new Enemy("res/enemy.png", position);
 
-    position.y = -70;
+    //position.y = -70;
+    position.x = 0;
+    position.y = 0;
     this->character = new Character("res/spaceship.png", position);
 }
 
@@ -73,7 +75,7 @@ Game::initSDL()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
     // TODO: remove magic numbers
-    window = SDL_CreateWindow("OpenGL", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
+    window = SDL_CreateWindow("OpenGL", 100, 100, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
     context = SDL_GL_CreateContext(window);
 
     // Initialize GLEW
