@@ -58,7 +58,7 @@ Entity::initGL(std::string texture)
         0.0f, 1.0f
     };
     //printf("size is: [%d %d] [%f %f] \n", size, size);
-    //printf("vertices [%f %f]\n", vertices[2], vertices[5]);
+    printf("vertices [%f %f]\n", vertices[1], vertices[2]);
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements),
                  elements, GL_STATIC_DRAW);
@@ -74,11 +74,6 @@ Entity::render()
     glUseProgram(shaderProgram);
     glBindVertexArray(vao);
     glBindTexture(GL_TEXTURE_2D, tex);
-
-    // transparency
-    // TODO: need to set this every time?
-    //glEnable (GL_BLEND);
-    //glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // transform coords based on origin of enemy
     glm::mat4 trans;

@@ -11,7 +11,13 @@
 #define SCALE_X 0.01f
 #define SCALE_Y 0.01f
 
+// video
 #define FPS 30
+
+// audio
+#define MIXER_FREQ 22050
+#define MIXER_CHANNELS 2
+#define MIXER_CHUNKSIZE 4096
 
 // movement
 #define ENEMY_MOVE_SIZE 5

@@ -68,9 +68,9 @@ Game::initSDL()
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
     // --- Audio initialization
-    // TODO: remove magic numbers
-    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
-    //Mix_Volume(0 - 128);
+    Mix_OpenAudio(MIXER_FREQ, MIX_DEFAULT_FORMAT, MIXER_CHANNELS, MIXER_CHUNKSIZE);
+    //Mix_Volume(-1, 0..128);
+    Mix_Volume(-1, 64);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);

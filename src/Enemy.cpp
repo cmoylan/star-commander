@@ -67,7 +67,7 @@ Enemy::fire()
 void
 Enemy::hit()
 {
-    printf("enemy was hit at: [%d, %d]\n", origin);
+    printf("enemy was hit at: [%d, %d]\n", origin.x, origin.y);
     // add 1 to score
     game->addPoints();
     Sound::getInstance()->play("hit");

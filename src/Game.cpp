@@ -90,7 +90,7 @@ Game::render()
 void
 Game::update(int ticks)
 {
-    //printf("ticking: %d\n", ticks);
+    background->tick(ticks);
     BulletRegistry::getInstance().tick();
 
     // enemy logic here
