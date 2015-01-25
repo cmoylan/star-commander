@@ -5,6 +5,7 @@
 //#include <random>
 #include <vector>
 
+#include "Constants.h"
 #include "Character.h"
 #include "Enemy.h"
 
@@ -13,8 +14,7 @@ class Character;
 class Enemy;
 
 typedef struct {
-    // TODO: direction is an enumeration
-    char direction;
+    Vector2D direction;
     Enemy *enemy;
 } EnemyStateMachine;
 
@@ -36,9 +36,12 @@ public:
 
     ~EnemyAI();
 
+    // management
     void registerEnemy(Enemy*);
-
     void registerPlayer(Character*);
-
     void tick(int);
+
+    // logic
+    void avoidBullets(EnemyStateMachine* enemy);
+
 };

@@ -14,9 +14,17 @@ EnemyAI::~EnemyAI()
 
 
 void
+EnemyAI::avoidBullets(EnemyStateMachine* enemy)
+{
+
+}
+
+
+void
 EnemyAI::registerEnemy(Enemy* enemy)
 {
-    EnemyStateMachine enemySm = { 'l', enemy };
+    Vector2D direction = {1, 0};
+    EnemyStateMachine enemySm = { direction, enemy };
     enemies.push_back(enemySm);
 }
 
@@ -36,7 +44,7 @@ EnemyAI::tick(int ticks)
 
     std::vector<EnemyStateMachine>::iterator sm;
     Enemy *enemy;
-    char direction;
+    Vector2D direction;
     int random;
 
     //printf("rand is %d\n", random);
@@ -51,21 +59,31 @@ EnemyAI::tick(int ticks)
         // --- randomly change directions
         // restricting chance of direction change makes the enemy less chaotic
         if (random > 5 && random < 8) {
-            sm->direction = (sm->direction == 'l') ? 'r' : 'l';
+            sm->direction.x = (sm->direction.x == 1) ? 0 : 1;
         }
 
-        // if we get to the edge of the screen, go the other way
-        if (direction == 'r' && enemy->edgeRight() < SCREEN_X) {
+        /* TODO: change logic to:
+        *       if within SCREEN_x/y, pass direction to enemy->move
+         *       otherwise switch directions (multiply dir.x by -1)
+         */
+        // --- going right
+        // keep going
+        if (direction.x == 1 && enemy->edgeRight() < SCREEN_X) {
             sm->enemy->move(1, 0);
         }
-        else if (direction == 'r' && enemy->edgeRight() >= SCREEN_X) {
-            sm->direction = 'l';
+        // switch direction
+        else if (direction.x == 1 && enemy->edgeRight() >= SCREEN_X) {
+            sm->direction.x = -1;
         }
-        else if (direction == 'l' && enemy->edgeLeft() > -SCREEN_X) {
+
+        // --- going left
+        // keep going
+        else if (direction.x == -1 && enemy->edgeLeft() > -SCREEN_X) {
             sm->enemy->move(-1, 0);
         }
-        else if (direction == 'l' && enemy->edgeLeft() <= -SCREEN_X) {
-            sm->direction = 'r';
+        // switch direction
+        else if (direction.x == -1 && enemy->edgeLeft() <= -SCREEN_X) {
+            sm->direction.x = 1;
         }
 
         // --- occasionally fire

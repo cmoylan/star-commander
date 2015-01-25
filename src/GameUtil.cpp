@@ -50,14 +50,12 @@ Game::initAudio()
 void
 Game::initEntities()
 {
-    background = new Background();
+    background = new Background("res/background.png");
 
     Coordinate position = { 30, 80 };
     this->enemy = new Enemy(this, "res/enemy.png", position);
 
-    //position.y = -70;
-    position.x = 0;
-    position.y = 0;
+    position.y = -70;
     this->character = new Character(this, "res/spaceship.png", position);
 }
 

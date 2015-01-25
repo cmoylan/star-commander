@@ -1,6 +1,6 @@
 #include "Background.h"
 
-Background::Background()
+Background::Background(std::string texture)
 {
     origin.x = -SCREEN_X;
     origin.y = -SCREEN_Y;
@@ -11,7 +11,7 @@ Background::Background()
     offset.x = -SCREEN_X;
     offset.y = -SCREEN_Y;
 
-    initGL("res/background.png");
+    initGL(texture);
 }
 
 

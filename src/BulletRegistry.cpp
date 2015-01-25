@@ -197,12 +197,18 @@ BulletRegistry::tick()
         //printf("bullet x, y: %f, %f\n", bullet->location.x, bullet->location.y);
 
         // If the bullet is out of bounds, remove it
+        // TODO: works for now but could probably be refactored
         if ((bullet->element.origin.x > SCREEN_X)
-                || (bullet->element.origin.y > SCREEN_Y)) {
+                || (bullet->element.origin.x < -SCREEN_X)
+                || (bullet->element.origin.y > SCREEN_Y)
+                || (bullet->element.origin.y < -SCREEN_Y)) {
+            //printf("removing bullet\n");
             bullet = remove(bullet);
         }
         else {
             ++bullet;
         }
     }
+    printf("---run---\n");
+    print();
 }

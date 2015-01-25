@@ -9,7 +9,7 @@ class Background : public Entity {
     Vector2D offset;
 
 public:
-    Background();
+    Background(std::string texture);
 
     ~Background();
 
