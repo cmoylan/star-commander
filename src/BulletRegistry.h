@@ -12,9 +12,6 @@
 #include "Util.h"
 #include "Constants.h"
 
-#define BULLET_WIDTH 2
-#define BULLET_HEIGHT 2
-
 
 typedef struct {
     Rectangle element;
@@ -66,12 +63,27 @@ public:
      */
     void flush();
 
+    /**
+     * Print a list of the bullets and their positions
+     */
     void print();
 
+    /**
+     * Remove bullet a bullet at a given position in the vector
+     * 
+     * @param position - an interator pointing to the bulllet to be removed
+     * @return The iterator pointer to the next bullet
+     */
     std::vector<Bullet>::iterator remove(std::vector<Bullet>::iterator position);
 
+    /**
+     * Render the bullets on the screen
+     */
     void render();
 
+    /**
+     * Update the bullets based on heading and speed
+     */
     void tick();
 
 private:

@@ -135,9 +135,11 @@ BulletRegistry::print()
 {
     std::vector<Bullet>::iterator bullet;
     int i;
+    Vector2D origin;
 
     for (bullet = bullets.begin(), i = 0; bullet != bullets.end(); ++bullet, i++) {
-        printf("bullet #%d (x, y): [%d, %d]\n", i, bullet->element.origin);
+	origin = bullet->element.origin;
+        printf("bullet #%d (x, y): [%d, %d]\n", i, origin.x, origin.y);
     }
 
 }

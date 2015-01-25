@@ -53,5 +53,9 @@ lint:
 
 grind: all
 	valgrind ./$(OBJ_NAME)
+	
+# TODO: needs to count cpp, h and shaders
+count:
+	find ./src/ -name '*.cpp' | xargs wc -l
 
 include tests/test.mk

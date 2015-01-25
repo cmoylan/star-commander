@@ -25,7 +25,12 @@
 #define INPUT_WEIGHT_X 1
 #define INPUT_WEIGHT_Y 1
 
+// entities
+#define BULLET_WIDTH 2
+#define BULLET_HEIGHT 2
 
+
+// DEPRECATED - use Vector2D instead
 typedef struct {
     int x;
     int y;
