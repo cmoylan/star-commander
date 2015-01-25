@@ -53,6 +53,7 @@ Game::run()
         if (!paused) {
             update(ticks);
         }
+
         render();
 
         SDL_GL_SwapWindow(window);
@@ -87,6 +88,12 @@ Game::render()
     character->render();
     enemy->render();
     BulletRegistry::getInstance().render();
+
+    //Menu* menu = Menu::getInstance();
+    if (Menu::getInstance()->showing) {
+        Menu::getInstance()->render();
+        //menu->render();
+    }
 }
 
 

@@ -16,6 +16,7 @@ class Enemy;
 typedef struct {
     Vector2D direction;
     Enemy *enemy;
+    bool evading;
 } EnemyStateMachine;
 
 
@@ -42,6 +43,6 @@ public:
     void tick(int);
 
     // logic
-    void avoidBullets(EnemyStateMachine* enemy);
+    void avoidBullets(std::vector<EnemyStateMachine>::iterator enemySm);
 
 };

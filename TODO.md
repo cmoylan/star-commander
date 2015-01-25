@@ -1,9 +1,9 @@
 # TODO #
 - [] better bullet movement
-- [] better AI
 - [] menu
 - [] explosions
 - [] scoreboard
+- [x] better AI
 - [x] background
 - [x] normalize sounds
 - [x] fix framerate

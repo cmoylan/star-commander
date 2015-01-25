@@ -12,6 +12,7 @@
 #include "Config.h"
 #include "EnemyAI.h"
 #include "Enemy.h"
+#include "Menu.h"
 #include "Sound.h"
 
 

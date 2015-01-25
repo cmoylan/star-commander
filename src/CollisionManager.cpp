@@ -47,14 +47,11 @@ CollisionManager::tick()
             // check if there is a collision
             // TODO: memoize
             if (overlapping(entity->origin.x, entity->origin.x + entity->size.x,
-                            bulletLeft, bulletRight) &&
-                    overlapping(entity->origin.y, entity->origin.y + entity->size.y,
-                                bulletBottom, bulletTop)) {
+                            bulletLeft, bulletRight)
+                    && overlapping(entity->origin.y, entity->origin.y + entity->size.y,
+                                   bulletBottom, bulletTop)) {
                 entity->hit();
-                // TODO: remove bullet
                 bullet->removed = true;
-                //BulletRegistry::getInstance().remove(bullet);
-                //BulletRegistry::getInstance().
             }
         }
 

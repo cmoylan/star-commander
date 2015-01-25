@@ -14,11 +14,39 @@ EnemyAI::~EnemyAI()
 
 
 void
-EnemyAI::avoidBullets(EnemyStateMachine* enemy)
+EnemyAI::avoidBullets(std::vector<EnemyStateMachine>::iterator enemySm)
 {
-    // TODO: left off here
+    // TODO: better bullets
     // need to ask the bullet registry it there are any bullets nearby
     // probably need to make up some new data structure to make it easy to look that up
+    std::vector<Bullet>::iterator bullet;
+    std::vector<Bullet> *bullets = &BulletRegistry::getInstance().bullets;
+
+    for (bullet = bullets->begin(); bullet != bullets->end(); ++bullet) {
+        if (bullet->heading.y == 1) {
+            // bullet is heading towards us
+            // TODO: add the edge calculations to the bullet
+            // TODO: this gets all messed up if there are 2 or more bullets about to hit
+            if ((enemySm->enemy->edgeLeft() <= (bullet->element.origin.x +
+                                                bullet->element.size.x))
+                    && (enemySm->enemy->edgeRight() >= bullet->element.origin.x)) {
+                // change direction if not already evading
+                if (!enemySm->evading) {
+                    enemySm->direction.x = enemySm->direction.x * -1;
+                    enemySm->evading = true;
+                }
+                //printf("bullet [%d, %d] is going to hit \n", bullet->element.origin);
+                // TODO: probably exit the bullet loop as soon as we start evading
+                break;
+            }
+            else {
+                // stop
+                if (enemySm->evading) {
+                    enemySm->evading = false;
+                }
+            }
+        }
+    }
 }
 
 
@@ -26,7 +54,7 @@ void
 EnemyAI::registerEnemy(Enemy* enemy)
 {
     Vector2D direction = {1, 0};
-    EnemyStateMachine enemySm = { direction, enemy };
+    EnemyStateMachine enemySm = { direction, enemy, false };
     enemies.push_back(enemySm);
 }
 
@@ -45,7 +73,7 @@ EnemyAI::tick(int ticks)
     //if (ticks != 0) { return; }
 
     std::vector<EnemyStateMachine>::iterator sm;
-    Enemy *enemy;
+    Enemy* enemy;
     Vector2D direction;
     int random;
 
@@ -58,11 +86,15 @@ EnemyAI::tick(int ticks)
         random = rand() % (100 - 0 + 1);
         //random = distribution(generator);
 
+        avoidBullets(sm);
+
         // --- randomly change directions
+        // TODO: fix this
         // restricting chance of direction change makes the enemy less chaotic
-        if (random > 5 && random < 8) {
-            sm->direction.x = (sm->direction.x == 1) ? 0 : 1;
-        }
+        //if ((random > 5 && random < 8) && (-50 < enemy->origin.x < 50)) {
+        //if (random > 5 && random < 8) {
+        //    sm->direction.x = (sm->direction.x == 1) ? 0 : 1;
+        // }
 
         /* TODO: change logic to:
         *       if within SCREEN_x/y, pass direction to enemy->move

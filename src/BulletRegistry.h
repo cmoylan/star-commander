@@ -70,7 +70,7 @@ public:
 
     /**
      * Remove bullet a bullet at a given position in the vector
-     * 
+     *
      * @param position - an interator pointing to the bulllet to be removed
      * @return The iterator pointer to the next bullet
      */
