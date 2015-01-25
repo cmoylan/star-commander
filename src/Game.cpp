@@ -28,6 +28,7 @@ void
 Game::reset()
 {
     running = true;
+    paused = false;
     score = 0;
 }
 
@@ -49,7 +50,9 @@ Game::run()
 
         startTime = SDL_GetTicks();
 
-        update(ticks);
+        if (!paused) {
+            update(ticks);
+        }
         render();
 
         SDL_GL_SwapWindow(window);

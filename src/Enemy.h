@@ -34,7 +34,7 @@ public:
     int edgeRight();
     int edgeTop();
 
-    void fire();
+    void fire(int x = 0, int y = -1);
 
     void move(int x, int y);
 

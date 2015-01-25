@@ -15,16 +15,11 @@
 #define BULLET_WIDTH 2
 #define BULLET_HEIGHT 2
 
-// TODO: just use a vector?
-typedef struct {
-    int x;
-    int y;
-} Heading;
 
 typedef struct {
     Rectangle element;
     int speed;
-    Heading heading;
+    Vector2D heading;
     bool removed;
 } Bullet;
 
@@ -64,7 +59,7 @@ public:
      * right corner would have a heading (1, 1). A bullet with a (0, 0) heading would not
      * be moving.
      */
-    void add(Rectangle firingElement, Heading heading);
+    void add(Rectangle firingElement, Vector2D heading);
 
     /**
      * Flush bullets flagged for removal

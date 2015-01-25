@@ -52,11 +52,11 @@ Enemy::edgeTop()
 
 
 void
-Enemy::fire()
+Enemy::fire(int x, int y)
 {
     // Add a bullet moving down
     //BulletRegistry::getInstance().add(screenPos.x, screenPos.y, 0, -1);
-    Heading heading = { 0, -1 };
+    Vector2D heading = { 0, -1 };
     Rectangle element = { origin, size };
 
     BulletRegistry::getInstance().add(element, heading);

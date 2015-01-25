@@ -35,7 +35,7 @@ Character::center()
 void
 Character::fire()
 {
-    Heading heading = { 0, 1 };
+    Vector2D heading = { 0, 1 };
     Rectangle element = { origin, size };
 
     BulletRegistry::getInstance().add(element, heading);

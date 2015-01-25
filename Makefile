@@ -35,10 +35,13 @@ OBJ_NAME = engine
 all:
 	tup
 
-clean:
+clean: gitclean
 	rm -f $(OBJ_NAME)
 	rm -f build/*
 	rm -f src/*~
+
+gitclean:
+	find . -name '*orig' | xargs rm
 
 # http://astyle.sourceforge.net/astyle.html
 style:

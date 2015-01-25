@@ -16,7 +16,9 @@ EnemyAI::~EnemyAI()
 void
 EnemyAI::avoidBullets(EnemyStateMachine* enemy)
 {
-
+    // TODO: left off here
+    // need to ask the bullet registry it there are any bullets nearby
+    // probably need to make up some new data structure to make it easy to look that up
 }
 
 

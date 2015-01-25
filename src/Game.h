@@ -25,6 +25,7 @@ class Game {
 
     int score;
     bool running;
+    bool paused;
 
     // global openGL objects
     SDL_Window *window;

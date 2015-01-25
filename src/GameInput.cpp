@@ -40,6 +40,9 @@ Game::handleKeyDown(SDL_Event* event)
     case SDLK_SPACE:
         character->fire();
         break;
+    case SDLK_p:
+        paused = !paused;
+        break;
     }
 }
 

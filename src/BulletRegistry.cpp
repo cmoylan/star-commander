@@ -8,7 +8,7 @@ BulletRegistry::BulletRegistry()
 
 
 void
-BulletRegistry::add(Rectangle firingElement, Heading heading)
+BulletRegistry::add(Rectangle firingElement, Vector2D heading)
 {
     Vector2D bulletOrigin;
     Rectangle element;
@@ -209,6 +209,6 @@ BulletRegistry::tick()
             ++bullet;
         }
     }
-    printf("---run---\n");
-    print();
+    //printf("---run---\n");
+    //print();
 }
