@@ -11,7 +11,7 @@ Background::Background()
     offset.x = -SCREEN_X;
     offset.y = -SCREEN_Y;
 
-    initGL("res/background2.png");
+    initGL("res/background.png");
 }
 
 
@@ -54,7 +54,7 @@ Background::render()
 void
 Background::tick(int ticks)
 {
-    if (offset.y >= -(SCREEN_Y + size.y)) {
+    if (offset.y > -(SCREEN_Y + size.y)) {
         offset.y -= 1;
     }
     else {

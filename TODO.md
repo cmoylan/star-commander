@@ -4,7 +4,7 @@
 - [] menu
 - [] explosions
 - [] scoreboard
-- [] background
+- [x] background
 - [x] normalize sounds
 - [x] fix framerate
 - [x] holding down controls
