@@ -2,7 +2,7 @@
 
 
 void
-resetGlState()
+Util::resetGlState()
 {
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
@@ -10,8 +10,22 @@ resetGlState()
 }
 
 
+void 
+Util::createAndBindContext(GLuint* vao, GLuint* vbo, GLuint* ebo)
+{
+    glGenVertexArrays(1, vao);
+    glBindVertexArray(*vao);
+
+    glGenBuffers(1, vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, *vbo);
+
+    glGenBuffers(1, ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, *ebo);
+}
+
+
 GLuint
-createProgram(const std::vector<GLuint>& shaderList)
+Util::createProgram(const std::vector<GLuint>& shaderList)
 {
     size_t i;
     GLuint program;
@@ -40,8 +54,8 @@ createProgram(const std::vector<GLuint>& shaderList)
 
 
 GLuint
-createProgramFromShaders(std::string vertexFile,
-                         std::string fragmentFile)
+Util::createProgramFromShaders(std::string vertexFile,
+                               std::string fragmentFile)
 {
     GLuint program = glCreateProgram();
     GLuint shader;
@@ -81,7 +95,7 @@ createProgramFromShaders(std::string vertexFile,
 
 
 GLuint
-createShader(GLenum shaderType, const std::string& shaderFile)
+Util::createShader(GLenum shaderType, const std::string& shaderFile)
 {
     GLint status;
     std::string shaderSource;
@@ -116,7 +130,7 @@ createShader(GLenum shaderType, const std::string& shaderFile)
 
 
 std::string
-loadStringFromFile(const std::string& filename)
+Util::loadStringFromFile(const std::string& filename)
 {
     std::stringstream sstr;
     std::ifstream file;
@@ -136,7 +150,7 @@ loadStringFromFile(const std::string& filename)
 
 void
 //#args: buffer, filename
-loadTexture(GLuint buffer, const std::string& filename)
+Util::loadTexture(GLuint buffer, const std::string& filename)
 {
     int width, height;
     unsigned char* image;

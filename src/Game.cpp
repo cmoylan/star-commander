@@ -90,9 +90,8 @@ Game::render()
     BulletRegistry::getInstance().render();
 
     //Menu* menu = Menu::getInstance();
-    if (Menu::getInstance()->showing) {
-        Menu::getInstance()->render();
-        //menu->render();
+    if (menu->showing) {
+        menu->render();
     }
 }
 

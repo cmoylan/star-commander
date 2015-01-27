@@ -19,6 +19,8 @@ Game::init()
     initAudio();
     initEntities();
     initAI();
+    
+    menu = new Menu();
 }
 
 

@@ -89,16 +89,11 @@ BulletRegistry::flush()
 void
 BulletRegistry::initGL()
 {
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
+    // TODO: move vbo and ebo into createAndBindContext
+    GLuint vbo, ebo;
+    Util::createAndBindContext(&vao, &vbo, &ebo);
 
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-    glGenBuffers(1, &ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-
-    shaderProgram = createProgramFromShaders("src/shaders/square.v.glsl",
+    shaderProgram = Util::createProgramFromShaders("src/shaders/square.v.glsl",
                     "src/shaders/square.f.glsl");
 
     GLint posAttrib = glGetAttribLocation(shaderProgram, "position");
@@ -182,7 +177,7 @@ BulletRegistry::render()
         // draw
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
     }
-    resetGlState();
+    Util::resetGlState();
 }
 
 

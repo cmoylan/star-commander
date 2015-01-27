@@ -93,7 +93,7 @@ private:
     void operator=(BulletRegistry const&); // Don't implement
 
     // --- OpenGL
-    GLuint vao, vbo, ebo, uniTrans, uniColor;
+    GLuint vao, uniTrans, uniColor;
     GLuint shaderProgram;
 
     void initGL();

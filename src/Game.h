@@ -21,6 +21,7 @@ class Enemy;
 class EnemyAI;
 class CollisionManager;
 class Background;
+class Menu;
 
 class Game {
 
@@ -41,6 +42,8 @@ class Game {
     CollisionManager *collisionManager;
     EnemyAI *enemyAI; // enemy AI manager
 
+    Menu* menu;
+    
     int playerInputX;
     int playerInputY;
 

@@ -4,22 +4,14 @@ void
 Entity::initGL(std::string texture)
 {
     // --- set up buffers/program
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    GLuint vbo;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-
-    GLuint ebo;
-    glGenBuffers(1, &ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    GLuint vbo, ebo;
+    Util::createAndBindContext(&vao, &vbo, &ebo);
 
     glGenTextures(1, &tex);
-    loadTexture(tex, texture);
+    Util::loadTexture(tex, texture);
 
     // set up the shader program
-    shaderProgram = createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
+    shaderProgram = Util::createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
                     "src/shaders/texturedSquare.f.glsl");
     glUseProgram(shaderProgram);
 
@@ -64,7 +56,7 @@ Entity::initGL(std::string texture)
                  elements, GL_STATIC_DRAW);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    resetGlState();
+    Util::resetGlState();
 }
 
 
@@ -85,5 +77,5 @@ Entity::render()
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    resetGlState();
+    Util::resetGlState();
 }

@@ -12,21 +12,27 @@
 #include "OpenGL.h"
 
 
-GLuint createProgram(const std::vector<GLuint>& shaderList);
+//TODO: namespace
+namespace Util {
+  
+    void createAndBindContext(GLuint* vao, GLuint* vbo, GLuint* ebo);
 
-GLuint createProgramFromShaders(std::string vertexFile,
-                                std::string fragmentFile);
+    GLuint createProgram(const std::vector<GLuint>& shaderList);
 
-GLuint createShader(GLenum shaderType, const std::string& strShaderFile);
+    GLuint createProgramFromShaders(std::string vertexFile,
+				    std::string fragmentFile);
 
-std::string loadStringFromFile(const std::string& filename);
+    GLuint createShader(GLenum shaderType, const std::string& strShaderFile);
 
-void loadTexture(GLuint buffer, const std::string& filename);
+    std::string loadStringFromFile(const std::string& filename);
 
-/**
- * Reset OpenGL state machine
- *
- * Sets texture buffer, vertex array, and shader program to 0.
- */
-void resetGlState();
+    void loadTexture(GLuint buffer, const std::string& filename);
 
+    /**
+    * Reset OpenGL state machine
+    *
+    * Sets texture buffer, vertex array, and shader program to 0.
+    */
+    void resetGlState();
+
+}

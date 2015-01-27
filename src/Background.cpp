@@ -47,7 +47,7 @@ Background::render()
     glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans2));
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    resetGlState();
+    Util::resetGlState();
 }
 
 
