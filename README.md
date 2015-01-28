@@ -2,6 +2,8 @@
 
 A game.
 
+![Screenshot of the game](screenshot.png)
+
 ## Requirements ##
 
 * sdl2
