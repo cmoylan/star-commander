@@ -89,9 +89,7 @@ BulletRegistry::flush()
 void
 BulletRegistry::initGL()
 {
-    // TODO: move vbo and ebo into createAndBindContext
-    GLuint vbo, ebo;
-    Util::createAndBindContext(&vao, &vbo, &ebo);
+    Util::createAndBindContext(&vao);
 
     shaderProgram = Util::createProgramFromShaders("src/shaders/square.v.glsl",
                     "src/shaders/square.f.glsl");

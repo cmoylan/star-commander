@@ -14,7 +14,7 @@ Menu::~Menu()
 void
 Menu::initGL()
 {
-    Util::createAndBindContext(&vao, &vbo, &ebo);
+    Util::createAndBindContext(&vao);
 
     shaderProgram = Util::createProgramFromShaders("src/shaders/square.v.glsl",
                     "src/shaders/square.f.glsl");

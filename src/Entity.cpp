@@ -4,8 +4,7 @@ void
 Entity::initGL(std::string texture)
 {
     // --- set up buffers/program
-    GLuint vbo, ebo;
-    Util::createAndBindContext(&vao, &vbo, &ebo);
+    Util::createAndBindContext(&vao);
 
     glGenTextures(1, &tex);
     Util::loadTexture(tex, texture);

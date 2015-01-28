@@ -12,10 +12,9 @@
 #include "OpenGL.h"
 
 
-//TODO: namespace
 namespace Util {
   
-    void createAndBindContext(GLuint* vao, GLuint* vbo, GLuint* ebo);
+    void createAndBindContext(GLuint* vao);
 
     GLuint createProgram(const std::vector<GLuint>& shaderList);
 
