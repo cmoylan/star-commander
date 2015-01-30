@@ -29,6 +29,10 @@
 #define BULLET_WIDTH 2
 #define BULLET_HEIGHT 2
 
+#define MENU_ITEM_WIDTH 50
+#define MENU_ITEM_HEIGHT 20
+
+#define GAME_TITLE "Star Commander"
 
 // DEPRECATED - use Vector2D instead
 typedef struct {

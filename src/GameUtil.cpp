@@ -19,7 +19,7 @@ Game::init()
     initAudio();
     initEntities();
     initAI();
-    
+
     menu = new Menu();
 }
 
@@ -76,7 +76,7 @@ Game::initSDL()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
-    window = SDL_CreateWindow("OpenGL", SDL_WINDOWPOS_CENTERED,
+    window = SDL_CreateWindow(GAME_TITLE, SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH,
                               WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
     context = SDL_GL_CreateContext(window);

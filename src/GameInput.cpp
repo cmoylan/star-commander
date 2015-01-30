@@ -43,6 +43,10 @@ Game::handleKeyDown(SDL_Event* event)
     case SDLK_p:
         paused = !paused;
         break;
+    case SDLK_m:
+        paused = !paused;
+        menu->toggle();
+        break;
     }
 }
 

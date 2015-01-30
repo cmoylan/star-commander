@@ -10,8 +10,9 @@ Entity::initGL(std::string texture)
     Util::loadTexture(tex, texture);
 
     // set up the shader program
-    shaderProgram = Util::createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
-                    "src/shaders/texturedSquare.f.glsl");
+    shaderProgram =
+        Util::createProgramFromShaders("src/shaders/texturedSquare.v.glsl",
+                                       "src/shaders/texturedSquare.f.glsl");
     glUseProgram(shaderProgram);
 
     // --- map glsl attributes to pointers

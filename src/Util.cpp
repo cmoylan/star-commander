@@ -10,11 +10,12 @@ Util::resetGlState()
 }
 
 
-void 
+void
 Util::createAndBindContext(GLuint* vao)
 {
+    // TODO: error handling
     GLuint vbo, ebo;
-    
+
     glGenVertexArrays(1, vao);
     glBindVertexArray(*vao);
 
