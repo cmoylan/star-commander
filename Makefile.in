@@ -50,4 +50,8 @@ all : clean $(OBJS)
 clean:
 	rm -f $(OBJ_NAME)
 	rm -f build/*
-#rm -f src/*~
+
+distclean: clean
+	rm config.log config.status configure
+	rm -r autom4te.cache aclocal.m4
+	rm Makefile

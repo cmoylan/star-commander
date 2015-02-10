@@ -5,13 +5,6 @@ AC_PROG_CXX
 AC_LANG(C++)
 
 # check for headers
-#AC_CHECK_HEADERS(sdl.h SDL2/sdl.h)
-#AC_CHECK_HEADERS(SDL_opengl.h SDL2/SDL_opengl.h)
-#AC_CHECK_HEADERS(SDL_mixer.h SDL2/SDL_mixer.h)
-#AC_CHECK_HEADERS(glew.h GL/glew.h)
-#AC_CHECK_HEADERS(SOIL.h SOIL/SOIL.h)
-
-#
 PKG_CHECK_MODULES(SDL, sdl2)
 PKG_CHECK_MODULES(SDL_Mixer, SDL2_mixer)
 
