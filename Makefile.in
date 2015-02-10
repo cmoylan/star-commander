@@ -1,0 +1,53 @@
+SUBDIRS = src
+BUILD_DIR = build
+
+#OBJ_NAME specifies the name of our exectuable
+OBJ_NAME = engine
+
+#CC specifies which compiler we're using
+CC = g++
+
+OBJS = src/Util.cpp \
+	src/Entity.cpp \
+	src/Character.cpp \
+	src/Enemy.cpp \
+	src/BulletRegistry.cpp \
+	src/EnemyAI.cpp src/CollisionManager.cpp \
+	src/Background.cpp \
+	src/GameUtil.cpp \
+	src/GameInput.cpp \
+	src/Game.cpp \
+	src/Menu.cpp \
+	src/Sound.cpp \
+	src/main.cpp
+
+starcom_CFLAGS = -I/usr/local/include \
+		 -I/usr/include/SOIL \
+		 -I/usr/include/GL \
+		 @SDL_CFLAGS@ \
+		 @SDL_Mixer_CFLAGS@ \
+		 @SOIL_CFLAGS@
+
+CFLAGS = -g -Wall -Wextra -std=c++0x $(starcom_CFLAGS) $(OPTFLAGS)
+
+starcom_LIBS = -L/usr/local/lib \
+		-L/opt/local/lib \
+		@SDL_LIBS@ \
+		@SDL_Mixer_LIBS@
+
+LIBS = $(starcom_LIBS)
+
+# TODO: handle mac vs linux
+LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW -lSOIL
+
+
+all : clean $(OBJS)
+	$(CC) $(OBJS) \
+	$(CFLAGS) $(LIBS) \
+	$(LINKER_FLAGS) \
+	-o $(OBJ_NAME)
+
+clean:
+	rm -f $(OBJ_NAME)
+	rm -f build/*
+#rm -f src/*~
