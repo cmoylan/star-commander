@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <FTGL/ftgl.h>
 
 #include "Constants.h"
 #include "OpenGL.h"
@@ -20,7 +21,8 @@ public:
     menuItems currentSelection;
     int itemWidth;
     int itemHeight;
-
+    FTPixmapFont* font;
+  
     Menu();
     ~Menu();
 
