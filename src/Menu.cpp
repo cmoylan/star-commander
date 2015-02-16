@@ -12,9 +12,13 @@ Menu::Menu()
     if(FT_New_Face(ft, "res/Pixel-UniCode.ttf", 0, &face)) {
 	fprintf(stderr, "Could not open font\n");
     }
+
+
     // --- end font --- //
 
     initGL();
+
+    font48 = new FontAtlas(face, 48, uniformTex);
 }
 
 
@@ -50,22 +54,24 @@ Menu::render()
     glBindVertexArray(vao);
 
     // --- new code --- //
-    glClearColor(1, 0, 1, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+    //glClearColor(1, 1, 1, 1);
+    //glClear(GL_COLOR_BUFFER_BIT);
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    //glEnable(GL_BLEND);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // set font to 48, black
-    //FT_Set_Pixel_Sizes(face, 0, 48);
-    GLfloat black[4] = {0, 0, 0, 1};
+    // color of the font
+    GLfloat black[4] = {0, 1, 0, 1};
     glUniform4fv(uniformColor, 1, black);
 
     float sx = 2.0f / WINDOW_WIDTH;
     float sy = 2.0f / WINDOW_HEIGHT;
 
+
     FT_Set_Pixel_Sizes(face, 0, 48);
     renderText("The Quick Brown Fox Jumps Over The Lazy Dog",
+	       -1 + 8 * sx,   1 - 50 * sy,    sx, sy);
+    renderText("The Quick Brown Fox Jumps Over The Lazy Dog", font48,
 		-1 + 8 * sx,   1 - 50 * sy,    sx, sy);
 
     Util::resetGlState();
@@ -144,6 +150,66 @@ Menu::renderText(const char *text, float x, float y, float sx, float sy)
     glDeleteTextures(1, &tex);
 }
 
+
+void
+Menu::renderText(const char *text,
+		 FontAtlas* a,
+		 float x,
+		 float y,
+		 float sx,
+		 float sy)
+{
+    const uint8_t *p;
+
+    /* Use the texture containing the atlas */
+    glBindTexture(GL_TEXTURE_2D, a->tex);
+    glUniform1i(uniformTex, 0);
+
+    /* Set up the VBO for our vertex data */
+    glEnableVertexAttribArray(attributeCoord);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glVertexAttribPointer(attributeCoord, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+    point coords[6 * strlen(text)];
+    int c = 0;
+
+    /* Loop through all characters */
+    for (p = (const uint8_t *)text; *p; p++) {
+	/* Calculate the vertex and texture coordinates */
+	float x2 = x + a->c[*p].bl * sx;
+	float y2 = -y - a->c[*p].bt * sy;
+	float w = a->c[*p].bw * sx;
+	float h = a->c[*p].bh * sy;
+
+	/* Advance the cursor to the start of the next character */
+	x += a->c[*p].ax * sx;
+	y += a->c[*p].ay * sy;
+
+	/* Skip glyphs that have no pixels */
+	if (!w || !h) {
+	    continue;
+	}
+
+	coords[c++] = (point) {
+	    x2, -y2, a->c[*p].tx, a->c[*p].ty};
+	coords[c++] = (point) {
+	    x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty};
+	coords[c++] = (point) {
+	    x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h};
+	coords[c++] = (point) {
+	    x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty};
+	coords[c++] = (point) {
+	    x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h};
+	coords[c++] = (point) {
+	    x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h};
+    }
+
+    /* Draw all the character on the screen in one go */
+    glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW);
+    glDrawArrays(GL_TRIANGLES, 0, c);
+
+    glDisableVertexAttribArray(attributeCoord);
+}
 
 void
 Menu::toggle()

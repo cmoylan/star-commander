@@ -1,18 +1,13 @@
 #pragma once
 
-// TODO: move into opengl.h?
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include "Constants.h"
-#include "OpenGL.h"
-#include "Util.h"
-
-// --- begin font --- //
+#include <algorithm>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-// --- end font --- //
+
+#include "Constants.h"
+#include "FontAtlas.h"
+#include "OpenGL.h"
+#include "Util.h"
 
 
 class Menu {
@@ -20,18 +15,20 @@ class Menu {
 public:
     enum menuItems {
         NewGame, Quit
-    };
+	    };
     bool showing;
     menuItems currentSelection;
     int itemWidth;
     int itemHeight;
-
+    FontAtlas* font48;
 
     Menu();
     ~Menu();
 
     void render();
+    // old signature
     void renderText(const char *text, float x, float y, float sx, float sy);
+    void renderText(const char* text, FontAtlas* a, float x, float y, float sx, float sy);
 
     void toggle();
 
