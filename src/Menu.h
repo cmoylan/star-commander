@@ -42,17 +42,16 @@ public:
 private:
     int leftEdge;
 
+    GLuint vao;
+    GLuint vbo;
     GLuint shaderProgram;
     GLint attributeCoord;
     GLint uniformTex;
     GLint uniformColor;
 
-    // --- OpenGL
-    GLuint vao, vbo, uniTrans, uniColor;
-
     void initGL();
 
     FT_Library ft;
     FT_Face face;
-    FT_GlyphSlot g;
+    //FT_GlyphSlot g;
 };
