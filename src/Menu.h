@@ -4,11 +4,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <FTGL/ftgl.h>
 
 #include "Constants.h"
 #include "OpenGL.h"
 #include "Util.h"
+
+// --- begin font --- //
+#include <ft2build.h>
+#include FT_FREETYPE_H
+// --- end font --- //
 
 
 class Menu {
@@ -21,12 +25,13 @@ public:
     menuItems currentSelection;
     int itemWidth;
     int itemHeight;
-    FTPixmapFont* font;
-  
+
+
     Menu();
     ~Menu();
 
     void render();
+    void renderText(const char *text, float x, float y, float sx, float sy);
 
     void toggle();
 
@@ -37,13 +42,17 @@ public:
 private:
     int leftEdge;
 
-    // --- OpenGL
-    GLuint vao, uniTrans, uniColor;
     GLuint shaderProgram;
+    GLint attributeCoord;
+    GLint uniformTex;
+    GLint uniformColor;
 
-    // TODO: there will be more of these
-    GLuint tex, tex2;
+    // --- OpenGL
+    GLuint vao, vbo, uniTrans, uniColor;
 
     void initGL();
 
+    FT_Library ft;
+    FT_Face face;
+    FT_GlyphSlot g;
 };
