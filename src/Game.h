@@ -9,7 +9,7 @@
 #include "BulletRegistry.h"
 #include "Character.h"
 #include "CollisionManager.h"
-#include "Config.h"
+//#include "Config.h"
 #include "EnemyAI.h"
 #include "Enemy.h"
 #include "Menu.h"
