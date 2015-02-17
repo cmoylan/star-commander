@@ -1,6 +1,5 @@
 #pragma once
 
-#include <algorithm>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -15,7 +14,7 @@ class Menu {
 public:
     enum menuItems {
         NewGame, Quit
-	    };
+    };
     bool showing;
     menuItems currentSelection;
     int itemWidth;
@@ -28,7 +27,8 @@ public:
     void render();
     // old signature
     void renderText(const char *text, float x, float y, float sx, float sy);
-    void renderText(const char* text, FontAtlas* a, float x, float y, float sx, float sy);
+    void renderText(const char* text, FontAtlas* a, float x, float y, float sx,
+                    float sy);
 
     void toggle();
 

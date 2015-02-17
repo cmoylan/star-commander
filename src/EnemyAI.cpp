@@ -18,7 +18,7 @@ EnemyAI::avoidBullets(std::vector<EnemyStateMachine>::iterator enemySm)
 {
     // if distance between 2 shots > body width, stay centered between them
     // otherwise move outside of the range of both, as long as a wall is not present
-  
+
     // TODO: better bullets
     // need to ask the bullet registry it there are any bullets nearby
     // probably need to make up some new data structure to make it easy to look that up

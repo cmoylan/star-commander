@@ -6,11 +6,11 @@ Menu::Menu()
 
     // --- begin font --- //
     if (FT_Init_FreeType(&ft)) {
-	fprintf(stderr, "Could not init freetype library\n");
+        fprintf(stderr, "Could not init freetype library\n");
     }
 
-    if(FT_New_Face(ft, "res/Pixel-UniCode.ttf", 0, &face)) {
-	fprintf(stderr, "Could not open font\n");
+    if (FT_New_Face(ft, "res/Pixel-UniCode.ttf", 0, &face)) {
+        fprintf(stderr, "Could not open font\n");
     }
 
 
@@ -62,6 +62,7 @@ Menu::render()
 
     // color of the font
     GLfloat black[4] = {0, 1, 0, 1};
+    GLfloat red[4] = { 1, 0, 0, 1 };
     glUniform4fv(uniformColor, 1, black);
 
     float sx = 2.0f / WINDOW_WIDTH;
@@ -71,8 +72,8 @@ Menu::render()
     FT_Set_Pixel_Sizes(face, 0, 48);
     renderText("The Quick Brown Fox Jumps Over The Lazy Dog",
 	       -1 + 8 * sx,   1 - 50 * sy,    sx, sy);
-    renderText("The Quick Brown Fox Jumps Over The Lazy Dog", font48,
-		-1 + 8 * sx,   1 - 50 * sy,    sx, sy);
+    //renderText("The Quick Brown Fox Jumps Over The Lazy Dog", font48, -1 + 8 * sx, 1 - 50 * sy, sx, sy);
+
 
     Util::resetGlState();
     //glUseProgram(0);
@@ -109,40 +110,40 @@ Menu::renderText(const char *text, float x, float y, float sx, float sy)
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(attributeCoord, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
-    for(p = text; *p; p++) {
-	if (FT_Load_Char(face, *p, FT_LOAD_RENDER)) {
-	    continue;
-	}
+    for (p = text; *p; p++) {
+        if (FT_Load_Char(face, *p, FT_LOAD_RENDER)) {
+            continue;
+        }
 
-	glTexImage2D(
-		     GL_TEXTURE_2D,
-		     0,
-		     GL_RED,
-		     g->bitmap.width,
-		     g->bitmap.rows,
-		     0,
-		     GL_RED,
-		     GL_UNSIGNED_BYTE,
-		     g->bitmap.buffer
-		     );
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RED,
+            g->bitmap.width,
+            g->bitmap.rows,
+            0,
+            GL_RED,
+            GL_UNSIGNED_BYTE,
+            g->bitmap.buffer
+        );
 
-	float x2 = x + g->bitmap_left * sx;
-	float y2 = -y - g->bitmap_top * sy;
-	float w = g->bitmap.width * sx;
-	float h = g->bitmap.rows * sy;
+        float x2 = x + g->bitmap_left * sx;
+        float y2 = -y - g->bitmap_top * sy;
+        float w = g->bitmap.width * sx;
+        float h = g->bitmap.rows * sy;
 
-	GLfloat box[4][4] = {
-	    {x2,     -y2    , 0, 0},
-	    {x2 + w, -y2    , 1, 0},
-	    {x2,     -y2 - h, 0, 1},
-	    {x2 + w, -y2 - h, 1, 1},
-	};
+        GLfloat box[4][4] = {
+            {x2,     -y2    , 0, 0},
+            {x2 + w, -y2    , 1, 0},
+            {x2,     -y2 - h, 0, 1},
+            {x2 + w, -y2 - h, 1, 1},
+        };
 
-	glBufferData(GL_ARRAY_BUFFER, sizeof box, box, GL_DYNAMIC_DRAW);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+        glBufferData(GL_ARRAY_BUFFER, sizeof box, box, GL_DYNAMIC_DRAW);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	x += (g->advance.x >> 6) * sx;
-	y += (g->advance.y >> 6) * sy;
+        x += (g->advance.x >> 6) * sx;
+        y += (g->advance.y >> 6) * sy;
 
     }
 
@@ -153,11 +154,11 @@ Menu::renderText(const char *text, float x, float y, float sx, float sy)
 
 void
 Menu::renderText(const char *text,
-		 FontAtlas* a,
-		 float x,
-		 float y,
-		 float sx,
-		 float sy)
+                 FontAtlas* a,
+                 float x,
+                 float y,
+                 float sx,
+                 float sy)
 {
     const uint8_t *p;
 
@@ -175,33 +176,40 @@ Menu::renderText(const char *text,
 
     /* Loop through all characters */
     for (p = (const uint8_t *)text; *p; p++) {
-	/* Calculate the vertex and texture coordinates */
-	float x2 = x + a->c[*p].bl * sx;
-	float y2 = -y - a->c[*p].bt * sy;
-	float w = a->c[*p].bw * sx;
-	float h = a->c[*p].bh * sy;
+        /* Calculate the vertex and texture coordinates */
+        float x2 = x + a->c[*p].bl * sx;
+        float y2 = -y - a->c[*p].bt * sy;
+        float w = a->c[*p].bw * sx;
+        float h = a->c[*p].bh * sy;
 
-	/* Advance the cursor to the start of the next character */
-	x += a->c[*p].ax * sx;
-	y += a->c[*p].ay * sy;
+        /* Advance the cursor to the start of the next character */
+        x += a->c[*p].ax * sx;
+        y += a->c[*p].ay * sy;
 
-	/* Skip glyphs that have no pixels */
-	if (!w || !h) {
-	    continue;
-	}
+        /* Skip glyphs that have no pixels */
+        if (!w || !h) {
+            continue;
+        }
 
-	coords[c++] = (point) {
-	    x2, -y2, a->c[*p].tx, a->c[*p].ty};
-	coords[c++] = (point) {
-	    x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty};
-	coords[c++] = (point) {
-	    x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h};
-	coords[c++] = (point) {
-	    x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty};
-	coords[c++] = (point) {
-	    x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h};
-	coords[c++] = (point) {
-	    x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty + a->c[*p].bh / a->h};
+        coords[c++] = (point) {
+            x2, -y2, a->c[*p].tx, a->c[*p].ty
+        };
+        coords[c++] = (point) {
+            x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty
+        };
+        coords[c++] = (point) {
+            x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h
+        };
+        coords[c++] = (point) {
+            x2 + w, -y2, a->c[*p].tx + a->c[*p].bw / a->w, a->c[*p].ty
+        };
+        coords[c++] = (point) {
+            x2, -y2 - h, a->c[*p].tx, a->c[*p].ty + a->c[*p].bh / a->h
+        };
+        coords[c++] = (point) {
+            x2 + w, -y2 - h, a->c[*p].tx + a->c[*p].bw / a->w,
+            a->c[*p].ty + a->c[*p].bh / a->h
+        };
     }
 
     /* Draw all the character on the screen in one go */

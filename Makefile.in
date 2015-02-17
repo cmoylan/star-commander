@@ -26,14 +26,17 @@ starcom_CFLAGS = -I/usr/local/include \
 		 -I/usr/include/GL \
 		 @SDL_CFLAGS@ \
 		 @SDL_Mixer_CFLAGS@ \
+		 @Freetype_CFLAGS@ \
 		 @SOIL_CFLAGS@
+
 
 CFLAGS = -g -Wall -Wextra -std=c++0x $(starcom_CFLAGS) $(OPTFLAGS)
 
 starcom_LIBS = -L/usr/local/lib \
 		-L/opt/local/lib \
 		@SDL_LIBS@ \
-		@SDL_Mixer_LIBS@
+		@SDL_Mixer_LIBS@ \
+		@Freetype_LIBS@
 
 LIBS = $(starcom_LIBS)
 
@@ -55,3 +58,14 @@ distclean: clean
 	rm config.log config.status configure
 	rm -r autom4te.cache aclocal.m4
 	rm Makefile
+
+# http://astyle.sourceforge.net/astyle.html
+style:
+	astyle --options=.astylerc `ls src/*.h src/*.cpp`
+
+# http://cppcheck.sourceforge.net/manual.html
+lint:
+	cppcheck --enable=all ./src
+
+grind: all
+	valgrind ./$(OBJ_NAME)
