@@ -20,33 +20,47 @@ Game::handleInput(SDL_Event* event)
 void
 Game::handleKeyDown(SDL_Event* event)
 {
-    // TODO: allow keys to be remapped
+    // --- menu --- //
+    if (paused) {
+	switch (event->key.keysym.sym) {
+	case SDLK_q:
+	    running = false;
+	    break;
+	}
+    }
+
+    // --- regular gameplay --- //
+    else {
+	switch (event->key.keysym.sym) {
+	case SDLK_w:
+	    playerInputY = INPUT_WEIGHT_Y;
+	    break;
+	case SDLK_a:
+	    playerInputX = -INPUT_WEIGHT_X;
+	    break;
+	case SDLK_s:
+	    playerInputY = -INPUT_WEIGHT_Y;
+	    break;
+	case SDLK_d:
+	    playerInputX = INPUT_WEIGHT_X;
+	    break;
+	case SDLK_SPACE:
+	    character->fire();
+	    break;
+	}
+    }
+
+    // --- all states --- //
     switch (event->key.keysym.sym) {
     case SDLK_ESCAPE:
-        running = false;
-        break;
-    case SDLK_w:
-        playerInputY = INPUT_WEIGHT_Y;
-        break;
-    case SDLK_a:
-        playerInputX = -INPUT_WEIGHT_X;
-        break;
-    case SDLK_s:
-        playerInputY = -INPUT_WEIGHT_Y;
-        break;
-    case SDLK_d:
-        playerInputX = INPUT_WEIGHT_X;
-        break;
-    case SDLK_SPACE:
-        character->fire();
-        break;
-    case SDLK_p:
-        paused = !paused;
-        break;
-    case SDLK_m:
-        paused = !paused;
-        menu->toggle();
-        break;
+	paused = !paused;
+	menu->toggle();
+
+	if (paused) {
+	    playerInputX = 0;
+	    playerInputY = 0;
+	}
+	break;
     }
 }
 
