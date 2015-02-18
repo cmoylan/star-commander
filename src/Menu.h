@@ -1,12 +1,7 @@
 #pragma once
 
-#include <ft2build.h>
-#include FT_FREETYPE_H
-
 #include "Constants.h"
-#include "FontAtlas.h"
-#include "OpenGL.h"
-#include "Util.h"
+#include "TextRenderer.h"
 
 
 class Menu {
@@ -38,17 +33,4 @@ public:
 
 private:
     int leftEdge;
-
-    GLuint vao;
-    GLuint vbo;
-    GLuint shaderProgram;
-    GLint attributeCoord;
-    GLint uniformTex;
-    GLint uniformColor;
-
-    void initGL();
-
-    FT_Library ft;
-    FT_Face face;
-    //FT_GlyphSlot g;
 };

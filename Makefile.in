@@ -19,6 +19,7 @@ OBJS = src/Util.cpp \
 	src/Game.cpp \
 	src/Menu.cpp \
 	src/Sound.cpp \
+	src/TextRenderer.cpp \
 	src/main.cpp
 
 starcom_CFLAGS = -I/usr/local/include \

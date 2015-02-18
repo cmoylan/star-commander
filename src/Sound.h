@@ -1,5 +1,4 @@
-#ifndef SOUND_H
-#define SOUND_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -36,5 +35,3 @@ private:
     void operator=(Sound const&); // Don't implement
 
 };
-
-#endif
