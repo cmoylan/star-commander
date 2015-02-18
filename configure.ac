@@ -14,13 +14,18 @@ AC_MSG_CHECKING([for libSOIL])
 if find /usr/include -iname 'SOIL' | egrep '.*'
 then
 	AC_SUBST(SOIL_CFLAGS, -I`find /usr/include -iname 'SOIL'`)
-fi
-
-if find /opt -iname 'SOIL' | egrep '.*'
+elif find /opt -iname 'SOIL' | egrep '.*'
 then
 	AC_SUBST(SOIL_CFLAGS, -I`find /opt -iname 'SOIL'`)
 else
 	AC_MSG_RESULT([no])
 fi
+
+#if find /opt -iname 'SOIL' | egrep '.*'
+#then
+#	AC_SUBST(SOIL_CFLAGS, -I`find /opt -iname 'SOIL'`)
+#else
+#	AC_MSG_RESULT([no])
+#fi
 
 AC_OUTPUT(Makefile) # src/Makefile)
