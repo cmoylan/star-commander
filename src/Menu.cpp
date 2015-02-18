@@ -4,7 +4,6 @@ Menu::Menu()
 {
     showing = false;
 
-    // --- begin font --- //
     if (FT_Init_FreeType(&ft)) {
         fprintf(stderr, "Could not init freetype library\n");
     }
@@ -12,9 +11,6 @@ Menu::Menu()
     if (FT_New_Face(ft, "res/Pixel-UniCode.ttf", 0, &face)) {
         fprintf(stderr, "Could not open font\n");
     }
-
-
-    // --- end font --- //
 
     initGL();
 
@@ -61,22 +57,19 @@ Menu::render()
     //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // color of the font
-    GLfloat black[4] = {0, 1, 0, 1};
+    GLfloat green[4] = {0, 1, 0, 1};
     GLfloat red[4] = { 1, 0, 0, 1 };
-    glUniform4fv(uniformColor, 1, black);
+    glUniform4fv(uniformColor, 1, green);
 
     float sx = 2.0f / WINDOW_WIDTH;
     float sy = 2.0f / WINDOW_HEIGHT;
 
-
-    FT_Set_Pixel_Sizes(face, 0, 48);
-    renderText("The Quick Brown Fox Jumps Over The Lazy Dog",
-	       -1 + 8 * sx,   1 - 50 * sy,    sx, sy);
+    FT_Set_Pixel_Sizes(face, 0, 32);
+    renderText("Press Q to quit, Esc to resume.",
+               -1 + 250 * sx,   1 - 400 * sy,    sx, sy);
     //renderText("The Quick Brown Fox Jumps Over The Lazy Dog", font48, -1 + 8 * sx, 1 - 50 * sy, sx, sy);
 
-
     Util::resetGlState();
-    //glUseProgram(0);
 }
 
 
@@ -152,6 +145,7 @@ Menu::renderText(const char *text, float x, float y, float sx, float sy)
 }
 
 
+// not used
 void
 Menu::renderText(const char *text,
                  FontAtlas* a,

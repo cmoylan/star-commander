@@ -57,7 +57,7 @@ public:
                 fprintf(stderr, "Loading character %c failed!\n", i);
                 continue;
             }
-	    //printf("loaded character %c\n", i);
+            //printf("loaded character %c\n", i);
 
             if (roww + g->bitmap.width + 1 >= MAXWIDTH) {
                 w = std::max(w, roww);
@@ -77,7 +77,7 @@ public:
         glBindTexture(GL_TEXTURE_2D, tex);
         glUniform1i(uniformTex, 0);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w, h, 0,
-		     GL_ALPHA, GL_UNSIGNED_BYTE, 0);
+                     GL_ALPHA, GL_UNSIGNED_BYTE, 0);
 
         /* We require 1 byte alignment when uploading texture data */
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
