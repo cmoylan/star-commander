@@ -39,18 +39,19 @@ TextRenderer::initGL()
 
 
 void
-TextRenderer::renderText(const char *text, float x, float y, float sx, float sy, GLfloat color[4], int size)
+TextRenderer::renderText(const char *text, float x, float y, float sx, float sy,
+                         GLfloat color[4], int size)
 {
     const char *p;
     FT_GlyphSlot g = face->glyph;
 
     glUseProgram(shaderProgram);
     glBindVertexArray(vao);
-    
+
     // set the color and size
-     glUniform4fv(uniformColor, 1, color);
-     FT_Set_Pixel_Sizes(face, 0, 32);
-    
+    glUniform4fv(uniformColor, 1, color);
+    FT_Set_Pixel_Sizes(face, 0, 32);
+
     /* Create a texture that will be used to hold one "glyph" */
     GLuint tex;
 
@@ -128,19 +129,19 @@ TextRenderer::renderText(const char *text, float x, float y, float sx, float sy,
 //                  float sy)
 // {
 //     const uint8_t *p;
-// 
+//
 //     /* Use the texture containing the atlas */
 //     glBindTexture(GL_TEXTURE_2D, a->tex);
 //     glUniform1i(uniformTex, 0);
-// 
+//
 //     /* Set up the VBO for our vertex data */
 //     glEnableVertexAttribArray(attributeCoord);
 //     glBindBuffer(GL_ARRAY_BUFFER, vbo);
 //     glVertexAttribPointer(attributeCoord, 4, GL_FLOAT, GL_FALSE, 0, 0);
-// 
+//
 //     point coords[6 * strlen(text)];
 //     int c = 0;
-// 
+//
 //     /* Loop through all characters */
 //     for (p = (const uint8_t *)text; *p; p++) {
 //         /* Calculate the vertex and texture coordinates */
@@ -148,16 +149,16 @@ TextRenderer::renderText(const char *text, float x, float y, float sx, float sy,
 //         float y2 = -y - a->c[*p].bt * sy;
 //         float w = a->c[*p].bw * sx;
 //         float h = a->c[*p].bh * sy;
-// 
+//
 //         /* Advance the cursor to the start of the next character */
 //         x += a->c[*p].ax * sx;
 //         y += a->c[*p].ay * sy;
-// 
+//
 //         /* Skip glyphs that have no pixels */
 //         if (!w || !h) {
 //             continue;
 //         }
-// 
+//
 //         coords[c++] = (point) {
 //             x2, -y2, a->c[*p].tx, a->c[*p].ty
 //         };
@@ -178,10 +179,10 @@ TextRenderer::renderText(const char *text, float x, float y, float sx, float sy,
 //             a->c[*p].ty + a->c[*p].bh / a->h
 //         };
 //     }
-// 
+//
 //     /* Draw all the character on the screen in one go */
 //     glBufferData(GL_ARRAY_BUFFER, sizeof coords, coords, GL_DYNAMIC_DRAW);
 //     glDrawArrays(GL_TRIANGLES, 0, c);
-// 
+//
 //     glDisableVertexAttribArray(attributeCoord);
 // }

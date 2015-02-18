@@ -21,7 +21,8 @@ public:
     FontAtlas* font48;
 
     // old signature
-    void renderText(const char *text, float x, float y, float sx, float sy, GLfloat color[4], int size);
+    void renderText(const char *text, float x, float y, float sx, float sy,
+                    GLfloat color[4], int size);
     // new with font atlas
     //void renderText(const char* text, FontAtlas* a, float x, float y, float sx,
     //                float sy);
@@ -40,7 +41,7 @@ private:
     FT_Library ft;
     FT_Face face;
     //FT_GlyphSlot g;
-    
+
     // --- Singleton things
     TextRenderer(); // Don't implement
     ~TextRenderer();

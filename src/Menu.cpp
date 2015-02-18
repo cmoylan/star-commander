@@ -23,9 +23,9 @@ Menu::render()
 
     //FT_Set_Pixel_Sizes(face, 0, 32);
     TextRenderer::getInstance()->renderText("Press Q to quit, Esc to resume.",
-               -1 + 250 * sx,   1 - 400 * sy,    
-	       sx, sy, 
-	       green, 32);
+                                            -1 + 250 * sx,   1 - 400 * sy,
+                                            sx, sy,
+                                            green, 32);
     //renderText("The Quick Brown Fox Jumps Over The Lazy Dog", font48, -1 + 8 * sx, 1 - 50 * sy, sx, sy);
 
 }
