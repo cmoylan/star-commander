@@ -24,7 +24,7 @@ public:
     FontAtlas* font48;
 
     // TODO: set up a method that renders text with a default scale factor
-    void renderTextDefaultScale(const char *text, float x, float y, 
+    void renderTextDefaultScale(const char *text, float x, float y,
                                 GLfloat color[4], int size);
     // old signature
     void renderText(const char *text, float x, float y, float sx, float sy,

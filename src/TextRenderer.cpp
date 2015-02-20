@@ -39,13 +39,13 @@ TextRenderer::initGL()
 
 
 void
-TextRenderer::renderText(const char *text, float rawX, float rawY, float sx, float sy,
+TextRenderer::renderText(const char *text, float ax, float ay, float sx,
+                         float sy,
                          GLfloat color[4], int size)
 {
-
     // convert x and y to scale
-    float x = (float) rawX * sx;
-    float y = (float) rawY * sy;
+    float x = -1 + (ax * sx);
+    float y = 1 - (ay * sy);
 
     const char *p;
     FT_GlyphSlot g = face->glyph;
@@ -55,7 +55,7 @@ TextRenderer::renderText(const char *text, float rawX, float rawY, float sx, flo
 
     // set the color and size
     glUniform4fv(uniformColor, 1, color);
-    FT_Set_Pixel_Sizes(face, 0, 32);
+    FT_Set_Pixel_Sizes(face, 0, size);
 
     /* Create a texture that will be used to hold one "glyph" */
     GLuint tex;
@@ -126,14 +126,12 @@ TextRenderer::renderText(const char *text, float rawX, float rawY, float sx, flo
 
 void
 TextRenderer::renderTextDefaultScale(
-    const char *text, 
+    const char *text,
     float x, float y,
     GLfloat color[4], int size
-) {
-  float scaledX = x * textScaleX;
-  float scaledY = y * textScaleY;
-
-  renderText(text, scaledX, scaledY, textScaleX, textScaleY, color, size);
+)
+{
+    renderText(text, x, y, textScaleX, textScaleY, color, size);
 }
 
 

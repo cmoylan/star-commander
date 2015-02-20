@@ -3,7 +3,7 @@
 
 Game::Game()
 {
-    sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
+    //sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
 }
 
 
@@ -29,6 +29,7 @@ Game::reset()
     running = true;
     paused = false;
     score = 0;
+    sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
 }
 
 
@@ -109,10 +110,9 @@ Game::scoreDisplay()
     float textScaleX = 2.0f / WINDOW_WIDTH;
     float textScaleY = 2.0f / WINDOW_HEIGHT;
     //printf("text scale %f\n", textScaleX);
-    TextRenderer::getInstance()->renderText(scoreString,
-                                            -1 + 375,   1 - 25,
-    					    textScaleX, textScaleY,
-                                            green, 32);
+    TextRenderer::getInstance()->renderTextDefaultScale(scoreString,
+            375, 25,
+            green, 32);
 
 }
 
