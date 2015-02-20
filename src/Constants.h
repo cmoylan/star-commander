@@ -33,6 +33,7 @@
 #define MENU_ITEM_HEIGHT 20
 
 #define GAME_TITLE "Star Commander"
+#define BASE_SCORE_STRING "Score: "
 
 // DEPRECATED - use Vector2D instead
 typedef struct {

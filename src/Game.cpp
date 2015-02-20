@@ -3,24 +3,23 @@
 
 Game::Game()
 {
+    sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
 }
 
 
 void
 Game::addPoints(int points)
 {
-    printf("adding [%d] point for player\n", points);
     score += points;
-    printf("players score is: [%d]\n", score);
+    sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
 }
 
 
 void
 Game::removePoints(int points)
 {
-    printf("removing [%d] points for player\n", points);
     score -= points;
-    printf("players score is: [%d]\n", score);
+    sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
 }
 
 
@@ -89,10 +88,32 @@ Game::render()
     enemy->render();
     BulletRegistry::getInstance().render();
 
-    //Menu* menu = Menu::getInstance();
+    scoreDisplay();
+
     if (menu->showing) {
         menu->render();
     }
+}
+
+
+void
+Game::scoreDisplay()
+{
+    // color of the font
+    GLfloat green[4] = {0, 1, 0, 1};
+    GLfloat red[4] = { 1, 0, 0, 1 };
+
+    //TextRenderer::getInstance()->renderTextDefaultScale(scoreString,
+    //                                        -1 + 375,   1 - 25,
+    //                                        green, 32);
+    float textScaleX = 2.0f / WINDOW_WIDTH;
+    float textScaleY = 2.0f / WINDOW_HEIGHT;
+    //printf("text scale %f\n", textScaleX);
+    TextRenderer::getInstance()->renderText(scoreString,
+                                            -1 + 375,   1 - 25,
+    					    textScaleX, textScaleY,
+                                            green, 32);
+
 }
 
 

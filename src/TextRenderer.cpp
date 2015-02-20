@@ -39,9 +39,14 @@ TextRenderer::initGL()
 
 
 void
-TextRenderer::renderText(const char *text, float x, float y, float sx, float sy,
+TextRenderer::renderText(const char *text, float rawX, float rawY, float sx, float sy,
                          GLfloat color[4], int size)
 {
+
+    // convert x and y to scale
+    float x = (float) rawX * sx;
+    float y = (float) rawY * sy;
+
     const char *p;
     FT_GlyphSlot g = face->glyph;
 
@@ -116,6 +121,19 @@ TextRenderer::renderText(const char *text, float x, float y, float sx, float sy,
     glDisableVertexAttribArray(attributeCoord);
     glDeleteTextures(1, &tex);
     Util::resetGlState();
+}
+
+
+void
+TextRenderer::renderTextDefaultScale(
+    const char *text, 
+    float x, float y,
+    GLfloat color[4], int size
+) {
+  float scaledX = x * textScaleX;
+  float scaledY = y * textScaleY;
+
+  renderText(text, scaledX, scaledY, textScaleX, textScaleY, color, size);
 }
 
 

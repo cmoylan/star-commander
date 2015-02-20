@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdio.h>
+#include <string>
 
 #include "OpenGL.h"
 #include <SDL2/SDL_mixer.h>
@@ -9,11 +10,11 @@
 #include "BulletRegistry.h"
 #include "Character.h"
 #include "CollisionManager.h"
-//#include "Config.h"
 #include "EnemyAI.h"
 #include "Enemy.h"
 #include "Menu.h"
 #include "Sound.h"
+#include "TextRenderer.h"
 
 
 class Character;
@@ -28,6 +29,8 @@ class Game {
     int score;
     bool running;
     bool paused;
+    char scoreString[10];
+    GLfloat scoreColor[4];
 
     // global openGL objects
     SDL_Window *window;
@@ -54,6 +57,7 @@ public:
 
     void addPoints(int points = 1);
     void removePoints(int points = 1);
+    void scoreDisplay();
 
     // Util methods
     void init();
