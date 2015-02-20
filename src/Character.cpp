@@ -11,14 +11,14 @@ Character::Character(Game* game, std::string texture, Coordinate position)
     origin.x = position.x - (size.x / 2);
     origin.y = position.y - (size.y / 2);
 
-    printf("origin is: [%d %d] \n", origin);
+    //printf("origin is: [%d %d] \n", origin);
     initGL(texture);
 }
 
 
 Character::~Character()
 {
-    printf("-- character destructor\n");
+    //printf("-- character destructor\n");
     glDeleteProgram(shaderProgram);
     glDeleteVertexArrays(1, &vao);
 }
@@ -46,7 +46,7 @@ Character::fire()
 void
 Character::hit()
 {
-    printf("character was hit at: [%d, %d]\n", origin);
+    //printf("character was hit at: [%d, %d]\n", origin);
     game->removePoints();
     Sound::getInstance()->play("hit");
 }

@@ -41,8 +41,7 @@ starcom_LIBS = -L/usr/local/lib \
 
 LIBS = $(starcom_LIBS)
 
-# TODO: handle mac vs linux
-LINKER_FLAGS = -framework OpenGL -lSDL2 -lGLEW -lSOIL
+LINKER_FLAGS = @GL_LINKER_FLAG@ -lSDL2 -lGLEW -lSOIL
 
 
 all : clean $(OBJS)

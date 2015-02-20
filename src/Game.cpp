@@ -1,10 +1,7 @@
 #include "Game.h"
 
 
-Game::Game()
-{
-    //sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
-}
+Game::Game() { }
 
 
 void

@@ -21,11 +21,12 @@ else
 	AC_MSG_RESULT([no])
 fi
 
-#if find /opt -iname 'SOIL' | egrep '.*'
-#then
-#	AC_SUBST(SOIL_CFLAGS, -I`find /opt -iname 'SOIL'`)
-#else
-#	AC_MSG_RESULT([no])
-#fi
+# can probably make this better
+AC_ARG_WITH([mac],
+  [use a mac],
+  AC_SUBST(GL_LINKER_FLAG, '-framework OpenGL'),
+  AC_SUBST(GL_LINKER_FLAG, -lGL)
+  )
+
 
 AC_OUTPUT(Makefile) # src/Makefile)

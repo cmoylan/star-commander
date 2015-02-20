@@ -49,8 +49,6 @@ Entity::initGL(std::string texture)
         1.0f, 1.0f,
         0.0f, 1.0f
     };
-    //printf("size is: [%d %d] [%f %f] \n", size, size);
-    printf("vertices [%f %f]\n", vertices[1], vertices[2]);
 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements),
                  elements, GL_STATIC_DRAW);

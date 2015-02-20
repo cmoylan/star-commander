@@ -4,10 +4,7 @@
 // no constructor
 Sound::Sound() { }
 
-Sound::~Sound()
-{
-    printf("destroying sound\n");
-}
+Sound::~Sound() { }
 
 void
 Sound::free(std::string name)

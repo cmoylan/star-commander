@@ -118,8 +118,8 @@ public:
             rowh = std::max(rowh, (int) g->bitmap.rows);
             ox += g->bitmap.width + 1;
         }
-        fprintf(stderr, "Generated a %d x %d (%d kb) texture atlas\n", w, h,
-                w * h / 1024);
+        //fprintf(stderr, "Generated a %d x %d (%d kb) texture atlas\n", w, h,
+        //        w * h / 1024);
     }
 
     ~FontAtlas()
