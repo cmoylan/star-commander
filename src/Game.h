@@ -29,6 +29,7 @@ class Game {
     int score;
     bool running;
     bool paused;
+    bool won;
     char scoreString[10];
     GLfloat scoreColor[4];
 
@@ -58,6 +59,7 @@ public:
     void addPoints(int points = 1);
     void removePoints(int points = 1);
     void scoreDisplay();
+    void winDisplay();
 
     // Util methods
     void init();

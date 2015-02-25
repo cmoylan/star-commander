@@ -29,11 +29,14 @@
 #define BULLET_WIDTH 2
 #define BULLET_HEIGHT 2
 
+// game
+#define WINNING_SCORE 5
 #define MENU_ITEM_WIDTH 50
 #define MENU_ITEM_HEIGHT 20
 
 #define GAME_TITLE "Star Commander"
 #define BASE_SCORE_STRING "Score: "
+#define WINNING_STRING "You won! Press Q to quit"
 
 // DEPRECATED - use Vector2D instead
 typedef struct {

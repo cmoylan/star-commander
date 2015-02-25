@@ -21,7 +21,7 @@ void
 Game::handleKeyDown(SDL_Event* event)
 {
     // --- menu --- //
-    if (paused) {
+    if (paused || won) {
         switch (event->key.keysym.sym) {
         case SDLK_q:
             running = false;

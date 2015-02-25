@@ -9,6 +9,9 @@ Game::addPoints(int points)
 {
     score += points;
     sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
+    if (score >= WINNING_SCORE) {
+        won = true;
+    }
 }
 
 
@@ -25,6 +28,7 @@ Game::reset()
 {
     running = true;
     paused = false;
+    won = false;
     score = 0;
     sprintf(scoreString, "%s%d", BASE_SCORE_STRING, score);
 }
@@ -47,7 +51,7 @@ Game::run()
 
         startTime = SDL_GetTicks();
 
-        if (!paused) {
+        if (!paused && !won) {
             update(ticks);
         }
 
@@ -91,6 +95,10 @@ Game::render()
     if (menu->showing) {
         menu->render();
     }
+
+    if (won) {
+        winDisplay();
+    }
 }
 
 
@@ -99,14 +107,7 @@ Game::scoreDisplay()
 {
     // color of the font
     GLfloat green[4] = {0, 1, 0, 1};
-    GLfloat red[4] = { 1, 0, 0, 1 };
 
-    //TextRenderer::getInstance()->renderTextDefaultScale(scoreString,
-    //                                        -1 + 375,   1 - 25,
-    //                                        green, 32);
-    float textScaleX = 2.0f / WINDOW_WIDTH;
-    float textScaleY = 2.0f / WINDOW_HEIGHT;
-    //printf("text scale %f\n", textScaleX);
     TextRenderer::getInstance()->renderTextDefaultScale(scoreString,
             375, 25,
             green, 32);
@@ -123,4 +124,16 @@ Game::update(int ticks)
     // enemy logic here
     enemyAI->tick(ticks);
     collisionManager->tick();
+}
+
+
+void
+Game::winDisplay()
+{
+    GLfloat red[4] = { 1, 0, 0, 1 };
+
+    TextRenderer::getInstance()->renderTextDefaultScale(WINNING_STRING,
+            375, 250,
+            red, 32);
+
 }
